@@ -33,9 +33,14 @@ class FilmPlugin {
 
         add_action('admin_init', function () {
             add_filter('views_edit-film_type', function ($views) {
+
                 global $wp_list_table;
-                $lista = new WP_Film_List_Table();
-                $wp_list_table = $lista;
+                $filmListTable = new WP_Film_List_Table();
+                $wp_list_table = $filmListTable;
+                echo '<div class="wrap"><h3>Lista filmova</h3>';
+                $wp_list_table->prepare_items();
+                echo '</div>';
+
             });
         });
 
@@ -95,7 +100,7 @@ class FilmPlugin {
             'Film options',
             'Options',
             'manage_options',
-            plugin_dir_path(__FILE__) . 'views/film-settings-page.php',
+            plugin_dir_path(__FILE__) . 'resources/views/film-settings-page.php',
             null
         );
     }
@@ -161,7 +166,7 @@ class FilmPlugin {
         $zanrMeta = get_post_meta($film_post->ID, '_film_type_zanr');
         $zanrMeta = $zanrMeta ? $zanrMeta[0] : null;
 
-        include_once plugin_dir_path(__FILE__) . '/views/partials/film-zanrovi-field.php';
+        include_once plugin_dir_path(__FILE__) . 'resources/views/partials/film-zanrovi-field.php';
     }
 
 
@@ -177,7 +182,7 @@ class FilmPlugin {
 
     public function film_type_uzrast_input_field($film_post) {
         $vrednost = get_post_meta($film_post->ID, '_film_type_uzrast_meta_key', true);
-        include_once plugin_dir_path(__FILE__) . '/views/partials/film-uzrast-field.php';
+        include_once plugin_dir_path(__FILE__) . 'resources/views/partials/film-uzrast-field.php';
     }
 
     public function save_film_post_type($film_post_id) {
