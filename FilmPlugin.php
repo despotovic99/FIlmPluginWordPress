@@ -1,30 +1,22 @@
 <?php
 require_once 'repositories/FilmPluginZanrRepo.php';
+require_once 'repositories/FilmPluginFilmRepo.php';
 require_once 'Services/WordFilmReportPrinter.php';
 require_once 'ViewModel/FilmList/WP_Film_List_Table.php';
 
 class FilmPlugin {
 
-    private static $filmPlugin = null;
-    private $zanrRepo = null;
+//    private static $filmPlugin = null;
+    private $baseRepository = null;
 
-    private function __construct() {
-        $this->zanrRepo = new FilmPluginZanrRepo();
+    public function __construct() {
+        $this->baseRepository = new BaseRepository();
     }
 
-    public static function init() {
-        if (self::$filmPlugin === null) {
-            self::$filmPlugin = new self();
-        }
 
-        self::$filmPlugin->initialize();
+    public function initialize() {
 
-        return self::$filmPlugin;
-    }
-
-    private function initialize() {
-
-        add_action('admin_init', [$this->zanrRepo, 'checkDatabaseAndRunMigrations']);
+        add_action('admin_init', [$this->baseRepository, 'initializeFilmPluginTables']);
 
         add_action('admin_menu', [$this, 'create_filmplugin_menu']);
 
@@ -35,10 +27,13 @@ class FilmPlugin {
             add_filter('views_edit-film_type', function ($views) {
 
                 global $wp_list_table;
-                $filmListTable = new WP_Film_List_Table();
+                $filmListTable = new WP_Film_List_Table(null, new FilmPluginFilmRepo());
                 $wp_list_table = $filmListTable;
                 echo '<div class="wrap"><h3>Lista filmova</h3>';
+
+//                $wp_list_table->search_box('Film', 'film_search_id');
                 $wp_list_table->prepare_items();
+
                 echo '</div>';
 
             });
@@ -116,9 +111,9 @@ class FilmPlugin {
             'edit_item' => __('Izmeni film', 'filmplugin'),
             'new_item' => __('Novi film', 'filmplugin'),
             'view_item' => __('Pogledaj film', 'filmplugin'),
-            'search_items' => __('Pretrazi film', 'filmplugin'),
-            'not_found' => __('Filmovi nisu pronadjeni!', 'filmplugin'),
-            'not_found_in_trash' => __('Filmovi nisu pronadjeni u smecu!', 'filmplugin'),
+//            'search_items' => __('Pretrazi film', 'filmplugin'),
+//            'not_found' => __('Filmovi nisu pronadjeni!', 'filmplugin'),
+//            'not_found_in_trash' => __('Filmovi nisu pronadjeni u smecu!', 'filmplugin'),
 
         ];
 
@@ -135,7 +130,8 @@ class FilmPlugin {
                 'editor',
             ],
             'register_meta_box_cb' => [$this, 'register_metadata_to_film_type'],
-            'show_in_menu' => 'filmplugin'
+            'show_in_menu' => 'filmplugin',
+
         ];
 
         register_post_type('film_type', $args);
@@ -161,7 +157,7 @@ class FilmPlugin {
 
     public function film_zanrovi_field($film_post) {
 
-        $zanrovi = $this->zanrRepo->getZanroviFromTable();
+        $zanrovi = $this->baseRepository->getZanroviFromTable();
 
         $zanrMeta = get_post_meta($film_post->ID, '_film_type_zanr');
         $zanrMeta = $zanrMeta ? $zanrMeta[0] : null;
@@ -196,7 +192,7 @@ class FilmPlugin {
         if (array_key_exists('film_zanr', $_POST)) {
             $zanrSlug = esc_html($_POST['film_zanr']);
 
-            if (!$this->zanrRepo->daLiPostojiZanr($zanrSlug)) {
+            if (!$this->baseRepository->daLiPostojiZanr($zanrSlug)) {
                 return;
             }
 

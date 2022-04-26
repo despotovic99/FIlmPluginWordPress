@@ -10,7 +10,7 @@ class FilmPluginZanrRepo {
     public function __construct() {
         global $wpdb;
         $this->db = $wpdb;
-        $this->nazivTabele = $wpdb->prefix . 'filmplugin_zanrovi';
+        $this->nazivTabele = $this->db->prefix.BaseRepository::NAZIV_ZANR_TABELE;
     }
 
 
