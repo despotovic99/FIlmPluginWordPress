@@ -1,6 +1,5 @@
 <?php
-require_once 'repositories/FilmPluginZanrRepo.php';
-require_once 'repositories/FilmPluginFilmRepo.php';
+require_once 'repositories/BaseRepository.php';
 require_once 'Services/WordFilmReportPrinter.php';
 require_once 'ViewModel/FilmList/WP_Film_List_Table.php';
 
@@ -27,7 +26,7 @@ class FilmPlugin {
             add_filter('views_edit-film_type', function ($views) {
 
                 global $wp_list_table;
-                $filmListTable = new WP_Film_List_Table(null, new FilmPluginFilmRepo());
+                $filmListTable = new WP_Film_List_Table(null, $this->baseRepository->getFilmRepository());
                 $wp_list_table = $filmListTable;
                 echo '<div class="wrap"><h3>Lista filmova</h3>';
 
@@ -157,7 +156,7 @@ class FilmPlugin {
 
     public function film_zanrovi_field($film_post) {
 
-        $zanrovi = $this->baseRepository->getZanroviFromTable();
+        $zanrovi = $this->baseRepository->getZanrRepository()->getZanroviFromTable();
 
         $zanrMeta = get_post_meta($film_post->ID, '_film_type_zanr');
         $zanrMeta = $zanrMeta ? $zanrMeta[0] : null;
@@ -192,7 +191,7 @@ class FilmPlugin {
         if (array_key_exists('film_zanr', $_POST)) {
             $zanrSlug = esc_html($_POST['film_zanr']);
 
-            if (!$this->baseRepository->daLiPostojiZanr($zanrSlug)) {
+            if (!$this->baseRepository->getZanrRepository()->daLiPostojiZanr($zanrSlug)) {
                 return;
             }
 

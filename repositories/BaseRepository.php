@@ -1,5 +1,6 @@
 <?php
-
+require_once 'FilmPluginFilmRepo.php';
+require_once 'FilmPluginZanrRepo.php';
 class BaseRepository {
 
     const NAZIV_FILM_TABELE='filmplugin_filmovi';
@@ -7,8 +8,7 @@ class BaseRepository {
 
     private $db;
 
-
-    private $zanrRepository;
+    private  $zanrRepository;
     private $filmRepository;
 
     /**

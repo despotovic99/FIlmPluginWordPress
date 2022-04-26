@@ -26,8 +26,10 @@ class FilmPluginFilmRepo implements FIlmPluginFilmRepoInterface {
         duzina_trajanja VARCHAR(50) NOT NULL,
         uzrast INT(3) NOT NULL,
         zanr_id INT NOT NULL,
-        CONSTRAINT FK_ZanrFilma FOREIGN KEY (zanr_id) REFERENCES  ' . $this->db->prefix . BaseRepository::NAZIV_ZANR_TABELE . '  )';
+        FOREIGN KEY (zanr_id) REFERENCES  ' . $this->db->prefix . BaseRepository::NAZIV_ZANR_TABELE . ' (id) )';
 
+        $result = $this->db->query($query);
+        return $result;
     }
 
     public function getAllFilmData() {
