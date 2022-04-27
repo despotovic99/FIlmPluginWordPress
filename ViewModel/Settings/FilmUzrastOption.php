@@ -2,6 +2,7 @@
 
 class FilmUzrastOption {
 
+    const CONTROLER_NAME='settings-page';
     const UZRAST_OPTION_NAME='film_option_name_horor18';
 
     public static function getPredvidjeniUzrast() {
