@@ -37,7 +37,7 @@ class FilmPluginFilmRepo implements FIlmPluginFilmRepoInterface {
     }
 
     public function getFilmDatafForListTable() {
-
+// todo ovo menjas
         $query = "SELECT  `id` AS film_id ,`post_title` AS naziv_filma , pm1.`meta_value` AS uzrast, pm2.`meta_value` AS zanr
                             FROM `wp_posts` p 
                             INNER JOIN `wp_postmeta` pm1 
