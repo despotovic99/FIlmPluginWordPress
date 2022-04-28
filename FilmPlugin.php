@@ -3,45 +3,22 @@ require_once 'repositories/BaseRepository.php';
 require_once 'Services/WordFilmReportPrinter.php';
 require_once 'ViewModel/FilmList/WP_Film_List_Table.php';
 require_once 'controllers/BaseController.php';
+require_once 'controllers/ListAllFilmsController.php';
+require_once 'controllers/FilmController.php';
 require_once 'controllers/SettingsPageController.php';
 
 class FilmPlugin {
 
-//    private static $filmPlugin = null;
-    private $baseRepository = null;
-
-    public function __construct() {
-        $this->baseRepository = new BaseRepository();
-    }
-
 
     public function initialize() {
 
-        add_action('admin_init', [$this->baseRepository, 'initializeFilmPluginTables']);
-
-        add_action('admin_menu', [$this, 'create_filmplugin_menu']);
+        add_action('admin_init', [BaseRepository::getBaseRepository(), 'initializeFilmPluginTables'],8);
+        add_action('admin_init', [$this, 'film_register_settings'],9);
         add_action('admin_init', [$this, 'filmplugin_controller_action_trigger']);
 
-
-//        add_action('admin_init', function () {
-//            add_filter('views_edit-film_type', function ($views) {
-//
-//                global $wp_list_table;
-//                $filmListTable = new WP_Film_List_Table(null, $this->baseRepository->getFilmRepository());
-//                $wp_list_table = $filmListTable;
-//                echo '<div class="wrap"><h3>Lista filmova</h3>';
-//
-////                $wp_list_table->search_box('Film', 'film_search_id');
-//                $wp_list_table->prepare_items();
-//
-//                echo '</div>';
-//
-//            });
-//        });
-
-        add_action('admin_init', [$this, 'film_register_settings']);
+        add_action('admin_menu', [$this, 'create_filmplugin_menu']);
+        add_action('admin_menu', [$this, 'film_page']);
         add_action('admin_menu', [$this, 'film_option_page']);
-
     }
 
     public function create_filmplugin_menu() {
@@ -51,7 +28,7 @@ class FilmPlugin {
             'FilmPlugin',
             'manage_options',
             'filmplugin',
-            null,
+            [new ListAllFilmsController(),'render'],
             plugin_dir_url(__FILE__) . '/resources/images/cinema.png',
             55.5
         );
@@ -73,6 +50,19 @@ class FilmPlugin {
             'filmpluginsettings',
             [new SettingsPageController(), 'render']
         );
+    }
+
+    public function film_page(){
+
+        add_submenu_page(
+            'filmplugin',
+            'Film',
+            'Novi film',
+            'manage_options',
+            'filmpage',
+            [new FilmController(),'render']
+        );
+
     }
 
     public function filmplugin_controller_action_trigger() {

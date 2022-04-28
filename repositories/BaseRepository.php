@@ -8,6 +8,7 @@ class BaseRepository {
 
     private $db;
 
+    private static $baseRepository;
     private  $zanrRepository;
     private $filmRepository;
 
@@ -15,11 +16,17 @@ class BaseRepository {
      * @param string $tableFilm
      * @param string $tableZanr
      */
-    public function __construct() {
+    private function __construct() {
         global $wpdb;
         $this->db=$wpdb;
     }
 
+    public static function getBaseRepository(){
+        if(self::$baseRepository==null){
+            self::$baseRepository = new BaseRepository();
+        }
+        return self::$baseRepository;
+    }
 
     public function initializeFilmPluginTables(){
 

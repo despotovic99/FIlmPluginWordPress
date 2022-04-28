@@ -1,29 +1,26 @@
 <?php
 require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
-require_once plugin_dir_path(__FILE__) . '../../repositories/interface/FIlmPluginFilmRepoInterface.php';
+
 
 class WP_Film_List_Table extends WP_List_Table {
 
-    private $repo;
-
     private $filmData;
 
-    public function __construct($args = array(), FIlmPluginFilmRepoInterface $filmRepo) {
+    public function __construct($args = array(), $filmData) {
         parent::__construct($args);
-        $this->repo = $filmRepo;
+        $this->filmData = $filmData;
     }
 
-    public function get_film_data() {
-        return $this->repo->getFilmDatafForListTable();
-    }
 
     public function get_columns() {
 
         return [
             'cb' => '<input type="checkbox"/>',
             'naziv_filma' => 'Naziv filma',
-            'uzrast' => 'Predvidjeni uzrast',
             'zanr' => 'Zanr',
+            'pocetak_prikazivanja' => 'Pocetak prikazivanja',
+            'duzina_trajanja' => 'Duzina trajanja',
+            'uzrast' => 'Predvidjeni uzrast',
             'action' => 'Akcije'
         ];
 
@@ -35,9 +32,9 @@ class WP_Film_List_Table extends WP_List_Table {
             case 'naziv_filma':
             case 'uzrast':
             case 'zanr':
+            case 'pocetak_prikazivanja':
+            case 'duzina_trajanja':
                 return $item[$column_name];
-            case 'print':
-                return '<button>Stampaj</button>';
             default :
 //                return print_r($item, true);
         }
@@ -53,7 +50,7 @@ class WP_Film_List_Table extends WP_List_Table {
         $sortableColumns = [
             'naziv_filma' => ['naziv_filma', true],
             'zanr' => ['zanr', false],
-            'uzrast' => ['uzrast', false],
+//            'uzrast' => ['uzrast', false],
         ];
 
         return $sortableColumns;
@@ -71,8 +68,6 @@ class WP_Film_List_Table extends WP_List_Table {
 
     public function prepare_items() {
 
-        $this->filmData = $this->get_film_data();
-
         $columns = $this->get_columns();
         $hidden = [];
         $sortable = $this->get_sortable_columns();
@@ -80,17 +75,17 @@ class WP_Film_List_Table extends WP_List_Table {
 
         usort($this->filmData, [&$this, 'usort_reorder']);
 
-        $perPage = 2;
-        global $wp_query;
+        $perPage = 1;
+
         $currentPage = $this->get_pagenum();
         $totalItems = count($this->filmData);
 
-      //  $this->filmData = array_slice($this->filmData, (($currentPage - 1) * $perPage), $perPage);
+        $this->filmData = array_slice($this->filmData, (($currentPage - 1) * $perPage), $perPage);
 
         $this->set_pagination_args([
-            'total_items'=>$totalItems,
-            'per_page'=>$perPage,
-            'total_pages'=>ceil($totalItems/$perPage)
+            'total_items' => $totalItems,
+            'per_page' => $perPage,
+            'total_pages' => ceil($totalItems / $perPage)
         ]);
 
 

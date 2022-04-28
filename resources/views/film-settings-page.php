@@ -1,9 +1,9 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../ViewModel/Settings/FilmUzrastOption.php';
+require_once plugin_dir_path(__FILE__) . '../../ViewModel/Settings/FilmUzrastOptionVM.php';
 
-$controller_name = FilmUzrastOption::CONTROLER_NAME;
-$predvidjeniUzrast = FilmUzrastOption::getPredvidjeniUzrast();
-$uzrastOptionName = FilmUzrastOption::UZRAST_OPTION_NAME;
+$controller_name = FilmUzrastOptionVM::CONTROLER_NAME;
+$predvidjeniUzrast = FilmUzrastOptionVM::getPredvidjeniUzrast();
+$uzrastOptionName = FilmUzrastOptionVM::UZRAST_OPTION_NAME;
 ?>
 
 <div class="wrap">

@@ -1,6 +1,6 @@
 <?php
 
-class FilmUzrastOption {
+class FilmUzrastOptionVM {
 
     const CONTROLER_NAME='settings-page';
     const UZRAST_OPTION_NAME='film_option_name_horor18';

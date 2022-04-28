@@ -1,0 +1,46 @@
+.sadrzaj-strane {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.forma {
+
+    width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 2fr 0.7fr;
+}
+
+.forma-left-side {
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+}
+
+.div-opis textarea {
+    height: 100%;
+    width: 90%;
+}
+
+.input-div-wrapper {
+    margin-top: 20px;
+}
+
+.input-div-wrapper input[type='text'],
+.input-div-wrapper input[type='date'],
+.input-div-wrapper input[type='number'] {
+    width: 90%;
+
+}
+
+.input-div-wrapper label {
+    font-size: 1.2em;
+}
+
+.forma-bottom-div {
+    grid-column-start: 1;
+    grid-column-end:3 ;
+    margin-top: 20px;
+    display: grid;
+    justify-content: end;
+}
