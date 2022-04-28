@@ -10,7 +10,7 @@ class FilmPluginZanrRepo {
     public function __construct() {
         global $wpdb;
         $this->db = $wpdb;
-        $this->nazivTabele = $this->db->prefix.BaseRepository::NAZIV_ZANR_TABELE;
+        $this->nazivTabele = $this->db->prefix . BaseRepository::NAZIV_ZANR_TABELE;
     }
 
 
@@ -60,7 +60,7 @@ class FilmPluginZanrRepo {
     public function getZanroviFromTable() {
 
         $query = 'SELECT * FROM  ' . $this->nazivTabele;
-        $result = $this->db->get_results($query);
+        $result = $this->db->get_results($query, ARRAY_A);
 
         return $result;
     }
@@ -71,12 +71,9 @@ class FilmPluginZanrRepo {
 
         $sql = $this->db->prepare($query, [$zanrSlug]);
 
-        $result = $this->db->get_results($sql,ARRAY_A);
+        $result = $this->db->get_results($sql, ARRAY_A);
 
-        if(!$result){
-            return false;
-        }
-        return true;
+        return $result;
     }
 
 }

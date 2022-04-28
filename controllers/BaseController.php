@@ -1,8 +1,10 @@
 <?php
 require_once 'SettingsPageController.php';
-require_once  'ListAllFilmsController.php';
-require_once plugin_dir_path(__FILE__).'../ViewModel/Settings/FilmUzrastOptionVM.php';
-require_once plugin_dir_path(__FILE__).'../ViewModel/FilmList/ListAllFilmsVM.php';
+require_once 'ListAllFilmsController.php';
+require_once 'FilmController.php';
+require_once plugin_dir_path(__FILE__) . '../ViewModel/Settings/FilmUzrastOptionVM.php';
+require_once plugin_dir_path(__FILE__) . '../ViewModel/FilmList/ListAllFilmsVM.php';
+require_once plugin_dir_path(__FILE__) . '../ViewModel/NoviFilm/FilmVM.php';
 
 class BaseController {
 
@@ -19,12 +21,16 @@ class BaseController {
                 $controller = new ListAllFilmsController();
                 break;
 
+            case FilmVM::CONTROLER_NAME :
+                $controller = new FilmController();
+                break;
+
             default:
                 break;
         }
 
         if ($controller !== null) {
-            $action = esc_html($_REQUEST['action']) ? :'';
+            $action = esc_html($_REQUEST['action']) ?: '';
             $controller->handleAction($action);
         }
 
