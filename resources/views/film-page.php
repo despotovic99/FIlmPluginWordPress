@@ -46,7 +46,7 @@ $zanrovi = FilmVM::getZanroviFilm();
 
                 <div class="input-div-wrapper">
                     <label>Duzina trajanja filma: </label>
-                    <input type="number" name="<? $duzina_trajanja_input ?>" placeholder="Duzina trajanja filma"
+                    <input type="number" name="<?=$duzina_trajanja_input ?>" placeholder="Duzina trajanja filma"
                            value="<?= $film['duzina_trajanja'] ?>">
                 </div>
 

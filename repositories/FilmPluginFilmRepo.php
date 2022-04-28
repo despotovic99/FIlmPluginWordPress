@@ -47,8 +47,8 @@ class FilmPluginFilmRepo {
                             WHERE f.id=' " . $id . " ' ";
 
         $result = $this->db->get_results($query, ARRAY_A);
-        if($result){
-            $result=$result[0];
+        if ($result) {
+            $result = $result[0];
         }
         return $result;
     }
@@ -76,4 +76,34 @@ class FilmPluginFilmRepo {
 
         return $result;
     }
+
+    public function saveNewFilm($film) {
+
+        if (!BaseRepository::getBaseRepository()
+            ->getZanrRepository()->daLiPostojiZanrId($film['zanr_id'])) {
+            return;
+        }
+
+        $result = $this->db->insert($this->nazivTabele,$film);
+
+        if($result){
+            $last_id = $this->db->insert_id;
+
+            return $last_id;
+        }
+
+        return false;
+    }
+
+    public function updateFilm($id, $film) {
+        if (!BaseRepository::getBaseRepository()
+            ->getZanrRepository()->daLiPostojiZanrId($film['zanr_id'])) {
+            return;
+        }
+
+        $result = $this->db->update($this->nazivTabele,$film,['id'=>$id]);
+
+        return $result;
+    }
+
 }

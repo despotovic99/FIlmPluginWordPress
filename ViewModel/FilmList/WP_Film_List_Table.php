@@ -75,7 +75,7 @@ class WP_Film_List_Table extends WP_List_Table {
 
         usort($this->filmData, [&$this, 'usort_reorder']);
 
-        $perPage = 1;
+        $perPage = 5;
 
         $currentPage = $this->get_pagenum();
         $totalItems = count($this->filmData);

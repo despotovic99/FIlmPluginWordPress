@@ -28,6 +28,7 @@ class FilmVM {
             'duzina_trajanja'=>'',
             'uzrast'=>'',
             'slug'=>'',
+            'id_zanra'=>'',
         ];
     }
 

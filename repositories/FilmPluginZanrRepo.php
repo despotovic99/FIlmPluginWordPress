@@ -75,5 +75,15 @@ class FilmPluginZanrRepo {
 
         return $result;
     }
+    public function daLiPostojiZanrId($id) {
+
+        $query = "SELECT `naziv_zanr`, `slug` FROM  $this->nazivTabele  WHERE `id`=%d ";
+
+        $sql = $this->db->prepare($query, [$id]);
+
+        $result = $this->db->get_results($sql, ARRAY_A);
+
+        return $result;
+    }
 
 }
