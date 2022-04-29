@@ -94,7 +94,7 @@ class WP_Film_List_Table extends WP_List_Table {
     function column_naziv_filma($item) {
         $actions = array(
             'edit' => sprintf('  
-            <form method="get">
+            <form method="post">
                 <input type="hidden" name="page" value="%s">
                 <input type="hidden" name="%s" value="%s">
                 <button style="padding:0; background: none; border: none; cursor: pointer; color: #0A246A" type="submit">Izmeni</button>

@@ -3,7 +3,7 @@ require_once plugin_dir_path(__FILE__) . '../../controllers/FilmController.php';
 
 class FilmVM {
 
-    const ID_FILMA_INPUT = 'id_filma';
+    const ID_FILMA_INPUT = 'film_id';
     const NAZIV_FILMA_INPUT = 'naziv_filma';
     const OPIS_FILMA_INPUT = 'opis_filma';
     const DATUM_FILMA_INPUT = 'datum_prikazivanja_filma';

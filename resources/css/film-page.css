@@ -44,3 +44,21 @@
     display: grid;
     justify-content: end;
 }
+
+.buttons-above-form-wraper{
+    display: flex;
+    justify-content: end;
+}
+
+.buttons-above-form-wraper div{
+    margin-left: 20px;
+}
+
+.buttons-above-form-wraper form{
+    width: min-content;
+}
+
+.btn-otkazi{
+    height: 100%;
+    background-color: yellow;
+}

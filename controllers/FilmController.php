@@ -54,7 +54,10 @@ class FilmController implements ControllerInterface {
             $_REQUEST[FilmVM::ID_FILMA_INPUT] !== '') {
 
             $id = esc_html($_REQUEST[FilmVM::ID_FILMA_INPUT]);
-            return BaseRepository::getBaseRepository()->getFilmRepository()->updateFilm($id, $film);
+
+            BaseRepository::getBaseRepository()->getFilmRepository()->updateFilm($id, $film);
+            $_REQUEST['page']='filmpage';
+            return;
         }
 
         $result = BaseRepository::getBaseRepository()->getFilmRepository()->saveNewFilm($film);
@@ -146,8 +149,11 @@ class FilmController implements ControllerInterface {
 
         $id = $_REQUEST[FilmVM::ID_FILMA_INPUT];
 
-        BaseRepository::getBaseRepository()->getFilmRepository()->deleteFilm($id);
+        $result = BaseRepository::getBaseRepository()->getFilmRepository()->deleteFilm($id);
 
+        if ($result) {
+            $_REQUEST['page'] = 'filmplugin';
+        }
 
     }
 

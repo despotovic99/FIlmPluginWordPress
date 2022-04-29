@@ -21,11 +21,11 @@ $zanrovi = FilmVM::getZanroviFilm();
     <div class="sadrzaj-strane">
 
         <h1>Dodaj novi film</h1>
-        <div>
+        <div class="buttons-above-form-wraper">
             <div>
                 <form method="get">
                     <input type="hidden" name="page" value="filmplugin">
-                    <button class="button-secondary" type="submit">Otkazi</button>
+                    <button class=" btn-otkazi" type="submit">Otkazi</button>
                 </form>
             </div>
 
