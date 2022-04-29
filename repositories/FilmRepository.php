@@ -1,6 +1,6 @@
 <?php
 
-class FilmPluginFilmRepo {
+class FilmRepository {
 
     public function __construct() {
         global $wpdb;
@@ -46,10 +46,8 @@ class FilmPluginFilmRepo {
                             ON f.zanr_id=z.id
                             WHERE f.id=' " . $id . " ' ";
 
-        $result = $this->db->get_results($query, ARRAY_A);
-        if ($result) {
-            $result = $result[0];
-        }
+        $result = $this->db->get_row($query, ARRAY_A);
+
         return $result;
     }
 
@@ -84,9 +82,9 @@ class FilmPluginFilmRepo {
             return;
         }
 
-        $result = $this->db->insert($this->nazivTabele,$film);
+        $result = $this->db->insert($this->nazivTabele, $film);
 
-        if($result){
+        if ($result) {
             $last_id = $this->db->insert_id;
 
             return $last_id;
@@ -96,12 +94,16 @@ class FilmPluginFilmRepo {
     }
 
     public function updateFilm($id, $film) {
-        if (!BaseRepository::getBaseRepository()
-            ->getZanrRepository()->daLiPostojiZanrId($film['zanr_id'])) {
-            return;
-        }
 
-        $result = $this->db->update($this->nazivTabele,$film,['id'=>$id]);
+
+        $result = $this->db->update($this->nazivTabele, $film, ['id' => $id]);
+
+        return $result;
+    }
+
+    public function deleteFilm($id) {
+
+        $result = $this->db->delete($this->nazivTabele, ['id' => $id]);
 
         return $result;
     }

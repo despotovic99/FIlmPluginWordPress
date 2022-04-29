@@ -15,7 +15,7 @@ class ListAllFilmsController implements ControllerInterface {
 
     public function setFilmData() {
 
-        if (isset($_REQUEST['s'])) {
+        if (isset($_REQUEST['page']) && isset($_REQUEST['s'])) {
             $name = esc_html($_REQUEST['s']);
 
             self::$filmData = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmByName($name);
@@ -23,9 +23,6 @@ class ListAllFilmsController implements ControllerInterface {
 
     }
 
-    public function render() {
-        include_once plugin_dir_path(__FILE__) . '../resources/views/film-svi-filmovi-page.php';
-    }
 
     public function handleAction($action) {
 

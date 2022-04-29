@@ -1,6 +1,6 @@
 <?php
-require_once 'FilmPluginFilmRepo.php';
-require_once 'FilmPluginZanrRepo.php';
+require_once 'FilmRepository.php';
+require_once 'ZanrRepository.php';
 class BaseRepository {
 
     const NAZIV_FILM_TABELE='filmplugin_filmovi';
@@ -30,10 +30,10 @@ class BaseRepository {
 
     public function initializeFilmPluginTables(){
 
-        $this->zanrRepository = new FilmPluginZanrRepo();
+        $this->zanrRepository = new ZanrRepository();
         $this->zanrRepository->checkDatabaseAndRunMigrations();
 
-        $this->filmRepository= new FilmPluginFilmRepo();
+        $this->filmRepository= new FilmRepository();
         $this->filmRepository->checkFilmTableAndRunMigrations();
 
     }

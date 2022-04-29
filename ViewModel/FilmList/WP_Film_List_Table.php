@@ -1,6 +1,6 @@
 <?php
 require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
-
+require_once plugin_dir_path(__FILE__) . '../NoviFilm/FilmVM.php';
 
 class WP_Film_List_Table extends WP_List_Table {
 
@@ -21,7 +21,6 @@ class WP_Film_List_Table extends WP_List_Table {
             'pocetak_prikazivanja' => 'Pocetak prikazivanja',
             'duzina_trajanja' => 'Duzina trajanja',
             'uzrast' => 'Predvidjeni uzrast',
-            'action' => 'Akcije'
         ];
 
     }
@@ -75,7 +74,7 @@ class WP_Film_List_Table extends WP_List_Table {
 
         usort($this->filmData, [&$this, 'usort_reorder']);
 
-        $perPage = 5;
+        $perPage = $this->get_items_per_page('filmovi_per_page', 2);
 
         $currentPage = $this->get_pagenum();
         $totalItems = count($this->filmData);
@@ -90,6 +89,30 @@ class WP_Film_List_Table extends WP_List_Table {
 
 
         $this->items = $this->filmData;
+    }
+
+    function column_naziv_filma($item) {
+        $actions = array(
+            'edit' => sprintf('  
+            <form method="get">
+                <input type="hidden" name="page" value="%s">
+                <input type="hidden" name="%s" value="%s">
+                <button style="padding:0; background: none; border: none; cursor: pointer; color: #0A246A" type="submit">Izmeni</button>
+            </form>
+         
+            ', "filmpage", FilmVM::ID_FILMA_INPUT, $item['film_id']),
+            'delete' => sprintf('
+            <form  method="post">
+                <input type="hidden" name="controller_name" value="%s">
+                <input type="hidden" name="action" value="%s">
+                <input type="hidden" name="%s" value="%s">
+                <button  style=" padding: 0; background: none; border: none; cursor: pointer; color: #0A246A" type="submit">Obrisi</button>
+            </form>
+         
+            ', FilmVM::CONTROLER_NAME, FilmVM::DELETE_ACTION, FilmVM::ID_FILMA_INPUT, $item['film_id'])
+        );
+
+        return sprintf('%1$s %2$s', $item['naziv_filma'], $this->row_actions($actions));
     }
 
 

@@ -13,6 +13,7 @@ class FilmVM {
 
     const CONTROLER_NAME = 'film-controller';
     const SAVE_ACTION = 'sacuvaj-film';
+    const DELETE_ACTION = 'obrisi-film';
 
     public static function getFilm() {
         $film = FilmController::getFilm();

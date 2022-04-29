@@ -18,10 +18,6 @@ class SettingsPageController implements ControllerInterface {
         }
     }
 
-    public function render() {
-        include_once plugin_dir_path(__FILE__) . '../resources/views/film-settings-page.php';
-    }
-
     public function save_uzrast_option() {
 
         if (isset($_REQUEST[FilmUzrastOptionVM::UZRAST_OPTION_NAME])) {

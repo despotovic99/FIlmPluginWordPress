@@ -12,6 +12,7 @@ class ListAllFilmsVM {
     public static function getListTable() {
 
         $filmData = ListAllFilmsController::getFilmDataForList();
+
         return new WP_Film_List_Table(null,$filmData);
 
     }

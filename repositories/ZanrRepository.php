@@ -1,6 +1,6 @@
 <?php
 
-class FilmPluginZanrRepo {
+class ZanrRepository {
 
 
     private $nazivTabele;
@@ -71,7 +71,7 @@ class FilmPluginZanrRepo {
 
         $sql = $this->db->prepare($query, [$zanrSlug]);
 
-        $result = $this->db->get_results($sql, ARRAY_A);
+        $result = $this->db->get_row($sql, ARRAY_A);
 
         return $result;
     }
@@ -81,7 +81,7 @@ class FilmPluginZanrRepo {
 
         $sql = $this->db->prepare($query, [$id]);
 
-        $result = $this->db->get_results($sql, ARRAY_A);
+        $result = $this->db->get_row($sql, ARRAY_A);
 
         return $result;
     }

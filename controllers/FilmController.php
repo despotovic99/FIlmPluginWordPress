@@ -1,6 +1,7 @@
 <?php
 require_once 'interface/ControllerInterface.php';
 require_once plugin_dir_path(__FILE__) . '../ViewModel/NoviFilm/FilmVM.php';
+require_once plugin_dir_path(__FILE__) . '../ViewModel/Settings/FilmUzrastOptionVM.php';
 
 class FilmController implements ControllerInterface {
 
@@ -25,21 +26,16 @@ class FilmController implements ControllerInterface {
         return $zanrovi;
     }
 
-    public function render() {
-
-        wp_enqueue_style(
-            'film-page',
-            plugin_dir_url(__FILE__) . '../resources/css/film-page.css'
-        );
-
-        include_once plugin_dir_path(__FILE__) . '../resources/views/film-page.php';
-    }
 
     public function handleAction($action) {
 
         switch ($action) {
             case FilmVM::SAVE_ACTION:
                 $this->sacuvajFilm();
+                break;
+
+            case FilmVM::DELETE_ACTION:
+                $this->deleteFilm();
                 break;
         }
 
@@ -63,8 +59,8 @@ class FilmController implements ControllerInterface {
 
         $result = BaseRepository::getBaseRepository()->getFilmRepository()->saveNewFilm($film);
 
-        if($result){
-            $_REQUEST[FilmVM::ID_FILMA_INPUT]=$result;
+        if ($result) {
+            $_REQUEST[FilmVM::ID_FILMA_INPUT] = $result;
         }
 
     }
@@ -113,15 +109,45 @@ class FilmController implements ControllerInterface {
             return false;
         }
 
+        $zanr_id = esc_html($_REQUEST[FilmVM::ZANR_FILMA_INPUT]);
+
+        $zanr = BaseRepository::getBaseRepository()->getZanrRepository()->daLiPostojiZanrId($zanr_id);
+
+        if (!$zanr) {
+
+            return false;
+        }
+
+        $uzrast = esc_html($_REQUEST[FilmVM::UZRAST_FILM_INPUT]);
+        $predvidjeniUzrast = get_option(FilmUzrastOptionVM::UZRAST_OPTION_NAME);
+        if ($zanr['slug'] === 'horor' && $uzrast < $predvidjeniUzrast) {
+            $uzrast = $predvidjeniUzrast;
+        }
 
         return [
             'naziv_filma' => esc_html($_REQUEST[FilmVM::NAZIV_FILMA_INPUT]),
             'opis' => esc_html($_REQUEST[FilmVM::OPIS_FILMA_INPUT]),
             'pocetak_prikazivanja' => esc_html($_REQUEST[FilmVM::DATUM_FILMA_INPUT]),
             'duzina_trajanja' => esc_html($_REQUEST[FilmVM::DUZINA_FILMA_INPUT]),
-            'uzrast' => esc_html($_REQUEST[FilmVM::UZRAST_FILM_INPUT]),
-            'zanr_id' => esc_html($_REQUEST[FilmVM::ZANR_FILMA_INPUT]),
+            'uzrast' => $uzrast,
+            'zanr_id' => $zanr_id,
         ];
+
+    }
+
+    private function deleteFilm() {
+
+        if (!isset($_REQUEST[FilmVM::ID_FILMA_INPUT]) ||
+            empty($_REQUEST[FilmVM::ID_FILMA_INPUT]) ||
+            esc_html($_REQUEST[FilmVM::ID_FILMA_INPUT]) == '') {
+
+            return;
+        }
+
+        $id = $_REQUEST[FilmVM::ID_FILMA_INPUT];
+
+        BaseRepository::getBaseRepository()->getFilmRepository()->deleteFilm($id);
+
 
     }
 

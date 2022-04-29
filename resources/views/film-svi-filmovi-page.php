@@ -11,14 +11,19 @@ $pretraga_filmova = ListAllFilmsVM::PRETRAGA_FILMOVA;
 
 
     <h3>Lista filmova</h3>
-    <a class="button-primary" href="">Novi film</a>
+    <form method="get">
+        <input type="hidden" name="page" value="filmpage">
+        <button class="button-primary" type="submit">Novi film</button>
+    </form>
 
     <?php $filmListTable->prepare_items(); ?>
     <form method="post">
         <input type="hidden" name="controller_name" value="<?= $controller_name ?>">
         <input type="hidden" name="action" value="<?= $pretraga_filmova ?>"
 
-        <?php $filmListTable->search_box('Pretrazi filmove', $searchbox_id); ?>
+        <p class="search-box">
+            <?php $filmListTable->search_box('Pretrazi filmove', $searchbox_id); ?>
+        </p>
     </form>
 
     <?php
