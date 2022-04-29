@@ -31,10 +31,11 @@ $zanrovi = FilmVM::getZanroviFilm();
 
             <div>
                 <form  method="post">
+                    <input type="hidden" name="page" value="filmplugin">
                     <input type="hidden" name="controller_name" value="<?=$controller_name?>">
                     <input type="hidden" name="action" value="<?=$action_delete?>">
                     <input type="hidden" name='<?= $id_film_input ?>' value="<?= $film['film_id'] ?>">
-                    <button class="button-secondary" type="submit">Obrisi</button>
+                    <button class="btn-obrisi"  type="submit">Obrisi</button>
                 </form>
             </div>
 

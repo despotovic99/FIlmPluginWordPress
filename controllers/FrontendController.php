@@ -4,7 +4,7 @@ class FrontendController {
 
     public function render() {
 
-        switch ($_REQUEST['page']) {
+        switch ($_GET['page']) {
 
             case 'filmplugin':
 

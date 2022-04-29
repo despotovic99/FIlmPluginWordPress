@@ -8,8 +8,8 @@ class FilmController implements ControllerInterface {
 
     public static function getFilm() {
 
-        if (isset($_REQUEST[FilmVM::ID_FILMA_INPUT])) {
-            $id_filma = esc_html($_REQUEST[FilmVM::ID_FILMA_INPUT]);
+        if (isset($_GET[FilmVM::ID_FILMA_INPUT])) {
+            $id_filma = esc_html($_GET[FilmVM::ID_FILMA_INPUT]);
             if (empty($id_filma) || $id_filma === '') {
                 return;
             }
@@ -49,70 +49,70 @@ class FilmController implements ControllerInterface {
             return;
         }
 
-        if (isset($_REQUEST[FilmVM::ID_FILMA_INPUT]) &&
-            !empty($_REQUEST[FilmVM::ID_FILMA_INPUT]) &&
-            $_REQUEST[FilmVM::ID_FILMA_INPUT] !== '') {
+        if (isset($_POST[FilmVM::ID_FILMA_INPUT]) &&
+            !empty($_POST[FilmVM::ID_FILMA_INPUT]) &&
+            $_POST[FilmVM::ID_FILMA_INPUT] !== '') {
 
-            $id = esc_html($_REQUEST[FilmVM::ID_FILMA_INPUT]);
+            $id = esc_html($_POST[FilmVM::ID_FILMA_INPUT]);
 
             BaseRepository::getBaseRepository()->getFilmRepository()->updateFilm($id, $film);
-            $_REQUEST['page']='filmpage';
+            $_GET['page']='filmpage';
             return;
         }
 
         $result = BaseRepository::getBaseRepository()->getFilmRepository()->saveNewFilm($film);
 
         if ($result) {
-            $_REQUEST[FilmVM::ID_FILMA_INPUT] = $result;
+            $_GET[FilmVM::ID_FILMA_INPUT] = $result;
         }
 
     }
 
     private function validateFilm() {
 
-        if (!isset($_REQUEST[FilmVM::NAZIV_FILMA_INPUT]) ||
-            empty($_REQUEST[FilmVM::NAZIV_FILMA_INPUT]) ||
-            $_REQUEST[FilmVM::NAZIV_FILMA_INPUT] == '') {
+        if (!isset($_POST[FilmVM::NAZIV_FILMA_INPUT]) ||
+            empty($_POST[FilmVM::NAZIV_FILMA_INPUT]) ||
+            $_POST[FilmVM::NAZIV_FILMA_INPUT] == '') {
 
             return false;
         }
 
-        if (!isset($_REQUEST[FilmVM::OPIS_FILMA_INPUT]) ||
-            empty($_REQUEST[FilmVM::OPIS_FILMA_INPUT]) ||
-            $_REQUEST[FilmVM::OPIS_FILMA_INPUT] == '') {
+        if (!isset($_POST[FilmVM::OPIS_FILMA_INPUT]) ||
+            empty($_POST[FilmVM::OPIS_FILMA_INPUT]) ||
+            $_POST[FilmVM::OPIS_FILMA_INPUT] == '') {
 
             return false;
         }
 
-        if (!isset($_REQUEST[FilmVM::DATUM_FILMA_INPUT]) ||
-            empty($_REQUEST[FilmVM::DATUM_FILMA_INPUT]) ||
-            $_REQUEST[FilmVM::DATUM_FILMA_INPUT] == '') {
+        if (!isset($_POST[FilmVM::DATUM_FILMA_INPUT]) ||
+            empty($_POST[FilmVM::DATUM_FILMA_INPUT]) ||
+            $_POST[FilmVM::DATUM_FILMA_INPUT] == '') {
 
             return false;
         }
 
-        if (!isset($_REQUEST[FilmVM::DUZINA_FILMA_INPUT]) ||
-            empty($_REQUEST[FilmVM::DUZINA_FILMA_INPUT]) ||
-            $_REQUEST[FilmVM::DUZINA_FILMA_INPUT] == '') {
+        if (!isset($_POST[FilmVM::DUZINA_FILMA_INPUT]) ||
+            empty($_POST[FilmVM::DUZINA_FILMA_INPUT]) ||
+            $_POST[FilmVM::DUZINA_FILMA_INPUT] == '') {
 
             return false;
         }
 
-        if (!isset($_REQUEST[FilmVM::UZRAST_FILM_INPUT]) ||
-            empty($_REQUEST[FilmVM::UZRAST_FILM_INPUT]) ||
-            $_REQUEST[FilmVM::UZRAST_FILM_INPUT] == '') {
+        if (!isset($_POST[FilmVM::UZRAST_FILM_INPUT]) ||
+            empty($_POST[FilmVM::UZRAST_FILM_INPUT]) ||
+            $_POST[FilmVM::UZRAST_FILM_INPUT] == '') {
 
             return false;
         }
 
-        if (!isset($_REQUEST[FilmVM::ZANR_FILMA_INPUT]) ||
-            empty($_REQUEST[FilmVM::ZANR_FILMA_INPUT]) ||
-            $_REQUEST[FilmVM::ZANR_FILMA_INPUT] == '') {
+        if (!isset($_POST[FilmVM::ZANR_FILMA_INPUT]) ||
+            empty($_POST[FilmVM::ZANR_FILMA_INPUT]) ||
+            $_POST[FilmVM::ZANR_FILMA_INPUT] == '') {
 
             return false;
         }
 
-        $zanr_id = esc_html($_REQUEST[FilmVM::ZANR_FILMA_INPUT]);
+        $zanr_id = esc_html($_POST[FilmVM::ZANR_FILMA_INPUT]);
 
         $zanr = BaseRepository::getBaseRepository()->getZanrRepository()->daLiPostojiZanrId($zanr_id);
 
@@ -121,17 +121,17 @@ class FilmController implements ControllerInterface {
             return false;
         }
 
-        $uzrast = esc_html($_REQUEST[FilmVM::UZRAST_FILM_INPUT]);
+        $uzrast = esc_html($_POST[FilmVM::UZRAST_FILM_INPUT]);
         $predvidjeniUzrast = get_option(FilmUzrastOptionVM::UZRAST_OPTION_NAME);
         if ($zanr['slug'] === 'horor' && $uzrast < $predvidjeniUzrast) {
             $uzrast = $predvidjeniUzrast;
         }
 
         return [
-            'naziv_filma' => esc_html($_REQUEST[FilmVM::NAZIV_FILMA_INPUT]),
-            'opis' => esc_html($_REQUEST[FilmVM::OPIS_FILMA_INPUT]),
-            'pocetak_prikazivanja' => esc_html($_REQUEST[FilmVM::DATUM_FILMA_INPUT]),
-            'duzina_trajanja' => esc_html($_REQUEST[FilmVM::DUZINA_FILMA_INPUT]),
+            'naziv_filma' => esc_html($_POST[FilmVM::NAZIV_FILMA_INPUT]),
+            'opis' => esc_html($_POST[FilmVM::OPIS_FILMA_INPUT]),
+            'pocetak_prikazivanja' => esc_html($_POST[FilmVM::DATUM_FILMA_INPUT]),
+            'duzina_trajanja' => esc_html($_POST[FilmVM::DUZINA_FILMA_INPUT]),
             'uzrast' => $uzrast,
             'zanr_id' => $zanr_id,
         ];
@@ -140,19 +140,19 @@ class FilmController implements ControllerInterface {
 
     private function deleteFilm() {
 
-        if (!isset($_REQUEST[FilmVM::ID_FILMA_INPUT]) ||
-            empty($_REQUEST[FilmVM::ID_FILMA_INPUT]) ||
-            esc_html($_REQUEST[FilmVM::ID_FILMA_INPUT]) == '') {
+        if (!isset($_POST[FilmVM::ID_FILMA_INPUT]) ||
+            empty($_POST[FilmVM::ID_FILMA_INPUT]) ||
+            esc_html($_POST[FilmVM::ID_FILMA_INPUT]) == '') {
 
             return;
         }
 
-        $id = $_REQUEST[FilmVM::ID_FILMA_INPUT];
+        $id = $_POST[FilmVM::ID_FILMA_INPUT];
 
         $result = BaseRepository::getBaseRepository()->getFilmRepository()->deleteFilm($id);
 
         if ($result) {
-            $_REQUEST['page'] = 'filmplugin';
+            $_GET['page'] = 'filmplugin';
         }
 
     }
