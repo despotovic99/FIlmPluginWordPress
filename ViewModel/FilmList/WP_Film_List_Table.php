@@ -94,15 +94,6 @@ class WP_Film_List_Table extends WP_List_Table {
     function column_naziv_filma($item) {
         $actions = array(
             'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'filmpage', FilmVM::ID_FILMA_INPUT, $item['film_id']),
-//            'delete' => sprintf('
-//            <form  style="height: 5px; width: min-content" method="post">
-//                <input type="hidden" name="controller_name" value="%s">
-//                <input type="hidden" name="action" value="%s">
-//                <input type="hidden" name="%s" value="%s">
-//                <input type="submit" value="Obrisi" style="height: 5px; width: min-content" >
-//            </form>
-//
-//            ', FilmVM::CONTROLER_NAME, FilmVM::DELETE_ACTION, FilmVM::ID_FILMA_INPUT, $item['film_id'])
         );
 
         return sprintf('%1$s %2$s', $item['naziv_filma'], $this->row_actions($actions));

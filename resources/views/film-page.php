@@ -30,8 +30,7 @@ $zanrovi = FilmVM::getZanroviFilm();
             </div>
 
             <div>
-                <form  method="post">
-                    <input type="hidden" name="page" value="filmplugin">
+                <form  action="<?=admin_url('admin.php?page=filmplugin')?>" method="post">
                     <input type="hidden" name="controller_name" value="<?=$controller_name?>">
                     <input type="hidden" name="action" value="<?=$action_delete?>">
                     <input type="hidden" name='<?= $id_film_input ?>' value="<?= $film['film_id'] ?>">

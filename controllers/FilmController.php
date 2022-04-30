@@ -45,7 +45,7 @@ class FilmController implements ControllerInterface {
 
         $film = $this->validateFilm();
         if (!$film) {
-            // prikazi gresku
+
             return;
         }
 
@@ -151,9 +151,6 @@ class FilmController implements ControllerInterface {
 
         $result = BaseRepository::getBaseRepository()->getFilmRepository()->deleteFilm($id);
 
-        if ($result) {
-            $_GET['page'] = 'filmplugin';
-        }
 
     }
 
