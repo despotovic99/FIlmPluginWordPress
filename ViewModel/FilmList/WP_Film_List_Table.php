@@ -41,7 +41,7 @@ class WP_Film_List_Table extends WP_List_Table {
 
     protected function column_cb($item) {
 
-        return sprintf('<input type="checkbox" value="%s"/>', $item['film_id']);
+        return sprintf('<input type="checkbox" name="film[]" value="%s"/>', $item['film_id']);
     }
 
     protected function get_sortable_columns() {
@@ -49,6 +49,7 @@ class WP_Film_List_Table extends WP_List_Table {
         $sortableColumns = [
             'naziv_filma' => ['naziv_filma', true],
             'zanr' => ['zanr', false],
+            'pocetak_prikazivanja' => ['zanr', false],
 //            'uzrast' => ['uzrast', false],
         ];
 
@@ -93,11 +94,14 @@ class WP_Film_List_Table extends WP_List_Table {
 
     function column_naziv_filma($item) {
         $actions = array(
-            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'filmpage', FilmVM::ID_FILMA_INPUT, $item['film_id']),
+            'view' => sprintf('<a href="?page=%s&%s=%s">Prikazi</a>', 'filmviewpage', FilmVM::ID_INPUT_NAME, $item['film_id']),
+            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'filmpage', FilmVM::ID_INPUT_NAME, $item['film_id']),
+            'print' => sprintf('<a href="?page=%s&%s=%s">Stampaj</a>', 'filmpage', FilmVM::ID_INPUT_NAME, $item['film_id']),
         );
 
         return sprintf('%1$s %2$s', $item['naziv_filma'], $this->row_actions($actions));
     }
+
 
 
 }

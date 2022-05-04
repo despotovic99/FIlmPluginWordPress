@@ -98,7 +98,11 @@ class FilmRepository {
 
         $result = $this->db->update($this->nazivTabele, $film, ['id' => $id]);
 
-        return $result;
+        if($result){
+            return $id;
+        }
+
+        return false;
     }
 
     public function deleteFilm($id) {

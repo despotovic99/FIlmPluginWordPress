@@ -25,6 +25,17 @@ class FrontendController {
 
                 include_once plugin_dir_path(__FILE__) . '../resources/views/film-page.php';
                 break;
+
+            case 'filmviewpage':
+
+                wp_enqueue_style(
+                    'film-prikaz-page',
+                    plugin_dir_url(__FILE__) . '../resources/css/film-view-page.css'
+                );
+
+                include_once plugin_dir_path(__FILE__) . '../resources/views/film-prikaz-page.php';
+                break;
+
         }
 
     }

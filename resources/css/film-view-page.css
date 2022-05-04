@@ -1,0 +1,20 @@
+.sadrzaj-strane{
+
+    margin-left: 30px;
+}
+.div-naslov-action-wrapper{
+
+    display: flex;
+    align-items: center;
+}
+
+.div-naslov-action{
+    margin-left: 30px;
+}
+.div-sadrzaj p{
+    font-size: 1.4em;
+}
+
+.div-print-wrapper{
+    margin-top: 50px;
+}

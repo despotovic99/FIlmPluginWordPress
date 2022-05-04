@@ -148,6 +148,6 @@
     display: none;
 }
 
-.btn-otkazi:-webkit-details-marker {
+.btn-otkazi::-webkit-details-marker {
     display: none;
 }

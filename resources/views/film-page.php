@@ -3,13 +3,13 @@ $controller_name = FilmVM::CONTROLER_NAME;
 $action_save=FilmVM::SAVE_ACTION;
 $action_delete=FilmVM::DELETE_ACTION;
 
-$id_film_input = FilmVM::ID_FILMA_INPUT;
-$naziv_filma_input = FilmVM::NAZIV_FILMA_INPUT;
-$opis_filma_input = FilmVM::OPIS_FILMA_INPUT;
-$datum_prikazivanja_input = FilmVM::DATUM_FILMA_INPUT;
-$duzina_trajanja_input = FilmVM::DUZINA_FILMA_INPUT;
-$uzrast_input = FilmVM::UZRAST_FILM_INPUT;
-$zanr_input = FilmVM::ZANR_FILMA_INPUT;
+$id_film_input = FilmVM::ID_INPUT_NAME;
+$naziv_filma_input = FilmVM::NAZIV_FILMA_INPUT_NAME;
+$opis_filma_input = FilmVM::OPIS_FILMA_INPUT_NAME;
+$datum_prikazivanja_input = FilmVM::DATUM_FILMA_INPUT_NAME;
+$duzina_trajanja_input = FilmVM::DUZINA_FILMA_INPUT_NAME;
+$uzrast_input = FilmVM::UZRAST_FILM_INPUT_NAME;
+$zanr_input = FilmVM::ZANR_FILMA_INPUT_NAME;
 
 $film = FilmVM::getFilm();
 $zanrovi = FilmVM::getZanroviFilm();
@@ -30,7 +30,7 @@ $zanrovi = FilmVM::getZanroviFilm();
             </div>
 
             <div>
-                <form  action="<?=admin_url('admin.php?page=filmplugin')?>" method="post">
+                <form  method="post">
                     <input type="hidden" name="controller_name" value="<?=$controller_name?>">
                     <input type="hidden" name="action" value="<?=$action_delete?>">
                     <input type="hidden" name='<?= $id_film_input ?>' value="<?= $film['film_id'] ?>">

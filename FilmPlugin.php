@@ -1,6 +1,5 @@
 <?php
 require_once 'repositories/BaseRepository.php';
-require_once 'Services/WordFilmReportPrinter.php';
 require_once 'ViewModel/FilmList/WP_Film_List_Table.php';
 require_once 'controllers/BaseController.php';
 require_once 'controllers/ListAllFilmsController.php';
@@ -19,6 +18,7 @@ class FilmPlugin {
 
         add_action('admin_menu', [$this, 'create_filmplugin_menu']);
         add_action('admin_menu', [$this, 'film_page']);
+        add_action('admin_menu', [$this, 'film_view_page']);
         add_action('admin_menu', [$this, 'film_option_page']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
@@ -44,8 +44,7 @@ class FilmPlugin {
                 'default' => 2,
                 'option' => 'filmovi_per_page'
             ]);
-            $filmList = new WP_Film_List_Table(null, BaseRepository::getBaseRepository()
-                ->getFilmRepository()->getFilmDatafForListTable());
+            $filmList = new WP_Film_List_Table(null, null);
         });
 
     }
@@ -80,9 +79,20 @@ class FilmPlugin {
 
     }
 
+    public function film_view_page(){
+        add_submenu_page(
+            null,
+            'Film',
+            'Novi film',
+            'manage_options',
+            'filmviewpage',
+            [new FrontendController(), 'render']
+        );
+    }
+
     public function filmplugin_controller_action_trigger() {
 
-        if (isset($_REQUEST['controller_name']) && !empty($_REQUEST['controller_name'])) {
+        if (!empty($_REQUEST['controller_name'])) {
             $controller = new BaseController();
             $controller->index($_REQUEST['controller_name']);
         }
