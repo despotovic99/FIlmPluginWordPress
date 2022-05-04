@@ -1,5 +1,6 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../controllers/FilmController.php';
+require_once plugin_dir_path(__FILE__) . '../../components/services/FilmDatabaseService.php';
+require_once plugin_dir_path(__FILE__) . '../../components/services/ZanrDatabaseService.php';
 
 class FilmVM {
 
@@ -19,26 +20,39 @@ class FilmVM {
     const DELETE_ACTION = 'obrisi-film';
     const PRINT_ACTION = 'stampaj-film';
 
-    public static function getFilm() {
-        $film = FilmController::getFilm();
+    public function __construct() {
+
+        $this->filmDBService = new FilmDatabaseService();
+        $this->zanrDBService = new ZanrDatabaseService();
+    }
+
+    public function getFilm() {
+
+        if (!empty($_GET[FilmVM::ID_INPUT_NAME])) {
+            $id_filma = esc_html($_GET[FilmVM::ID_INPUT_NAME]);
+
+            $film = $this->filmDBService->findFilmByID($id_filma);
+
+        }
 
         if (!empty($film))
             return $film;
 
         return [
-            'film_id'=>'',
-            'naziv_filma'=>'',
-            'opis'=>'',
-            'pocetak_prikazivanja'=>'',
-            'duzina_trajanja'=>'',
-            'uzrast'=>'',
-            'slug'=>'',
-            'id_zanra'=>'',
+            'film_id' => '',
+            'naziv_filma' => '',
+            'opis' => '',
+            'pocetak_prikazivanja' => '',
+            'duzina_trajanja' => '',
+            'uzrast' => '',
+            'slug' => '',
+            'id_zanra' => '',
         ];
     }
 
-    public static function getZanroviFilm() {
-        $zanrovi = FilmController::getZanroviFilm();
+    public function getZanroviFilm() {
+        $zanrovi = $this->zanrDBService->findAll();
+
         return $zanrovi;
     }
 

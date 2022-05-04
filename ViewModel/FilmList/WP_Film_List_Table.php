@@ -73,14 +73,16 @@ class WP_Film_List_Table extends WP_List_Table {
         $sortable = $this->get_sortable_columns();
         $this->_column_headers = [$columns, $hidden, $sortable];
 
-        usort($this->filmData, [&$this, 'usort_reorder']);
 
         $perPage = $this->get_items_per_page('filmovi_per_page', 2);
 
         $currentPage = $this->get_pagenum();
         $totalItems = count($this->filmData);
 
-        $this->filmData = array_slice($this->filmData, (($currentPage - 1) * $perPage), $perPage);
+        if($this->filmData){
+            usort($this->filmData, [&$this, 'usort_reorder']);
+            $this->filmData = array_slice($this->filmData, (($currentPage - 1) * $perPage), $perPage);
+        }
 
         $this->set_pagination_args([
             'total_items' => $totalItems,

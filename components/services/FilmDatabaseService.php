@@ -2,6 +2,19 @@
 
 class FilmDatabaseService {
 
+    public function findFilmByID($id) {
+
+        $result = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmById($id);
+
+        return $result;
+    }
+
+    public function findFilmByName($name){
+
+        $result = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmByName($name);
+
+        return $result;
+    }
 
     public function deleteFilm($id) {
 

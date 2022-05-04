@@ -1,19 +1,31 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../controllers/ListAllFilmsController.php';
+require_once plugin_dir_path(__FILE__) . '../../components/services/FilmDatabaseService.php';
 require_once plugin_dir_path(__FILE__) . '/WP_Film_List_Table.php';
 
 class ListAllFilmsVM {
 
 
     const SEARCHBOX_ID = 'pretrazi_film_searchbox_id';
-    const CONTROLER_NAME = 'list-all-films';
-    const PRETRAGA_FILMOVA = 'pretraga_filmova';
 
-    public static function getListTable() {
+    public function __construct() {
 
-        $filmData = ListAllFilmsController::getFilmDataForList();
+        $this->filmDBService = new FilmDatabaseService();
+    }
 
-        return new WP_Film_List_Table(null,$filmData);
+    public function getListTable() {
+
+        $filmData = null;
+        if (isset($_REQUEST['page']) && isset($_REQUEST['s'])) {
+            $name = esc_html($_REQUEST['s']);
+
+            $filmData = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmByName($name);
+        } else {
+
+            $filmData = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmDatafForListTable();
+        }
+
+
+        return new WP_Film_List_Table(null, $filmData);
 
     }
 

@@ -11,8 +11,9 @@ $duzina_trajanja_input = FilmVM::DUZINA_FILMA_INPUT_NAME;
 $uzrast_input = FilmVM::UZRAST_FILM_INPUT_NAME;
 $zanr_input = FilmVM::ZANR_FILMA_INPUT_NAME;
 
-$film = FilmVM::getFilm();
-$zanrovi = FilmVM::getZanroviFilm();
+$filmVM = new FilmVM();
+$film = $filmVM->getFilm();
+$zanrovi = $filmVM->getZanroviFilm();
 
 ?>
 

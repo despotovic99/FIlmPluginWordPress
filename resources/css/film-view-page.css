@@ -17,4 +17,20 @@
 
 .div-print-wrapper{
     margin-top: 50px;
+    font-size: 1.4em;
+}
+.div-print-wrapper form{
+    display: grid;
+    grid-template-rows: 50px 50px 50px;
+    align-items: center;
+}
+
+.form-printers{
+    display: flex;
+    align-items: center;
+}
+
+.form-printers div{
+     margin-left: 20px;
+
 }

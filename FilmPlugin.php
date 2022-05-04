@@ -2,7 +2,6 @@
 require_once 'repositories/BaseRepository.php';
 require_once 'ViewModel/FilmList/WP_Film_List_Table.php';
 require_once 'controllers/BaseController.php';
-require_once 'controllers/ListAllFilmsController.php';
 require_once 'controllers/FilmController.php';
 require_once 'controllers/SettingsPageController.php';
 require_once 'controllers/FrontendController.php';

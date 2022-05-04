@@ -1,8 +1,8 @@
 <?php
 require_once 'interface/ControllerInterface.php';
 require_once plugin_dir_path(__FILE__) . '../components/services/FilmDatabaseService.php';
+require_once plugin_dir_path(__FILE__) . '../components/services/ZanrDatabaseService.php';
 require_once plugin_dir_path(__FILE__) . '../ViewModel/NoviFilm/FilmVM.php';
-require_once plugin_dir_path(__FILE__) . '../ViewModel/Settings/FilmUzrastOptionVM.php';
 
 class FilmController implements ControllerInterface {
 
@@ -10,29 +10,7 @@ class FilmController implements ControllerInterface {
     public function __construct() {
 
         $this->filmDBService = new FilmDatabaseService();
-        $this->zanrDBService = new ZanrDatabaseService();
     }
-
-    public static function getFilm() {
-
-        if (isset($_GET[FilmVM::ID_INPUT_NAME])) {
-            $id_filma = esc_html($_GET[FilmVM::ID_INPUT_NAME]);
-            if (empty($id_filma) || $id_filma === '') {
-                return;
-            }
-            $film = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmById($id_filma);
-
-            return $film;
-        }
-
-    }
-
-    public static function getZanroviFilm() {
-        $zanrovi = BaseRepository::getBaseRepository()->getZanrRepository()->getZanroviFromTable();
-
-        return $zanrovi;
-    }
-
 
     public function handleAction($action) {
 
@@ -42,7 +20,7 @@ class FilmController implements ControllerInterface {
                 $url = 'admin.php?page=filmpage';
 
                 if ($id) {
-                    $url .= '&' . FilmVM::ID_INPUT_NAME . '=' . $id;
+                    $url = 'admin.php?page=filmviewpage&' . FilmVM::ID_INPUT_NAME . '=' . $id;
                 }
 
                 wp_redirect(admin_url($url));

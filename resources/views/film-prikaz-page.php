@@ -3,7 +3,8 @@ $controller_name = FilmVM::CONTROLER_NAME;
 $printer_name = FilmVM::PRINTER_NAME;
 $action = FilmVM::PRINT_ACTION;
 
-$film = FilmVM::getFilm();
+$filmVM= new FilmVM();
+$film = $filmVM->getFilm();
 ?>
 
 <div class="wrap">
@@ -45,9 +46,8 @@ $film = FilmVM::getFilm();
         </div>
 
         <div class="div-print-wrapper">
-
             <form method="post">
-                <p>Odaberi format stampanja: </p>
+                <div>Odaberi format stampanja: </div>
                 <input type="hidden" name="controller_name" value="<?= $controller_name ?>">
                 <input type="hidden" name="action" value="<?= $action ?>">
                 <div class="form-printers">
@@ -60,7 +60,7 @@ $film = FilmVM::getFilm();
                 </div>
 
                 <div>
-                    <button type="submit">Stampaj</button>
+                    <button class="button-secondary" type="submit">Stampaj</button>
                 </div>
             </form>
 

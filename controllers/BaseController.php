@@ -1,6 +1,5 @@
 <?php
 require_once 'SettingsPageController.php';
-require_once 'ListAllFilmsController.php';
 require_once 'FilmController.php';
 require_once plugin_dir_path(__FILE__) . '../ViewModel/Settings/FilmUzrastOptionVM.php';
 require_once plugin_dir_path(__FILE__) . '../ViewModel/FilmList/ListAllFilmsVM.php';
@@ -15,10 +14,6 @@ class BaseController {
 
             case FilmUzrastOptionVM::CONTROLER_NAME:
                 $controller = new SettingsPageController();
-                break;
-
-            case ListAllFilmsVM::CONTROLER_NAME:
-                $controller = new ListAllFilmsController();
                 break;
 
             case FilmVM::CONTROLER_NAME :
