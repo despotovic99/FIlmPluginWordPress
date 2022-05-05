@@ -2,50 +2,50 @@
 $controller_name = FilmVM::CONTROLER_NAME;
 $printer_name = FilmVM::PRINTER_NAME;
 $action = FilmVM::PRINT_ACTION;
+$action_delete=FilmVM::DELETE_ACTION;
 
-$filmVM= new FilmVM();
+$filmVM = new FilmVM();
 $film = $filmVM->getFilm();
 ?>
 
 <div class="wrap">
 
-    <div class="sadrzaj-strane">
+    <div class="blog-container">
 
-        <div class="div-naslov-action-wrapper">
-            <div class="div-naslov">
+        <div class="blog-body">
+            <div class="blog-title">
                 <h1><?= $film['naziv_filma'] ?></h1>
             </div>
-            <div class="div-naslov-action">
-                <a class="button-secondary" href="?page=filmpage&<?= FilmVM::ID_INPUT_NAME ?>=<?= $film['film_id'] ?>">Izmeni</a>
+            <div class="blog-summary">
+                <p>Opis filma: <?= $film['opis'] ?></p>
             </div>
-        </div>
-
-        <div class="div-sadrzaj">
-
-            <div class="div-film-sadrzaj">
-                <p>Opis filma: </p>
-                <p><?= $film['opis'] ?></p>
-            </div>
-
-            <div class="div-film-sadrzaj">
+            <div class="blog-summary">
                 <p>Datum prikazivanja: <?= $film['pocetak_prikazivanja'] ?></p>
             </div>
-
-            <div class="div-film-sadrzaj">
+            <div class="blog-summary">
                 <p>Duzina trajanja: <?= $film['duzina_trajanja'] ?> min</p>
             </div>
-
-            <div class="div-film-sadrzaj">
+            <div class="blog-summary">
                 <p>Predvidjeni uzrast: <?= $film['uzrast'] ?></p>
             </div>
-
-            <div class="div-film-sadrzaj">
+            <div class="blog-summary">
                 <p>Zanr: <?= $film['zanr'] ?></p>
             </div>
-
+            <div class="blog-tags">
+                <ul>
+                    <li><a class="btn-izmeni"
+                           href="?page=filmpage&<?= FilmVM::ID_INPUT_NAME ?>=<?= $film['film_id'] ?>">Izmeni</a></li>
+                    <li> <form  method="post">
+                            <input type="hidden" name="controller_name" value="<?=$controller_name?>">
+                            <input type="hidden" name="action" value="<?=$action_delete?>">
+                            <input type="hidden" name='<?= FilmVM::ID_INPUT_NAME ?>' value="<?= $film['film_id'] ?>">
+                            <button class="btn-obrisi"  type="submit">Obrisi</button>
+                        </form></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="div-print-wrapper">
+        <div class="blog-footer ">
             <form method="post">
                 <div>Odaberi format stampanja: </div>
                 <input type="hidden" name="controller_name" value="<?= $controller_name ?>">
@@ -59,8 +59,8 @@ $film = $filmVM->getFilm();
                     </div>
                 </div>
 
-                <div>
-                    <button class="button-secondary" type="submit">Stampaj</button>
+                <div class="div-form-print-btn">
+                    <button class="btn-izmeni" type="submit">Stampaj</button>
                 </div>
             </form>
 
@@ -68,4 +68,4 @@ $film = $filmVM->getFilm();
 
     </div>
 
-</div>
+

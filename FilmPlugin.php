@@ -10,7 +10,7 @@ class FilmPlugin {
 
 
     public function initialize() {
-
+        // todo ovo macinji
         add_action('admin_init', [BaseRepository::getBaseRepository(), 'initializeFilmPluginTables'], 8);
         add_action('admin_init', [$this, 'film_register_settings'], 9);
         add_action('admin_init', [$this, 'filmplugin_controller_action_trigger']);

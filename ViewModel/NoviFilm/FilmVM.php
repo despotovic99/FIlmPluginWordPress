@@ -12,7 +12,7 @@ class FilmVM {
     const UZRAST_FILM_INPUT_NAME = 'uzrast_film';
     const ZANR_FILMA_INPUT_NAME = 'zanr_filma';
 
-    const PRINTER_NAME = 'printer';
+    const PRINTER_NAME = 'printers';
 
 
     const CONTROLER_NAME = 'film-controller';

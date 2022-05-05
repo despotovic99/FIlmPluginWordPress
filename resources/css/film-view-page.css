@@ -1,36 +1,168 @@
-.sadrzaj-strane{
-
-    margin-left: 30px;
-}
-.div-naslov-action-wrapper{
-
+.wrap {
     display: flex;
-    align-items: center;
 }
 
-.div-naslov-action{
-    margin-left: 30px;
-}
-.div-sadrzaj p{
-    font-size: 1.4em;
+.blog-container {
+    background: #fff;
+    border-radius: 5px;
+    font-family: "adelle-sans", sans-serif;
+    margin: 48px auto;
+    margin-left: 10px;
+    width: 30vw;
+
 }
 
-.div-print-wrapper{
-    margin-top: 50px;
-    font-size: 1.4em;
+.blog-body {
+    margin:  auto;
+    width: 80%;
 }
-.div-print-wrapper form{
+
+
+.blog-title h1{
+    margin-top: 10px;
+    color: rgb(0, 0, 0);
+    font-size: 2em;
+}
+
+.blog-summary p {
+    color: #1D2327;
+    font-size: 1.2em;
+}
+
+.blog-tags ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+}
+
+.blog-tags li + li {
+    margin-left: .5rem;
+}
+
+.blog-footer {
+    border-top: 1px solid rgba(51, 51, 51, 0.7);
+    margin: auto;
+    margin-top: 10px;
+    padding-bottom: .125rem;
+    width: 80%;
+    font-size: 1.2em;
+}
+
+
+.blog-footer form {
     display: grid;
     grid-template-rows: 50px 50px 50px;
     align-items: center;
 }
 
-.form-printers{
+.form-printers {
     display: flex;
     align-items: center;
 }
 
-.form-printers div{
-     margin-left: 20px;
+.form-printers div {
+    margin-left: 20px;
+
+}
+
+/*buttons */
+
+.btn-obrisi {
+    background: rgb(255, 71, 66);
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+    font-size: 15px;
+    font-weight: 50;
+    line-height: 5px;
+    min-height: 20px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+.btn-obrisi:hover,
+.btn-obrisi:active {
+    background-color: initial;
+    background-position: 0 0;
+    color: rgb(255, 71, 66);
+}
+
+.btn-obrisi:active {
+    opacity: .5;
+}
+
+.btn-izmeni {
+    appearance: none;
+    background-color: #FAFBFC;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    box-sizing: border-box;
+    color: #24292E;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    padding: 6px 16px;
+    position: relative;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+    word-wrap: break-word;
+}
+
+.btn-izmeni:hover {
+    background-color: #F3F4F6;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+.btn-izmeni:disabled {
+    background-color: #FAFBFC;
+    border-color: rgba(27, 31, 35, 0.15);
+    color: #959DA5;
+    cursor: default;
+}
+
+.btn-izmeni:active {
+    background-color: #EDEFF2;
+    box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+    transition: none 0s;
+}
+
+.btn-izmeni:focus {
+    outline: 1px transparent;
+}
+
+.btn-izmeni:before {
+    display: none;
+}
+
+.btn-izmeni::-webkit-details-marker {
+    display: none;
+}
+
+.div-form-print-btn button{
+    float: right;
 
 }
