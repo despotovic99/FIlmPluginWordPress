@@ -1,6 +1,6 @@
 <?php
 require_once 'interface/ControllerInterface.php';
-require_once plugin_dir_path(__FILE__) . '../components/services/FilmDatabaseService.php';
+require_once plugin_dir_path(__FILE__) . '../components/services/FilmService.php';
 require_once plugin_dir_path(__FILE__) . '../components/services/ZanrDatabaseService.php';
 require_once plugin_dir_path(__FILE__) . '../components/services/printers/FilmPrinterService.php';
 require_once plugin_dir_path(__FILE__) . '../ViewModel/NoviFilm/FilmVM.php';
@@ -10,7 +10,7 @@ class FilmController implements ControllerInterface {
 
     public function __construct() {
 
-        $this->filmDBService = new FilmDatabaseService();
+        $this->filmDBService = new FilmService();
         $this->filmPrintService = new FilmPrinterService();
     }
 
@@ -64,14 +64,9 @@ class FilmController implements ControllerInterface {
     }
 
 
-    private function deleteFilm() {
+    private function deleteFilm($id) {
 
-        if (empty($_POST[FilmVM::ID_INPUT_NAME])) {
-
-            return;
-        }
-
-        $id = esc_html($_POST[FilmVM::ID_INPUT_NAME]);
+        $id = empty($_POST[FilmVM::ID_INPUT_NAME]) ? '' : esc_html($_POST[FilmVM::ID_INPUT_NAME]);
 
         $this->filmDBService->deleteFilm($id);
 
@@ -98,22 +93,8 @@ class FilmController implements ControllerInterface {
 
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
+            $this->downloadFile($file_path);
 
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header("Cache-Control: no-cache, must-revalidate");
-            header("Expires: 0");
-            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
-            header('Content-Length: ' . filesize($file_path));
-            header('Pragma: public');
-
-//Clear system output buffer
-            flush();
-
-//Read the size of the file
-            readfile($file_path);
-
-            unlink($file_path);
 
         } catch (Exception $e) {
 
@@ -121,6 +102,24 @@ class FilmController implements ControllerInterface {
         }
 
 
+    }
+
+    private function downloadFile($file_path) {
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: 0");
+        header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+        header('Content-Length: ' . filesize($file_path));
+        header('Pragma: public');
+
+//Clear system output buffer
+        flush();
+
+        readfile($file_path);
+
+        unlink($file_path);
     }
 
 }

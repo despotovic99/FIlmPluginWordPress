@@ -1,5 +1,5 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../components/services/FilmDatabaseService.php';
+require_once plugin_dir_path(__FILE__) . '../../components/services/FilmService.php';
 require_once plugin_dir_path(__FILE__) . '../../components/services/ZanrDatabaseService.php';
 
 class FilmVM {
@@ -22,7 +22,7 @@ class FilmVM {
 
     public function __construct() {
 
-        $this->filmDBService = new FilmDatabaseService();
+        $this->filmDBService = new FilmService();
         $this->zanrDBService = new ZanrDatabaseService();
     }
 

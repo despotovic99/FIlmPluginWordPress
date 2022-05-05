@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '004809f3e56b51201258114375bc9e00dc34655a',
+        'reference' => '3b471f3b3be5a975e92f43f04d1b465830c3dc73',
         'name' => '__root__',
         'dev' => true,
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '004809f3e56b51201258114375bc9e00dc34655a',
+            'reference' => '3b471f3b3be5a975e92f43f04d1b465830c3dc73',
             'dev_requirement' => false,
         ),
         'laminas/laminas-escaper' => array(
@@ -41,6 +41,15 @@
             'install_path' => __DIR__ . '/../phpoffice/phpword',
             'aliases' => array(),
             'reference' => '1bd7cd62381051db6d6c7174d3c95a3ada48bc0f',
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdf' => array(
+            'pretty_version' => '1.8.2',
+            'version' => '1.8.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdf',
+            'aliases' => array(),
+            'reference' => 'd77904018090c17dc9f3ab6e944679a7a47e710a',
             'dev_requirement' => false,
         ),
         'zendframework/zend-escaper' => array(

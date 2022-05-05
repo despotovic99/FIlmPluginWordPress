@@ -21,7 +21,7 @@ class BaseController {
                 break;
 
             default:
-                break;
+                return;
         }
 
         if ($controller !== null) {

@@ -1,6 +1,6 @@
 <?php
 
-class FilmDatabaseService {
+class FilmService {
 
     public function findFilmByID($id) {
 

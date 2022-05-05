@@ -1,5 +1,5 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../components/services/FilmDatabaseService.php';
+require_once plugin_dir_path(__FILE__) . '../../components/services/FilmService.php';
 require_once plugin_dir_path(__FILE__) . '/WP_Film_List_Table.php';
 
 class ListAllFilmsVM {
@@ -9,7 +9,7 @@ class ListAllFilmsVM {
 
     public function __construct() {
 
-        $this->filmDBService = new FilmDatabaseService();
+        $this->filmDBService = new FilmService();
     }
 
     public function getListTable() {

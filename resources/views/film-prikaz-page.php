@@ -2,7 +2,7 @@
 $controller_name = FilmVM::CONTROLER_NAME;
 $printer_name = FilmVM::PRINTER_NAME;
 $action = FilmVM::PRINT_ACTION;
-$action_delete=FilmVM::DELETE_ACTION;
+$action_delete = FilmVM::DELETE_ACTION;
 
 $filmVM = new FilmVM();
 $film = $filmVM->getFilm();
@@ -33,21 +33,34 @@ $film = $filmVM->getFilm();
             </div>
             <div class="blog-tags">
                 <ul>
-                    <li><a class="btn-izmeni"
-                           href="?page=filmpage&<?= FilmVM::ID_INPUT_NAME ?>=<?= $film['film_id'] ?>">Izmeni</a></li>
-                    <li> <form  method="post">
-                            <input type="hidden" name="controller_name" value="<?=$controller_name?>">
-                            <input type="hidden" name="action" value="<?=$action_delete?>">
+                    <li>
+                        <form method="get">
+                            <input type="hidden" name="page" value="filmpage">
+                            <input type="hidden" name="<?= FilmVM::ID_INPUT_NAME ?>" value="<?= $film['film_id'] ?>">
+                            <button class="btn-izmeni" type="submit">Izmeni</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post">
+                            <input type="hidden" name="controller_name" value="<?= $controller_name ?>">
+                            <input type="hidden" name="action" value="<?= $action_delete ?>">
                             <input type="hidden" name='<?= FilmVM::ID_INPUT_NAME ?>' value="<?= $film['film_id'] ?>">
-                            <button class="btn-obrisi"  type="submit">Obrisi</button>
-                        </form></li>
+                            <button class="btn-obrisi" type="submit">Obrisi</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="get">
+                            <input type="hidden" name="page" value="filmplugin">
+                            <button class="btn-izmeni" type="submit">Otkazi</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
 
         <div class="blog-footer ">
             <form method="post">
-                <div>Odaberi format stampanja: </div>
+                <div>Odaberi format stampanja:</div>
                 <input type="hidden" name="controller_name" value="<?= $controller_name ?>">
                 <input type="hidden" name="action" value="<?= $action ?>">
                 <div class="form-printers">
