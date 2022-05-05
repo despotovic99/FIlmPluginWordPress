@@ -96,10 +96,25 @@ class FilmController implements ControllerInterface {
 
             $file = $this->filmPrintService->printFilm($format, $film);
 
-            $url = admin_url($file);
+            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
-            header("Location: $url");
-//            unlink(plugin_dir_path(__FILE__).'../../../wp-admin/'.$file);
+
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Expires: 0");
+            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+            header('Content-Length: ' . filesize($file_path));
+            header('Pragma: public');
+
+//Clear system output buffer
+            flush();
+
+//Read the size of the file
+            readfile($file_path);
+
+            unlink($file_path);
+
         } catch (Exception $e) {
 
             return;

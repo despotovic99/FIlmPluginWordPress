@@ -2,7 +2,7 @@
 
 class PdfFilmPrinter {
 
-    public function printFilm($film) {
+    public function printFilm($film,$outputdir) {
 
     }
 

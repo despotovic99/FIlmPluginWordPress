@@ -5,6 +5,11 @@ require_once 'PdfFilmPrinter.php';
 
 class FilmPrinterService {
 
+    private $output_dir;
+
+    public function __construct() {
+        $this->output_dir = plugin_dir_path(__FILE__) . '../../../temp-files';
+    }
 
     private function getPrinter($format) {
 
@@ -27,8 +32,8 @@ class FilmPrinterService {
 
         $printer = $this->getPrinter($format);
 
-        $file =$printer->printFilm($film);
-        return  $file;
+        $file = $printer->printFilm($film, $this->output_dir);
+        return $file;
     }
 
 }

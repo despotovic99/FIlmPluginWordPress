@@ -3,7 +3,7 @@
 
 class WordFilmPrinter {
 
-    public function printFilm($film) {
+    public function printFilm($film, $outputdir) {
 
         $file = $film[FilmVM::NAZIV_FILMA_INPUT_NAME] . '-Film.doc';
 
@@ -19,7 +19,7 @@ class WordFilmPrinter {
         $section->addText('Zanr: ' . $film['zanr']);
 
         $objWriter = PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
-        $objWriter->save($file);
+        $objWriter->save($outputdir.'/'.$file);
 
         return $file;
     }
