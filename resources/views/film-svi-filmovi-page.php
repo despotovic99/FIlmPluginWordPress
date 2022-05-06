@@ -1,5 +1,5 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../ViewModel/FilmList/ListAllFilmsVM.php';
+require_once plugin_dir_path(__FILE__) . '../../ViewModel/MovieList/ListAllFilmsVM.php';
 
 $searchbox_id = ListAllFilmsVM::SEARCHBOX_ID;
 

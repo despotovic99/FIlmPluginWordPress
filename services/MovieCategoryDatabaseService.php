@@ -1,6 +1,9 @@
 <?php
 
-class ZanrDatabaseService {
+namespace services;
+use BaseRepository;
+
+class MovieCategoryDatabaseService {
 
     public function findAll() {
 

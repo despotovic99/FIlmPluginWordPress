@@ -1,7 +1,10 @@
 <?php
 
 
-class WordFilmPrinter {
+namespace services\printers;
+use PhpOffice;
+
+class WordMoviePrinter {
 
     public function printFilm($film, $outputdir) {
 
@@ -19,7 +22,7 @@ class WordFilmPrinter {
         $section->addText('Zanr: ' . $film['zanr']);
 
         $objWriter = PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
-        $objWriter->save($outputdir.'/'.$file);
+        $objWriter->save($outputdir . '/' . $file);
 
         return $file;
     }

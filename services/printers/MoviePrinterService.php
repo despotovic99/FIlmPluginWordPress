@@ -1,9 +1,11 @@
 <?php
 
-require_once 'WordFilmPrinter.php';
-require_once 'PdfFilmPrinter.php';
+namespace services\printers;
 
-class FilmPrinterService {
+require_once 'WordMoviePrinter.php';
+require_once 'PdfMoviePrinter.php';
+
+class MoviePrinterService {
 
     private $output_dir;
 
@@ -16,13 +18,13 @@ class FilmPrinterService {
         $printer = null;
         switch ($format) {
             case 'word':
-                $printer = new WordFilmPrinter();
+                $printer = new WordMoviePrinter();
                 break;
             case 'pdf':
-                $printer = new PdfFilmPrinter();
+                $printer = new PdfMoviePrinter();
                 break;
             default:
-                throw new Exception('Neodgovarajuci format');
+                throw new Exception('Invalid format');
         }
 
         return $printer;

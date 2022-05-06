@@ -1,5 +1,4 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../ViewModel/Settings/FilmUzrastOptionVM.php';
 require_once plugin_dir_path(__FILE__) . 'interface/ControllerInterface.php';
 
 class SettingsPageController implements ControllerInterface {
@@ -9,8 +8,8 @@ class SettingsPageController implements ControllerInterface {
 
         switch ($action) {
 
-            case 'save_uzrast_option':
-                $this->save_uzrast_option();
+            case 'save_age_option':
+                $this->save_age_option();
                 break;
 
             default:
@@ -18,12 +17,12 @@ class SettingsPageController implements ControllerInterface {
         }
     }
 
-    public function save_uzrast_option() {
+    public function save_age_option() {
 
-        if (isset($_REQUEST[FilmUzrastOptionVM::UZRAST_OPTION_NAME])) {
+        if (isset($_POST['horror_movie_min_age_option'])) {
 
-            $uzrast = esc_html($_REQUEST[FilmUzrastOptionVM::UZRAST_OPTION_NAME]);
-            update_option(FilmUzrastOptionVM::UZRAST_OPTION_NAME, $uzrast);
+            $age = esc_html($_POST['horror_movie_min_age_option']);
+            update_option('horror_movie_min_age_option', $age);
         }
 
     }

@@ -1,8 +1,8 @@
 <?php
 require_once 'repositories/BaseRepository.php';
-require_once 'ViewModel/FilmList/WP_Film_List_Table.php';
+require_once 'ViewModel/MovieList/WP_Movie_List_Table.php';
 require_once 'controllers/BaseController.php';
-require_once 'controllers/FilmController.php';
+require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsPageController.php';
 require_once 'controllers/FrontendController.php';
 
@@ -11,27 +11,32 @@ class FilmPlugin {
 
     public function initialize() {
         // todo ovo macinji
+        //  init service da napravi tabele bez hook-a
+        //
         add_action('admin_init', [BaseRepository::getBaseRepository(), 'initializeFilmPluginTables'], 8);
-        add_action('admin_init', [$this, 'film_register_settings'], 9);
-        add_action('admin_init', [$this, 'filmplugin_controller_action_trigger']);
 
-        add_action('admin_menu', [$this, 'create_filmplugin_menu']);
-        add_action('admin_menu', [$this, 'film_page']);
-        add_action('admin_menu', [$this, 'film_view_page']);
-        add_action('admin_menu', [$this, 'film_option_page']);
+        add_action('admin_init', [$this, 'movieRegisterSettings'], 9);
+        add_action('admin_init', [$this, 'moviepluginControllerActionTrigger']);
+
+        add_action('admin_menu', [$this, 'createMoviePluginMenu']);
+        add_action('admin_menu', [$this, 'moviePage']);
+        add_action('admin_menu', [$this, 'movieViewPage']);
+        add_action('admin_menu', [$this, 'movieSettingsPage']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
     }
 
-    public function create_filmplugin_menu() {
+
+
+    public function createMoviePluginMenu() {
 
         $hook = add_menu_page(
-            'FilmPlugin',
-            'FilmPlugin',
+            'Movie plugin',
+            'Movie plugin',
             'manage_options',
-            'filmplugin',
+            'movies',
             [new FrontendController(), 'render'],
             plugin_dir_url(__FILE__) . '/resources/images/cinema.png',
             55.5
@@ -39,57 +44,57 @@ class FilmPlugin {
 
         add_action("load-$hook", function () {
             add_screen_option('per_page', [
-                'label' => 'Filmovi',
+                'label' => 'Movies',
                 'default' => 2,
-                'option' => 'filmovi_per_page'
+                'option' => 'movies_per_page'
             ]);
-            $filmList = new WP_Film_List_Table(null, null);
+            $filmList = new WP_Movie_List_Table(null, null);
         });
 
     }
 
-    public function film_register_settings() {
+    public function movieRegisterSettings() {
 
         register_setting('film-options', 'film_option_name_horor18');
     }
 
-    public function film_option_page() {
+    public function movieSettingsPage() {
 
         add_submenu_page(
-            'filmplugin',
-            'Film options',
+            'movies',
+            'Movie options',
             'Settings',
             'manage_options',
-            'filmpluginsettings',
+            'moviesettings',
             [new FrontendController(), 'render']
         );
     }
 
-    public function film_page() {
+    public function moviePage() {
 
         add_submenu_page(
-            'filmplugin',
-            'Film',
-            'Novi film',
+            'movies',
+            'Movie',
+            'New movie',
             'manage_options',
-            'filmpage',
+            'movie',
             [new FrontendController(), 'render']
         );
 
     }
 
-    public function film_view_page(){
+    public function movieViewPage() {
         add_submenu_page(
             null,
-            'Film',
-            'Novi film',
+            'Movie',
+            'View movie',
             'manage_options',
-            'filmviewpage',
+            'movieview',
             [new FrontendController(), 'render']
         );
     }
 
-    public function filmplugin_controller_action_trigger() {
+    public function moviepluginControllerActionTrigger() {
 
         if (!empty($_REQUEST['controller_name'])) {
             $controller = new BaseController();

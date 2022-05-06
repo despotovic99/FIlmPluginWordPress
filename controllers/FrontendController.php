@@ -6,17 +6,17 @@ class FrontendController {
 
         switch ($_GET['page']) {
 
-            case 'filmplugin':
+            case 'movies':
 
                 include_once plugin_dir_path(__FILE__) . '../resources/views/film-svi-filmovi-page.php';
                 break;
 
-            case 'filmpluginsettings':
+            case 'moviesettings':
 
                 include_once plugin_dir_path(__FILE__) . '../resources/views/film-settings-page.php';
                 break;
 
-            case 'filmpage':
+            case 'movie':
 
                 wp_enqueue_style(
                     'film-page',
@@ -26,7 +26,7 @@ class FrontendController {
                 include_once plugin_dir_path(__FILE__) . '../resources/views/film-page.php';
                 break;
 
-            case 'filmviewpage':
+            case 'movieview':
 
                 wp_enqueue_style(
                     'film-prikaz-page',

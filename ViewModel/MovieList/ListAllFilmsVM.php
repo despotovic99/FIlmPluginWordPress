@@ -1,6 +1,9 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../components/services/FilmService.php';
-require_once plugin_dir_path(__FILE__) . '/WP_Film_List_Table.php';
+
+use services\MovieService;
+
+require_once plugin_dir_path(__FILE__) . '../../services/MovieService.php';
+require_once plugin_dir_path(__FILE__) . '/WP_Movie_List_Table.php';
 
 class ListAllFilmsVM {
 
@@ -9,7 +12,7 @@ class ListAllFilmsVM {
 
     public function __construct() {
 
-        $this->filmDBService = new FilmService();
+        $this->filmDBService = new MovieService();
     }
 
     public function getListTable() {
@@ -25,7 +28,7 @@ class ListAllFilmsVM {
         }
 
 
-        return new WP_Film_List_Table(null, $filmData);
+        return new WP_Movie_List_Table(null, $filmData);
 
     }
 

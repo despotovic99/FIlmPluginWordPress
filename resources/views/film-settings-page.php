@@ -1,23 +1,19 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../../ViewModel/Settings/FilmUzrastOptionVM.php';
+require_once plugin_dir_path(__FILE__) . '../../ViewModel/Settings/MovieSettingsVM.php';
 
-$controller_name = FilmUzrastOptionVM::CONTROLER_NAME;
-$uzrastOptionName = FilmUzrastOptionVM::UZRAST_OPTION_NAME;
-
-$filmUzrastOptionVM = new FilmUzrastOptionVM();
-$predvidjeniUzrast = $filmUzrastOptionVM->getPredvidjeniUzrast();
+$movieSettingsVM = new MovieSettingsVM();
+$age = $movieSettingsVM->getAge();
 ?>
 
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()) ?></h1>
     <form action="" method="post">
 
-        <input type="hidden" name="controller_name" value="<?= $controller_name ?>">
-        <!--        todo ovde bi trebalo da prosledim ime metode-->
-        <input type="hidden" name="action" value="save_uzrast_option">
+        <input type="hidden" name="controller_name" value="settings_controller">
+        <input type="hidden" name="action" value="save_age_option">
 
         <p>Predvidjen uzrast za horor filmove</p>
-        <input type='text' name='<?= $uzrastOptionName ?>' value='<?= $predvidjeniUzrast ?>'>
+        <input type='text' name='horror_movie_min_age_option' value='<?= $age ?>'>
         <?php
 
         submit_button(__('Sacuvaj podesavanja', 'textdomain'));

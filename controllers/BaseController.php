@@ -1,9 +1,6 @@
 <?php
 require_once 'SettingsPageController.php';
-require_once 'FilmController.php';
-require_once plugin_dir_path(__FILE__) . '../ViewModel/Settings/FilmUzrastOptionVM.php';
-require_once plugin_dir_path(__FILE__) . '../ViewModel/FilmList/ListAllFilmsVM.php';
-require_once plugin_dir_path(__FILE__) . '../ViewModel/NoviFilm/FilmVM.php';
+require_once 'MovieController.php';
 
 class BaseController {
 
@@ -12,12 +9,12 @@ class BaseController {
         $controller = null;
         switch ($controllerName) {
 
-            case FilmUzrastOptionVM::CONTROLER_NAME:
+            case 'settings_controller':
                 $controller = new SettingsPageController();
                 break;
 
-            case FilmVM::CONTROLER_NAME :
-                $controller = new FilmController();
+            case 'movie_controller' :
+                $controller = new MovieController();
                 break;
 
             default:

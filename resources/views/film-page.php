@@ -1,18 +1,18 @@
 <?php
-$controller_name = FilmVM::CONTROLER_NAME;
-$action_save=FilmVM::SAVE_ACTION;
-$action_delete=FilmVM::DELETE_ACTION;
+$controller_name = MovieVM::CONTROLER_NAME;
+$action_save=MovieVM::SAVE_ACTION;
+$action_delete=MovieVM::DELETE_ACTION;
 
-$id_film_input = FilmVM::ID_INPUT_NAME;
-$naziv_filma_input = FilmVM::NAZIV_FILMA_INPUT_NAME;
-$opis_filma_input = FilmVM::OPIS_FILMA_INPUT_NAME;
-$datum_prikazivanja_input = FilmVM::DATUM_FILMA_INPUT_NAME;
-$duzina_trajanja_input = FilmVM::DUZINA_FILMA_INPUT_NAME;
-$uzrast_input = FilmVM::UZRAST_FILM_INPUT_NAME;
-$zanr_input = FilmVM::ZANR_FILMA_INPUT_NAME;
+$id_film_input = MovieVM::ID_INPUT_NAME;
+$naziv_filma_input = MovieVM::NAZIV_FILMA_INPUT_NAME;
+$opis_filma_input = MovieVM::OPIS_FILMA_INPUT_NAME;
+$datum_prikazivanja_input = MovieVM::DATUM_FILMA_INPUT_NAME;
+$duzina_trajanja_input = MovieVM::DUZINA_FILMA_INPUT_NAME;
+$uzrast_input = MovieVM::UZRAST_FILM_INPUT_NAME;
+$zanr_input = MovieVM::ZANR_FILMA_INPUT_NAME;
 
-$filmVM = new FilmVM();
-$film = $filmVM->getFilm();
+$filmVM = new MovieVM();
+$film = $filmVM->getMovie();
 $zanrovi = $filmVM->getZanroviFilm();
 
 ?>
