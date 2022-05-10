@@ -96,9 +96,9 @@ class WP_Movie_List_Table extends WP_List_Table {
 
     function column_naziv_filma($item) {
         $actions = array(
-            'view' => sprintf('<a href="?page=%s&%s=%s">Prikazi</a>', 'filmviewpage', MovieVM::ID_INPUT_NAME, $item['film_id']),
-            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'filmpage', MovieVM::ID_INPUT_NAME, $item['film_id']),
-            'print' => sprintf('<a href="?page=%s&%s=%s">Stampaj</a>', 'filmpage', MovieVM::ID_INPUT_NAME, $item['film_id']),
+            'view' => sprintf('<a href="?page=%s&%s=%s">Prikazi</a>', 'movieview', MovieVM::ID_INPUT_NAME, $item['film_id']),
+            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'movie', MovieVM::ID_INPUT_NAME, $item['film_id']),
+            'print' => sprintf('<a href="?page=%s&%s=%s">Stampaj</a>', 'movie', MovieVM::ID_INPUT_NAME, $item['film_id']),
         );
 
         return sprintf('%1$s %2$s', $item['naziv_filma'], $this->row_actions($actions));

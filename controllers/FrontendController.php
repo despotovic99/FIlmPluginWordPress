@@ -8,12 +8,12 @@ class FrontendController {
 
             case 'movies':
 
-                include_once plugin_dir_path(__FILE__) . '../resources/views/film-svi-filmovi-page.php';
+                include_once plugin_dir_path(__FILE__) . '../resources/views/all-movies-page.php';
                 break;
 
             case 'moviesettings':
 
-                include_once plugin_dir_path(__FILE__) . '../resources/views/film-settings-page.php';
+                include_once plugin_dir_path(__FILE__) . '../resources/views/movie-settings-page.php';
                 break;
 
             case 'movie':
@@ -23,7 +23,7 @@ class FrontendController {
                     plugin_dir_url(__FILE__) . '../resources/css/film-page.css'
                 );
 
-                include_once plugin_dir_path(__FILE__) . '../resources/views/film-page.php';
+                include_once plugin_dir_path(__FILE__) . '../resources/views/movie-page.php';
                 break;
 
             case 'movieview':
@@ -33,7 +33,7 @@ class FrontendController {
                     plugin_dir_url(__FILE__) . '../resources/css/film-view-page.css'
                 );
 
-                include_once plugin_dir_path(__FILE__) . '../resources/views/film-prikaz-page.php';
+                include_once plugin_dir_path(__FILE__) . '../resources/views/movie-view-page.php';
                 break;
 
         }

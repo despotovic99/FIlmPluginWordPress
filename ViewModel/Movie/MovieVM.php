@@ -16,7 +16,6 @@ class MovieVM {
     const UZRAST_FILM_INPUT_NAME = 'movie_age';
     const ZANR_FILMA_INPUT_NAME = 'movie_category';
 
-    const PRINTER_NAME = 'printer';
 
 
     const CONTROLER_NAME = 'movie_controller';
@@ -26,38 +25,38 @@ class MovieVM {
 
     public function __construct() {
 
-        $this->movieDBService = new MovieService();
-        $this->movieCategoryDBService = new MovieCategoryDatabaseService();
+        $this->movie_db_service = new MovieService();
+        $this->movie_category_db_service = new MovieCategoryDatabaseService();
     }
 
-    public function getMovie() {
+    public function get_movie() {
 
         if (!empty($_GET['movie_id'])) {
             $movie_id = esc_html($_GET['movie_id']);
 
-            $film = $this->movieDBService->findMovieByID($movie_id);
+            $movie = $this->movie_db_service->findMovieByID($movie_id);
 
         }
 
-        if (!empty($film))
-            return $film;
+        if (!empty($movie))
+            return $movie;
 
         return [
-            'film_id' => '',
-            'naziv_filma' => '',
-            'opis' => '',
-            'pocetak_prikazivanja' => '',
-            'duzina_trajanja' => '',
-            'uzrast' => '',
-            'slug' => '',
-            'id_zanra' => '',
+            'movie_id' => '',
+            'movie_name' => '',
+            'movie_description' => '',
+            'movie_date' => '',
+            'movie_length' => '',
+            'movie_age' => '',
+            'movie_category_slug' => '',
+            'movie_category_id' => '',
         ];
     }
 
-    public function getZanroviFilm() {
-        $zanrovi = $this->movieCategoryDBService->findAll();
+    public function get_movie_categories() {
+        $categories = $this->movie_category_db_service->findAll();
 
-        return $zanrovi;
+        return $categories;
     }
 
 

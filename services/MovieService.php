@@ -95,7 +95,7 @@ class MovieService {
         }
 
         $uzrast = esc_html($_POST[MovieVM::UZRAST_FILM_INPUT_NAME]);
-        $predvidjeniUzrast = get_option(FilmUzrastOptionVM::UZRAST_OPTION_NAME);
+        $predvidjeniUzrast = get_option('horror_movie_min_age_option');
         if ($zanr['slug'] === 'horor' && $uzrast < $predvidjeniUzrast) {
             $uzrast = $predvidjeniUzrast;
         }
