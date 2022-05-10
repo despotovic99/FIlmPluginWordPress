@@ -1,8 +1,8 @@
 <?php
 require_once plugin_dir_path(__FILE__) . '../../ViewModel/Settings/MovieSettingsVM.php';
 
-$movieSettingsVM = new MovieSettingsVM();
-$age = $movieSettingsVM->getAge();
+$movie_settings_vm = new MovieSettingsVM();
+$age = $movie_settings_vm->get_age();
 ?>
 
 <div class="wrap">

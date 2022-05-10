@@ -23,7 +23,7 @@ $movie_categories = $movie_vm->get_movie_categories();
                 <form  method="post">
                     <input type="hidden" name="controller_name" value="movie_controller">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name='movie_id' value="<?= $movie['film_id'] ?>">
+                    <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
                     <button class="btn-obrisi"  type="submit">Obrisi</button>
                 </form>
             </div>
@@ -34,16 +34,16 @@ $movie_categories = $movie_vm->get_movie_categories();
             <input type="hidden" name="controller_name" value="movie_controller">
             <input type="hidden" name="action" value="save">
 
-            <input type="hidden" name='movie_id' value="<?= $movie['film_id'] ?>">
+            <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
             <div class="forma-left-side">
                 <div class="input-div-wrapper">
                     <label>Naziv filma: </label>
                     <input type="text" name="movie_name" placeholder="Naziv filma"
-                           value="<?= $movie['naziv_filma'] ?>">
+                           value="<?= $movie['movie_name'] ?>">
                 </div>
 
                 <div class="input-div-wrapper div-opis">
-                    <textarea name="movie_description" placeholder="Opis"><?= $movie['opis'] ?></textarea>
+                    <textarea name="movie_description" placeholder="Opis"><?= $movie['movie_description'] ?></textarea>
                 </div>
             </div>
 
@@ -56,12 +56,12 @@ $movie_categories = $movie_vm->get_movie_categories();
                 <div class="input-div-wrapper">
                     <label>Duzina trajanja filma: </label>
                     <input type="number" name="movie_length" placeholder="Duzina trajanja filma"
-                           value="<?= $movie['duzina_trajanja'] ?>">
+                           value="<?= $movie['movie_lenght'] ?>">
                 </div>
 
                 <div class="input-div-wrapper">
                     <label>Predvidjeni uzrast za film:</label>
-                    <input type="number" name="movie_age" value="<?= $movie['uzrast'] ?>" placeholder="uzrast">
+                    <input type="number" name="movie_age" value="<?= $movie['movie_age'] ?>" placeholder="uzrast">
                 </div>
 
                 <div class="input-div-wrapper">
@@ -73,10 +73,10 @@ $movie_categories = $movie_vm->get_movie_categories();
                         <div>
                             <input type="radio" name="movie_category"
                                 <?php
-                                if ($category['id'] === $movie['id_zanra'])
+                                if ($category['id'] === $movie['movie_category_id'])
                                     echo 'checked';
                                 ?>
-                                   value="<?= $category['id'] ?>"/> <?= $category['naziv_zanr'] ?>
+                                   value="<?= $category['id'] ?>"/> <?= $category['category_name'] ?>
                         </div>
                         <?php
                     }
