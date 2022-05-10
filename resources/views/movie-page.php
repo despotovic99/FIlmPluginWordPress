@@ -8,14 +8,14 @@ $movie_categories = $movie_vm->get_movie_categories();
 
 <div class="wrap">
 
-    <div class="sadrzaj-strane">
+    <div class="content">
 
         <h1>Dodaj novi film</h1>
         <div class="buttons-above-form-wraper">
             <div>
                 <form method="get">
                     <input type="hidden" name="page" value="movies">
-                    <button class=" btn-otkazi" type="submit">Otkazi</button>
+                    <button class=" btn-cancel" type="submit">Otkazi</button>
                 </form>
             </div>
 
@@ -24,18 +24,18 @@ $movie_categories = $movie_vm->get_movie_categories();
                     <input type="hidden" name="controller_name" value="movie_controller">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
-                    <button class="btn-obrisi"  type="submit">Obrisi</button>
+                    <button class="btn-cancel"  type="submit">Obrisi</button>
                 </form>
             </div>
 
         </div>
 
-        <form class="forma" method="post">
+        <form class="form" method="post">
             <input type="hidden" name="controller_name" value="movie_controller">
             <input type="hidden" name="action" value="save">
 
             <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
-            <div class="forma-left-side">
+            <div class="form-left-side">
                 <div class="input-div-wrapper">
                     <label>Naziv filma: </label>
                     <input type="text" name="movie_name" placeholder="Naziv filma"

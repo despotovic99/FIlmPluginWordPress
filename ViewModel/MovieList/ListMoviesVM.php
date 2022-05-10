@@ -10,23 +10,23 @@ class ListMoviesVM {
 
     public function __construct() {
 
-        $this->movieDBService = new MovieService();
+        $this->movie_db_service = new MovieService();
     }
 
-    public function getListTable() {
+    public function get_list_table() {
 
-        $movieData = null;
+        $movie_data = null;
         if (isset($_REQUEST['page']) && isset($_REQUEST['s'])) {
             $name = esc_html($_REQUEST['s']);
 
-            $movieData = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmByName($name);
+            $movie_data = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmByName($name);
         } else {
 
-            $movieData = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmDatafForListTable();
+            $movie_data = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmDatafForListTable();
         }
 
 
-        return new WP_Movie_List_Table(null, $movieData);
+        return new WP_Movie_List_Table(null, $movie_data);
 
     }
 
