@@ -4,7 +4,7 @@
     width: 60vw;
 }
 
-.forma {
+.form {
     margin-left: auto;
     margin-right: auto;
     display: grid;
@@ -36,7 +36,7 @@
     font-size: 1.2em;
 }
 
-.forma-bottom-div {
+.form-bottom-div {
     grid-column-start: 1;
     grid-column-end: 3;
     margin-top: 20px;
@@ -59,7 +59,7 @@
 
 
 /* CSS */
-.btn-obrisi {
+.btn-delete {
     background: #FF4742;
     border: 1px solid #FF4742;
     border-radius: 6px;
@@ -84,14 +84,14 @@
     vertical-align: middle;
 }
 
-.btn-obrisi:hover,
-.btn-obrisi:active {
+.btn-delete:hover,
+.btn-delete:active {
     background-color: initial;
     background-position: 0 0;
     color: #FF4742;
 }
 
-.btn-obrisi:active {
+.btn-delete:active {
     opacity: .5;
 }
 

@@ -69,7 +69,7 @@
 
 /*buttons */
 
-.btn-obrisi {
+.btn-delete {
     background: rgb(255, 71, 66);
     border: 1px solid #FF4742;
     border-radius: 6px;
@@ -94,18 +94,18 @@
     vertical-align: middle;
 }
 
-.btn-obrisi:hover,
-.btn-obrisi:active {
+.btn-delete:hover,
+.btn-delete:active {
     background-color: initial;
     background-position: 0 0;
     color: rgb(255, 71, 66);
 }
 
-.btn-obrisi:active {
+.btn-delete:active {
     opacity: .5;
 }
 
-.btn-izmeni {
+.btn-update {
     appearance: none;
     background-color: #FAFBFC;
     border: 1px solid rgba(27, 31, 35, 0.15);
@@ -131,34 +131,34 @@
     word-wrap: break-word;
 }
 
-.btn-izmeni:hover {
+.btn-update:hover {
     background-color: #F3F4F6;
     text-decoration: none;
     transition-duration: 0.1s;
 }
 
-.btn-izmeni:disabled {
+.btn-update:disabled {
     background-color: #FAFBFC;
     border-color: rgba(27, 31, 35, 0.15);
     color: #959DA5;
     cursor: default;
 }
 
-.btn-izmeni:active {
+.btn-update:active {
     background-color: #EDEFF2;
     box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
     transition: none 0s;
 }
 
-.btn-izmeni:focus {
+.btn-update:focus {
     outline: 1px transparent;
 }
 
-.btn-izmeni:before {
+.btn-update:before {
     display: none;
 }
 
-.btn-izmeni::-webkit-details-marker {
+.btn-update::-webkit-details-marker {
     display: none;
 }
 

@@ -19,10 +19,10 @@ class ListMoviesVM {
         if (isset($_REQUEST['page']) && isset($_REQUEST['s'])) {
             $name = esc_html($_REQUEST['s']);
 
-            $movie_data = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmByName($name);
+            $movie_data = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_by_name($name);
         } else {
 
-            $movie_data = BaseRepository::getBaseRepository()->getFilmRepository()->getFilmDatafForListTable();
+            $movie_data = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_data_for_list_table();
         }
 
 

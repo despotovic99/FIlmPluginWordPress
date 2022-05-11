@@ -1,16 +1,16 @@
 <?php
-require_once 'FilmRepository.php';
-require_once 'ZanrRepository.php';
+require_once 'MovieRepository.php';
+require_once 'MovieCategoryRepository.php';
 class BaseRepository {
 
-    const NAZIV_FILM_TABELE='filmplugin_filmovi';
-    const NAZIV_ZANR_TABELE='filmplugin_zanrovi';
+    const MOVIE_TABLE_NAME='movieplugin_movies';
+    const MOVIE_CATEGORIES_TABLE_NAME='movieplugin_movie_categories';
 
     private $db;
 
-    private static $baseRepository;
-    private  $zanrRepository;
-    private $filmRepository;
+    private static $base_repository;
+    private  $movie_category_repository;
+    private $movie_repository;
 
     /**
      * @param string $tableFilm
@@ -21,35 +21,35 @@ class BaseRepository {
         $this->db=$wpdb;
     }
 
-    public static function getBaseRepository(){
-        if(self::$baseRepository==null){
-            self::$baseRepository = new BaseRepository();
+    public static function get_base_repository(){
+        if(self::$base_repository==null){
+            self::$base_repository = new BaseRepository();
         }
-        return self::$baseRepository;
+        return self::$base_repository;
     }
 
-    public function initializeFilmPluginTables(){
+    public function initialize_movie_plugin_tables(){
 
-        $this->zanrRepository = new ZanrRepository();
-        $this->zanrRepository->checkDatabaseAndRunMigrations();
+        $this->movie_category_repository = new MovieCategoryRepository();
+        $this->movie_category_repository->check_database_and_fill_table();
 
-        $this->filmRepository= new FilmRepository();
-        $this->filmRepository->checkFilmTableAndRunMigrations();
+        $this->movie_repository= new MovieRepository();
+        $this->movie_repository->check_movie_table();
 
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getZanrRepository() {
-        return $this->zanrRepository;
     }
 
     /**
      * @return mixed
      */
-    public function getFilmRepository() {
-        return $this->filmRepository;
+    public function get_movie_category_repository() {
+        return $this->movie_category_repository;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_movie_repository() {
+        return $this->movie_repository;
     }
 
 

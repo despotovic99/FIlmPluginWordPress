@@ -10,7 +10,7 @@ $movie_list_table = $movie_list_vm->get_list_table();
 
     <h3>Lista filmova</h3>
     <form method="get">
-        <input type="hidden" name="page" value="movies">
+        <input type="hidden" name="page" value="movie">
         <button class="button-primary" type="submit">Novi film</button>
     </form>
 

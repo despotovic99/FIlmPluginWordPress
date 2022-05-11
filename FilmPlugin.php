@@ -13,15 +13,17 @@ class FilmPlugin {
         // todo ovo macinji
         //  init service da napravi tabele bez hook-a
         //
-        add_action('admin_init', [BaseRepository::getBaseRepository(), 'initializeFilmPluginTables'], 8);
+        add_action('admin_init', [BaseRepository::get_base_repository(), 'initialize_movie_plugin_tables'], 8);
 
         add_action('admin_init', [$this, 'movieRegisterSettings'], 9);
         add_action('admin_init', [$this, 'moviepluginControllerActionTrigger']);
 
-        add_action('admin_menu', [$this, 'createMoviePluginMenu']);
-        add_action('admin_menu', [$this, 'moviePage']);
-        add_action('admin_menu', [$this, 'movieViewPage']);
-        add_action('admin_menu', [$this, 'movieSettingsPage']);
+        add_action('admin_menu', [$this, 'create_all_movies_page']);
+        add_action('admin_menu', [$this, 'movie_page']);
+        add_action('admin_menu', [$this, 'movie_view_page']);
+        add_action('admin_menu', [$this, 'movie_settings_page']);
+
+        $this->load_plugin_textdomain();
 
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
@@ -30,7 +32,7 @@ class FilmPlugin {
 
 
 
-    public function createMoviePluginMenu() {
+    public function create_all_movies_page() {
 
         $hook = add_menu_page(
             'Movie plugin',
@@ -58,7 +60,7 @@ class FilmPlugin {
         register_setting('film-options', 'film_option_name_horor18');
     }
 
-    public function movieSettingsPage() {
+    public function movie_settings_page() {
 
         add_submenu_page(
             'movies',
@@ -70,7 +72,7 @@ class FilmPlugin {
         );
     }
 
-    public function moviePage() {
+    public function movie_page() {
 
         add_submenu_page(
             'movies',
@@ -83,7 +85,7 @@ class FilmPlugin {
 
     }
 
-    public function movieViewPage() {
+    public function movie_view_page() {
         add_submenu_page(
             null,
             'Movie',
@@ -101,6 +103,14 @@ class FilmPlugin {
             $controller->index($_REQUEST['controller_name']);
         }
 
+    }
+
+    private function load_plugin_textdomain() {
+        load_plugin_textdomain(
+            'movie-plugin',
+            false,
+            plugin_basename( __FILE__ ) . '/i18n/languages'
+        );
     }
 
 }

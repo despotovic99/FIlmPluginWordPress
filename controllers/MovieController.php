@@ -47,15 +47,17 @@ class MovieController implements ControllerInterface {
 
         $id = '';
 
+        $movie = $this->validateMovie();
+
         if (!empty($_POST['movie_id'])) {
 
             $id = esc_html($_POST['movie_id']);
 
-            $result = $this->movieDBService->updateMovie($id);
+            $result = $this->movieDBService->updateMovie($id,$movie);
 
         } else {
 
-            $result = $this->movieDBService->saveMovie();
+            $result = $this->movieDBService->saveMovie($movie);
         }
 
         if ($result)
@@ -122,6 +124,65 @@ class MovieController implements ControllerInterface {
         readfile($file_path);
 
         unlink($file_path);
+    }
+
+    private function validateMovie() {
+
+        if (empty($_POST['movie_name'])) {
+
+            return false;
+        }
+
+        if (empty($_POST['movie_description'])) {
+
+            return false;
+        }
+
+        if (empty($_POST['movie_date'])) {
+
+            return false;
+        }
+
+        if (empty($_POST['movie_length'])) {
+
+            return false;
+        }
+
+        if (empty($_POST['movie_age'])) {
+
+            return false;
+        }
+
+        if (empty($_POST['movie_category_id'])) {
+
+            return false;
+        }
+
+        $category_id = esc_html($_POST['movie_category_id']);
+
+        $category = BaseRepository::get_base_repository()->get_movie_category_repository()->get_movie_category_by_id($category_id);
+
+        if (!$category) {
+
+            return false;
+        }
+
+        $age = esc_html($_POST['movie_age']);
+        $recommended_age = get_option('horror_movie_min_age_option');
+
+        if ($category['movie_category_slug'] === 'horor' && $age < $recommended_age) {
+            $age = $recommended_age;
+        }
+
+        return [
+            'movie_name' => esc_html($_POST['movie_name']),
+            'movie_description' => esc_html($_POST['movie_description']),
+            'movie_date' => esc_html($_POST['movie_date']),
+            'movie_length' => esc_html($_POST['movie_length']),
+            'movie_age' => $age,
+            'movie_category_id' => $category_id,
+        ];
+
     }
 
 }

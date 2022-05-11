@@ -19,21 +19,21 @@ $movie = $movie_vm->get_movie();
                 <p>Datum prikazivanja: <?= $movie['movie_date'] ?></p>
             </div>
             <div class="blog-summary">
-                <p>Duzina trajanja: <?= $movie['movie_lenght'] ?> min</p>
+                <p>Duzina trajanja: <?= $movie['movie_length'] ?> min</p>
             </div>
             <div class="blog-summary">
                 <p>Predvidjeni uzrast: <?= $movie['movie_age'] ?></p>
             </div>
             <div class="blog-summary">
-                <p>Zanr: <?= $movie['movie_category'] ?></p>
+                <p>Zanr: <?= $movie['movie_category_name'] ?></p>
             </div>
             <div class="blog-tags">
                 <ul>
                     <li>
                         <form method="get">
-                            <input type="hidden" name="page" value="movies">
+                            <input type="hidden" name="page" value="movie">
                             <input type="hidden" name="movie_id" value="<?= $movie['movie_id'] ?>">
-                            <button class="btn-izmeni" type="submit">Izmeni</button>
+                            <button class="btn-update" type="submit">Izmeni</button>
                         </form>
                     </li>
                     <li>
@@ -41,13 +41,13 @@ $movie = $movie_vm->get_movie();
                             <input type="hidden" name="controller_name" value="movie_controller">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
-                            <button class="btn-obrisi" type="submit">Obrisi</button>
+                            <button class="btn-delete" type="submit">Obrisi</button>
                         </form>
                     </li>
                     <li>
                         <form method="get">
                             <input type="hidden" name="page" value="movies">
-                            <button class="btn-izmeni" type="submit">Otkazi</button>
+                            <button class="btn-update" type="submit">Otkazi</button>
                         </form>
                     </li>
                 </ul>
@@ -69,7 +69,7 @@ $movie = $movie_vm->get_movie();
                 </div>
 
                 <div class="div-form-print-btn">
-                    <button class="btn-izmeni" type="submit">Stampaj</button>
+                    <button class="btn-update" type="submit">Stampaj</button>
                 </div>
             </form>
 

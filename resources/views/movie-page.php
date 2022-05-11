@@ -20,11 +20,11 @@ $movie_categories = $movie_vm->get_movie_categories();
             </div>
 
             <div>
-                <form  method="post">
+                <form method="post">
                     <input type="hidden" name="controller_name" value="movie_controller">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
-                    <button class="btn-cancel"  type="submit">Obrisi</button>
+                    <button class="btn-delete" type="submit">Obrisi</button>
                 </form>
             </div>
 
@@ -47,17 +47,17 @@ $movie_categories = $movie_vm->get_movie_categories();
                 </div>
             </div>
 
-            <div class="forma-right-side">
+            <div class="form-right-side">
                 <div class="input-div-wrapper">
                     <label>Datum prikazivanja: </label>
-                    <input type="date" name="movie_date" value="<?= $movie['pocetak_prikazivanja'] ?>">
+                    <input type="date" name="movie_date" value="<?= $movie['movie_date'] ?>">
                 </div>
 
                 <div class="input-div-wrapper">
                     <label>Duzina trajanja filma: </label>
                     <input type="number" name="movie_length" placeholder="Duzina trajanja filma"
-                           value="<?= $movie['movie_lenght'] ?>">
-                </div>
+                           value="<?= $movie['movie_length'] ?>">
+                </div
 
                 <div class="input-div-wrapper">
                     <label>Predvidjeni uzrast za film:</label>
@@ -71,26 +71,28 @@ $movie_categories = $movie_vm->get_movie_categories();
                     <?php
                     foreach ($movie_categories as $category) { ?>
                         <div>
-                            <input type="radio" name="movie_category"
+                            <input type="radio" name="movie_category_id"
                                 <?php
                                 if ($category['id'] === $movie['movie_category_id'])
                                     echo 'checked';
                                 ?>
-                                   value="<?= $category['id'] ?>"/> <?= $category['category_name'] ?>
+                                   value="<?= $category['id'] ?>"/> <?= $category['movie_category_name'] ?>
                         </div>
                         <?php
                     }
                     ?>
 
                 </div>
-            </div>
 
-            <div class="forma-bottom-div">
-                <div class="forma-button-wrapper">
-                    <button class="button-primary" type="submit">Sacuvaj</button>
+                <div class="form-bottom-div">
+                    <div class="form-button-wrapper">
+                        <button class="button-primary" type="submit">Sacuvaj</button>
+                    </div>
                 </div>
-            </div>
+
         </form>
     </div>
+
+</div>
 
 </div>

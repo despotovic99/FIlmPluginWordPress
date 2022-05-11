@@ -16,11 +16,11 @@ class WP_Movie_List_Table extends WP_List_Table {
 
         return [
             'cb' => '<input type="checkbox"/>',
-            'naziv_filma' => 'Naziv filma',
-            'zanr' => 'Zanr',
-            'pocetak_prikazivanja' => 'Pocetak prikazivanja',
-            'duzina_trajanja' => 'Duzina trajanja',
-            'uzrast' => 'Predvidjeni uzrast',
+            'movie_name' => 'Naziv filma',
+            'movie_category_name' => 'Zanr',
+            'movie_date' => 'Pocetak prikazivanja',
+            'movie_length' => 'Duzina trajanja',
+            'movie_age' => 'Predvidjeni uzrast',
         ];
 
     }
@@ -28,11 +28,11 @@ class WP_Movie_List_Table extends WP_List_Table {
     protected function column_default($item, $column_name) {
 
         switch ($column_name) {
-            case 'naziv_filma':
-            case 'uzrast':
-            case 'zanr':
-            case 'pocetak_prikazivanja':
-            case 'duzina_trajanja':
+            case 'movie_name':
+            case 'movie_age':
+            case 'movie_category_name':
+            case 'movie_date':
+            case 'movie_length':
                 return $item[$column_name];
             default :
 //                return print_r($item, true);
@@ -41,15 +41,15 @@ class WP_Movie_List_Table extends WP_List_Table {
 
     protected function column_cb($item) {
 
-        return sprintf('<input type="checkbox" name="film[]" value="%s"/>', $item['film_id']);
+        return sprintf('<input type="checkbox" name="movie[]" value="%s"/>', $item['movie_id']);
     }
 
     protected function get_sortable_columns() {
 
         $sortableColumns = [
-            'naziv_filma' => ['naziv_filma', true],
-            'zanr' => ['zanr', false],
-            'pocetak_prikazivanja' => ['zanr', false],
+            'movie_name' => ['movie_name', true],
+            'movie_category_name' => ['movie_category_name', false],
+            'movie_date' => ['movie_date', false],
 //            'uzrast' => ['uzrast', false],
         ];
 
@@ -59,7 +59,7 @@ class WP_Movie_List_Table extends WP_List_Table {
 
     private function usort_reorder($a, $b) {
 
-        $orderby = (!empty($_GET['orderby'])) ? $_GET['orderby'] : 'naziv_filma'; // po kojoj koloni
+        $orderby = (!empty($_GET['orderby'])) ? $_GET['orderby'] : 'movie_name'; // po kojoj koloni
         $order = (!empty($_GET['order'])) ? $_GET['order'] : 'asc'; //rastuci ili opadajuci redosled
         $result = strcmp($a[$orderby], $b[$orderby]);
 
@@ -74,7 +74,7 @@ class WP_Movie_List_Table extends WP_List_Table {
         $this->_column_headers = [$columns, $hidden, $sortable];
 
 
-        $perPage = $this->get_items_per_page('filmovi_per_page', 2);
+        $perPage = $this->get_items_per_page('movies_per_page', 2);
 
         $currentPage = $this->get_pagenum();
         $totalItems = count($this->movieData);
@@ -94,14 +94,14 @@ class WP_Movie_List_Table extends WP_List_Table {
         $this->items = $this->movieData;
     }
 
-    function column_naziv_filma($item) {
+    function column_movie_name($item) {
         $actions = array(
-            'view' => sprintf('<a href="?page=%s&%s=%s">Prikazi</a>', 'movieview', MovieVM::ID_INPUT_NAME, $item['film_id']),
-            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'movie', MovieVM::ID_INPUT_NAME, $item['film_id']),
-            'print' => sprintf('<a href="?page=%s&%s=%s">Stampaj</a>', 'movie', MovieVM::ID_INPUT_NAME, $item['film_id']),
+            'view' => sprintf('<a href="?page=%s&%s=%s">Prikazi</a>', 'movieview', 'movie_id', $item['movie_id']),
+            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'movie', 'movie_id', $item['movie_id']),
+            'print' => sprintf('<a href="?page=%s&%s=%s">Stampaj</a>', 'movie', 'movie_id', $item['movie_id']),
         );
 
-        return sprintf('%1$s %2$s', $item['naziv_filma'], $this->row_actions($actions));
+        return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));
     }
 
 
