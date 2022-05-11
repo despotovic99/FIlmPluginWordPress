@@ -106,12 +106,11 @@ class FilmPlugin {
 
     public function load_plugin_text_domain() {
 
-        $path = plugin_dir_path(__FILE__) . 'i18n/languages/';
 
         load_plugin_textdomain(
             'movie-plugin',
             false,
-            $path
+            plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages'
         );
     }
 

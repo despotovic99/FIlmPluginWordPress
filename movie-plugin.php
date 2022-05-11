@@ -7,13 +7,14 @@
  * Text Domain: movie-plugin
  * Domain Path: /i18n/languages
  * Author: Nemanja
+ * Requires at least: 4.6
  * */
 
 if (!defined('ABSPATH')) {
     exit;
 }
-require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
-require_once plugin_dir_path(__FILE__).'FilmPlugin.php';
+require_once plugin_dir_path(__FILE__) . '/vendor/autoload.php';
+require_once plugin_dir_path(__FILE__) . 'FilmPlugin.php';
 
 global $wpdb;
 
