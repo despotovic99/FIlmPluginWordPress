@@ -1,0 +1,12 @@
+#: resources/views/all-movies-page.php:14
+msgid "New movie"
+msgstr ""
+
+#: resources/views/all-movies-page.php:20
+msgid "Find movie"
+msgstr ""
+
+#: resources/views/all-movies-page.php:11
+msgid "All movies"
+msgstr ""
+

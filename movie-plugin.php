@@ -1,10 +1,12 @@
 <?php
 
 /*
- * Plugin Name: Filmovi Plugin
- * Description:  Filmovi....
+ * Plugin Name: Movies Plugin
+ * Description:  Movies....
  * Version: 1.0.0
- * Author: ~
+ * Text Domain: movie-plugin
+ * Domain Path: /i18n/languages
+ * Author: Nemanja
  * */
 
 if (!defined('ABSPATH')) {

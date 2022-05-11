@@ -23,13 +23,12 @@ class FilmPlugin {
         add_action('admin_menu', [$this, 'movie_view_page']);
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
-        $this->load_plugin_textdomain();
+        add_action('init',[$this, 'load_plugin_text_domain']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
     }
-
 
 
     public function create_all_movies_page() {
@@ -105,11 +104,14 @@ class FilmPlugin {
 
     }
 
-    private function load_plugin_textdomain() {
+    public function load_plugin_text_domain() {
+
+        $path = plugin_dir_path(__FILE__) . 'i18n/languages/';
+
         load_plugin_textdomain(
             'movie-plugin',
             false,
-            plugin_basename( __FILE__ ) . '/i18n/languages'
+            $path
         );
     }
 
