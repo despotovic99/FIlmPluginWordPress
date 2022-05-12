@@ -19,7 +19,7 @@ class FilmPlugin {
 
     public function initialize() {
 
-//        $statusi = wc_get_order_statuses();
+        $statusi = wc_get_order_statuses();
 
         register_activation_hook($this->plugin_file_path, [$this, 'activate']);
 
