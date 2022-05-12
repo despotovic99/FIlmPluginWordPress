@@ -37,3 +37,6 @@ msgstr ""
 
 msgid "Recommended age"
 msgstr ""
+
+msgid "Please install and activate WooCommerce plugin"
+msgstr ""

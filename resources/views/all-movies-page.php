@@ -8,16 +8,16 @@ $movie_list_table = $movie_list_vm->get_list_table();
 
 <div class="wrap">
 
-    <h3><?= __('All movies','movie-plugin')?></h3>
+    <h3><?= __('All movies','movieplugin')?></h3>
     <form method="get">
         <input type="hidden" name="page" value="movie">
-        <button class="button-primary" type="submit"><?= __('New movie','movie-plugin')?></button>
+        <button class="button-primary" type="submit"><?= __('New movie','movieplugin')?></button>
     </form>
 
     <?php $movie_list_table->prepare_items(); ?>
     <form method="post">
         <p class="search-box">
-            <?php $movie_list_table->search_box(esc_html(__('Find movie','movie-plugin')), 'search_movie'); ?>
+            <?php $movie_list_table->search_box(esc_html(__('Find movie','movieplugin')), 'search_movie'); ?>
         </p>
     </form>
 

@@ -16,11 +16,11 @@ class WP_Movie_List_Table extends WP_List_Table {
 
         return [
             'cb' => '<input type="checkbox"/>',
-            'movie_name' => __('Movie name', 'movie-plugin'),
-            'movie_category_name' => __('Category', 'movie-plugin'),
-            'movie_date' => __('Date', 'movie-plugin'),
-            'movie_length' => __('Length', 'movie-plugin'),
-            'movie_age' => __('Recommended age', 'movie-plugin'),
+            'movie_name' => __('Movie name', 'movieplugin'),
+            'movie_category_name' => __('Category', 'movieplugin'),
+            'movie_date' => __('Date', 'movieplugin'),
+            'movie_length' => __('Length', 'movieplugin'),
+            'movie_age' => __('Recommended age', 'movieplugin'),
         ];
 
     }
@@ -96,9 +96,9 @@ class WP_Movie_List_Table extends WP_List_Table {
 
     function column_movie_name($item) {
         $actions = array(
-            'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movieview', 'movie_id', $item['movie_id'], __('View', 'movie-plugin')),
-            'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Edit', 'movie-plugin')),
-            'print' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Print', 'movie-plugin')),
+            'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movieview', 'movie_id', $item['movie_id'], __('View', 'movieplugin')),
+            'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Edit', 'movieplugin')),
+            'print' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Print', 'movieplugin')),
             'print' => sprintf('
         <a>
         <form method="post">
@@ -119,7 +119,7 @@ class WP_Movie_List_Table extends WP_List_Table {
                  </button>            
             </form>
         </a>
-        ',$item['movie_id'], __('Print', 'movie-plugin')),
+        ',$item['movie_id'], __('Print', 'movieplugin')),
         );
 
         return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));

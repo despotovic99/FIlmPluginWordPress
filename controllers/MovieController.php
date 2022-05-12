@@ -53,7 +53,7 @@ class MovieController implements ControllerInterface {
 
             $id = esc_html($_POST['movie_id']);
 
-            $result = $this->movieDBService->updateMovie($id,$movie);
+            $result = $this->movieDBService->updateMovie($id, $movie);
 
         } else {
 
@@ -118,7 +118,7 @@ class MovieController implements ControllerInterface {
         header('Content-Length: ' . filesize($file_path));
         header('Pragma: public');
 
-//Clear system output buffer
+        //Clear system output buffer
         flush();
 
         readfile($file_path);

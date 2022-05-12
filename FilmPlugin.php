@@ -7,6 +7,7 @@ require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsPageController.php';
 require_once 'controllers/FrontendController.php';
 require_once 'services/PluginService.php';
+require_once 'components/setup/Update.php';
 
 class FilmPlugin {
 
@@ -17,12 +18,11 @@ class FilmPlugin {
     }
 
     public function initialize() {
-        // todo ovo macinji
-        //  init service da proveri/napravi tabele bez hook-a
 
-        add_action('admin_init', [BaseRepository::get_base_repository(), 'initialize_movie_plugin_tables'], 8);
+//        $statusi = wc_get_order_statuses();
 
-        register_activation_hook($this->plugin_file_path,[$this,'activate']);
+        register_activation_hook($this->plugin_file_path, [$this, 'activate']);
+
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
         add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
 
@@ -37,6 +37,8 @@ class FilmPlugin {
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
+
+
     }
 
 
@@ -60,7 +62,7 @@ class FilmPlugin {
         $hook = add_submenu_page(
             'movie_plugin',
             'Movie',
-            __('All movies', 'movie-plugin'),
+            __('All movies', 'movieplugin'),
             'manage_options',
             'movies',
             [new FrontendController(), 'render']
@@ -98,7 +100,7 @@ class FilmPlugin {
         add_submenu_page(
             'movie_plugin',
             'Movie',
-            __('New movie', 'movie-plugin'),
+            __('New movie', 'movieplugin'),
             'manage_options',
             'movie',
             [new FrontendController(), 'render']
@@ -128,20 +130,24 @@ class FilmPlugin {
 
     public function load_plugin_text_domain() {
 
-
         load_plugin_textdomain(
-            'movie-plugin',
+            'movieplugin',
             false,
             plugin_basename(dirname(__FILE__)) . '/i18n/languages'
         );
     }
 
-    private function activate(){
+    public function activate() {
 
-        if(PluginService::is_woocommerce_active()){
+        if (!PluginService::is_woocommerce_active()) {
 
-            return;
+            wp_die(esc_html(__('Please install and activate WooCommerce plugin', 'movieplugin')),
+                'Plugin active check',
+                ['back_link' => true]);
         }
+
+        $updater = new Update();
+        $updater->init_or_update_plugin();
 
     }
 
