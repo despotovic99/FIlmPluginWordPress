@@ -79,13 +79,13 @@ class MovieController implements ControllerInterface {
     private function printMovie() {
 
         if (empty($_POST['printer']) ||
-            empty($_GET['movie_id'])) {
+            empty($_POST['movie_id'])) {
 
             return;
         }
         $format = esc_html($_POST['printer']);
 
-        $movie = $this->movieDBService->findMovieByID(esc_html($_GET['movie_id']));
+        $movie = $this->movieDBService->findMovieByID(esc_html($_POST['movie_id']));
         if (!$movie) {
 
             return;

@@ -59,6 +59,7 @@ $movie = $movie_vm->get_movie();
                 <div>Odaberi format stampanja:</div>
                 <input type="hidden" name="controller_name" value="movie_controller"">
                 <input type="hidden" name="action" value="print">
+                <input type="hidden" name="movie_id" value="<?=$movie['movie_id']?>">
                 <div class="form-printers">
                     <div>
                         <input type="radio" name="printer" value="word">Word

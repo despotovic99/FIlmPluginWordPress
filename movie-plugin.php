@@ -18,6 +18,6 @@ require_once plugin_dir_path(__FILE__) . 'FilmPlugin.php';
 
 global $wpdb;
 
-$plugin = new FilmPlugin();
+$plugin = new FilmPlugin(__FILE__);
 $plugin->initialize();
 

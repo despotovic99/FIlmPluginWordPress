@@ -1,29 +1,38 @@
 <?php
+
 require_once 'repositories/BaseRepository.php';
 require_once 'ViewModel/MovieList/WP_Movie_List_Table.php';
 require_once 'controllers/BaseController.php';
 require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsPageController.php';
 require_once 'controllers/FrontendController.php';
+require_once 'services/PluginService.php';
 
 class FilmPlugin {
 
+    private $plugin_file_path;
+
+    public function __construct($plugin_file_path) {
+        $this->plugin_file_path = $plugin_file_path;
+    }
 
     public function initialize() {
         // todo ovo macinji
         //  init service da proveri/napravi tabele bez hook-a
-        //
+
         add_action('admin_init', [BaseRepository::get_base_repository(), 'initialize_movie_plugin_tables'], 8);
 
-        add_action('admin_init', [$this, 'movieRegisterSettings'], 9);
-        add_action('admin_init', [$this, 'moviepluginControllerActionTrigger']);
+        register_activation_hook($this->plugin_file_path,[$this,'activate']);
+        add_action('admin_init', [$this, 'movie_register_settings'], 9);
+        add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
 
+        add_action('admin_menu', [$this, 'create_movie_menu']);
         add_action('admin_menu', [$this, 'create_all_movies_page']);
         add_action('admin_menu', [$this, 'movie_page']);
         add_action('admin_menu', [$this, 'movie_view_page']);
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
-        add_action('init',[$this, 'load_plugin_text_domain']);
+        add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
@@ -31,16 +40,30 @@ class FilmPlugin {
     }
 
 
-    public function create_all_movies_page() {
+    public function create_movie_menu() {
 
-        $hook = add_menu_page(
+        add_menu_page(
             'Movie plugin',
             'Movie plugin',
-            'manage_options',
-            'movies',
-            [new FrontendController(), 'render'],
+            null,
+            'movie_plugin',
+            null,
             plugin_dir_url(__FILE__) . '/resources/images/cinema.png',
             55.5
+        );
+
+
+    }
+
+    public function create_all_movies_page() {
+
+        $hook = add_submenu_page(
+            'movie_plugin',
+            'Movie',
+            __('All movies', 'movie-plugin'),
+            'manage_options',
+            'movies',
+            [new FrontendController(), 'render']
         );
 
         add_action("load-$hook", function () {
@@ -51,10 +74,9 @@ class FilmPlugin {
             ]);
             $filmList = new WP_Movie_List_Table(null, null);
         });
-
     }
 
-    public function movieRegisterSettings() {
+    public function movie_register_settings() {
 
         register_setting('film-options', 'film_option_name_horor18');
     }
@@ -62,7 +84,7 @@ class FilmPlugin {
     public function movie_settings_page() {
 
         add_submenu_page(
-            'movies',
+            'movie_plugin',
             'Movie options',
             'Settings',
             'manage_options',
@@ -74,9 +96,9 @@ class FilmPlugin {
     public function movie_page() {
 
         add_submenu_page(
-            'movies',
+            'movie_plugin',
             'Movie',
-            __('New movie','movie-plugin'),
+            __('New movie', 'movie-plugin'),
             'manage_options',
             'movie',
             [new FrontendController(), 'render']
@@ -95,11 +117,11 @@ class FilmPlugin {
         );
     }
 
-    public function moviepluginControllerActionTrigger() {
+    public function movie_plugin_controller_action_trigger() {
 
         if (!empty($_REQUEST['controller_name'])) {
             $controller = new BaseController();
-            $controller->index($_REQUEST['controller_name']);
+            $controller->index(esc_html($_REQUEST['controller_name']));
         }
 
     }
@@ -110,8 +132,17 @@ class FilmPlugin {
         load_plugin_textdomain(
             'movie-plugin',
             false,
-            plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages'
+            plugin_basename(dirname(__FILE__)) . '/i18n/languages'
         );
+    }
+
+    private function activate(){
+
+        if(PluginService::is_woocommerce_active()){
+
+            return;
+        }
+
     }
 
 }

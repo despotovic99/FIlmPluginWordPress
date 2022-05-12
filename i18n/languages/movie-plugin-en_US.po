@@ -14,12 +14,36 @@ msgstr ""
 
 #: resources/views/all-movies-page.php:14
 msgid "New movie"
-msgstr "New movie test"
+msgstr "New movie"
 
 #: resources/views/all-movies-page.php:20
 msgid "Find movie"
-msgstr "Find movie test"
+msgstr "Find movie"
 
 #: resources/views/all-movies-page.php:11
 msgid "All movies"
-msgstr "Svi filmovi provera"
+msgstr "All movies"
+
+msgid "View"
+msgstr "View"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Print"
+msgstr "Print"
+
+msgid "Movie name"
+msgstr "Movie name"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Length"
+msgstr "Length"
+
+msgid "Recommended age"
+msgstr "Recommended age"
