@@ -5,12 +5,13 @@ namespace services\printers;
 require_once 'WordMoviePrinter.php';
 require_once 'PdfMoviePrinter.php';
 
+
 class MoviePrinterService {
 
     private $output_dir;
 
     public function __construct() {
-        $this->output_dir = plugin_dir_path(__FILE__) . '../../../temp-files';
+        $this->output_dir = plugin_dir_path(__FILE__) . '../../temp-files';
     }
 
     private function getPrinter($format) {
@@ -30,11 +31,11 @@ class MoviePrinterService {
         return $printer;
     }
 
-    public function printFilm($format, $film) {
+    public function printFilm($format, $movie) {
 
         $printer = $this->getPrinter($format);
 
-        $file = $printer->printFilm($film, $this->output_dir);
+        $file = $printer->printFilm($movie, $this->output_dir);
         return $file;
     }
 

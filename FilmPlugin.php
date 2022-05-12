@@ -11,7 +11,7 @@ class FilmPlugin {
 
     public function initialize() {
         // todo ovo macinji
-        //  init service da napravi tabele bez hook-a
+        //  init service da proveri/napravi tabele bez hook-a
         //
         add_action('admin_init', [BaseRepository::get_base_repository(), 'initialize_movie_plugin_tables'], 8);
 
@@ -76,7 +76,7 @@ class FilmPlugin {
         add_submenu_page(
             'movies',
             'Movie',
-            'New movie',
+            __('New movie','movie-plugin'),
             'manage_options',
             'movie',
             [new FrontendController(), 'render']

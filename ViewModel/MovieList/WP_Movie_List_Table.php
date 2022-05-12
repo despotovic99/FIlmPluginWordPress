@@ -16,11 +16,11 @@ class WP_Movie_List_Table extends WP_List_Table {
 
         return [
             'cb' => '<input type="checkbox"/>',
-            'movie_name' => 'Naziv filma',
-            'movie_category_name' => 'Zanr',
-            'movie_date' => 'Pocetak prikazivanja',
-            'movie_length' => 'Duzina trajanja',
-            'movie_age' => 'Predvidjeni uzrast',
+            'movie_name' =>  __('Movie name','movie-plugin'),
+            'movie_category_name' => __('Category','movie-plugin'),
+            'movie_date' => __('Date','movie-plugin'),
+            'movie_length' => __('Length','movie-plugin'),
+            'movie_age' => __('Recommended age','movie-plugin'),
         ];
 
     }
@@ -96,9 +96,9 @@ class WP_Movie_List_Table extends WP_List_Table {
 
     function column_movie_name($item) {
         $actions = array(
-            'view' => sprintf('<a href="?page=%s&%s=%s">Prikazi</a>', 'movieview', 'movie_id', $item['movie_id']),
-            'edit' => sprintf('<a href="?page=%s&%s=%s">Izmeni</a>', 'movie', 'movie_id', $item['movie_id']),
-            'print' => sprintf('<a href="?page=%s&%s=%s">Stampaj</a>', 'movie', 'movie_id', $item['movie_id']),
+            'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movieview', 'movie_id', $item['movie_id'],__('View','movie-plugin')),
+            'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'],__('Edit','movie-plugin')),
+            'print' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'],__('Print','movie-plugin')),
         );
 
         return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));

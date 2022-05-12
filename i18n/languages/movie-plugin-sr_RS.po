@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: sr_RS\n"
+"Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,8 +18,32 @@ msgstr "Novi film"
 
 #: resources/views/all-movies-page.php:20
 msgid "Find movie"
-msgstr "Pretraga"
+msgstr "Pronadji film"
 
 #: resources/views/all-movies-page.php:11
 msgid "All movies"
 msgstr "Svi filmovi"
+
+msgid "View"
+msgstr "Prikazi"
+
+msgid "Edit"
+msgstr "Izmeni"
+
+msgid "Print"
+msgstr "Stampaj"
+
+msgid "Movie name"
+msgstr "Naziv filma"
+
+msgid "Category"
+msgstr "Zanr"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Length"
+msgstr "Duzina"
+
+msgid "Recommended age"
+msgstr "Preporuceni uzrast"

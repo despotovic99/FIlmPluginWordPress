@@ -10,3 +10,30 @@ msgstr ""
 msgid "All movies"
 msgstr ""
 
+msgid "View"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Movie name"
+msgstr ""
+
+
+msgid "Category"
+msgstr ""
+
+
+msgid "Date"
+msgstr ""
+
+
+msgid "Length"
+msgstr ""
+
+
+msgid "Recommended age"
+msgstr ""

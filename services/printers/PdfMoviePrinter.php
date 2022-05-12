@@ -10,19 +10,19 @@ class PdfMoviePrinter {
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(1, 10, $film['naziv_filma']);
+        $pdf->Cell(1, 10, $film['movie_name']);
 
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(-1, 20, $film['opis']);
-        $pdf->Cell(1, 30, $film['pocetak_prikazivanja']);
-        $pdf->Cell(-1, 40, $film['duzina_trajanja']);
-        $pdf->Cell(1, 50, $film['uzrast']);
-        $pdf->Cell(-1, 60, $film['zanr']);
+        $pdf->Cell(-1, 20, $film['movie_description']);
+        $pdf->Cell(1, 30, $film['movie_date']);
+        $pdf->Cell(-1, 40, $film['movie_length']);
+        $pdf->Cell(1, 50, $film['movie_age']);
+        $pdf->Cell(-1, 60, $film['movie_category_name']);
 
 
-        $file_name = $outputdir . '/' . $film['naziv_filma'];
+        $file_name = $outputdir . '/' . $film['movie_name'];
         $pdf->Output($file_name, 'F');
-        return $film['naziv_filma'];
+        return $film['movie_name'];
     }
 
 }

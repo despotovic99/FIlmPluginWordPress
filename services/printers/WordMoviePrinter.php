@@ -8,18 +8,18 @@ class WordMoviePrinter {
 
     public function printFilm($film, $outputdir) {
 
-        $file = $film['naziv_filma'] . '-Film.doc';
+        $file = $film['movie_name'] . '-Film.doc';
 
         $document = new PhpOffice\PhpWord\PhpWord();
 
         $section = $document->addSection();
 
-        $section->addTitle($film['naziv_filma']);
-        $section->addText('Opis: ' . $film['opis']);
-        $section->addText('Datum prikazivanja: ' . $film['pocetak_prikazivanja']);
-        $section->addText('Duzina trajanja: ' . $film['duzina_trajanja'] . ' min');
-        $section->addText('Predvidjeni uzrast: ' . $film['uzrast'] . ' god');
-        $section->addText('Zanr: ' . $film['zanr']);
+        $section->addTitle($film['movie_name']);
+        $section->addText('Opis: ' . $film['movie_description']);
+        $section->addText('Datum prikazivanja: ' . $film['movie_date']);
+        $section->addText('Duzina trajanja: ' . $film['movie_length'] . ' min');
+        $section->addText('Predvidjeni uzrast: ' . $film['movie_age'] . ' god');
+        $section->addText('Zanr: ' . $film['movie_category_name']);
 
         $objWriter = PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
         $objWriter->save($outputdir . '/' . $file);
