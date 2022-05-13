@@ -98,7 +98,7 @@ class MovieController implements ControllerInterface {
 
         try {
 
-            $file = $this->moviePrintService->printFilm($format, $movie);
+            $file = $this->moviePrintService->print_movie($format, $movie);
 
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
@@ -192,15 +192,35 @@ class MovieController implements ControllerInterface {
 
     private function print_order() {
 
-        if (empty($_POST['printer']) ||
-            empty($_POST['order_id'])) {
+        if (empty($_REQUEST['printer']) ||
+            empty($_REQUEST['order_id'])) {
 
             return;
         }
-        $order_id=esc_html($_POST['order_id']);
-        $format = esc_html($_POST['printer']);
+        $order_id=esc_html($_REQUEST['order_id']);
+        $format = esc_html($_REQUEST['printer']);
 
         $order = get_post($order_id);
+
+        if (!$order) {
+
+            return;
+        }
+
+        try {
+
+            $file = $this->moviePrintService->print_order($format, $order);
+
+            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
+
+            $this->downloadFile($file_path);
+
+
+        } catch (Exception $e) {
+
+            return;
+        }
+
     }
 
 }

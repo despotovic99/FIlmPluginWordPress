@@ -189,6 +189,7 @@ class FilmPlugin {
         <form method='post'>
                     <input type='hidden' name='controller_name' value='movie_controller'>
                     <input type='hidden' name='action' value='print-order'>
+                    <input type='hidden' name='printer' value='word-order'>
                     <input type='hidden' name='order_id' value='".$order_id."'>
                      <button class='btn-delete' type='submit'>".__('Print','movie-plugin')."</button>
        </form>

@@ -6,7 +6,7 @@ use PhpOffice;
 
 class WordMoviePrinter {
 
-    public function printFilm($film, $outputdir) {
+    public function print_movie($film, $outputdir) {
 
         $file = $film['movie_name'] . '-Film.doc';
 

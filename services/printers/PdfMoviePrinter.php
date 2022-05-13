@@ -5,7 +5,7 @@ use FPDF;
 
 class PdfMoviePrinter {
 
-    public function printFilm($film, $outputdir) {
+    public function print_movie($film, $outputdir) {
 
         $pdf = new FPDF();
         $pdf->AddPage();
