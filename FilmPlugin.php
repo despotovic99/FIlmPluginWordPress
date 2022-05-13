@@ -21,6 +21,9 @@ class FilmPlugin {
 
         register_activation_hook($this->plugin_file_path, [$this, 'activate']);
 
+        add_action('init',[$this,'register_new_wc_order_statuses']);
+        add_action('init', [$this, 'load_plugin_text_domain']);
+
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
         add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
 
@@ -30,7 +33,8 @@ class FilmPlugin {
         add_action('admin_menu', [$this, 'movie_view_page']);
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
-        add_action('init', [$this, 'load_plugin_text_domain']);
+
+        add_filter('wc_order_statuses',[$this,'add_new_registered_wc_order_statuses']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
@@ -133,6 +137,45 @@ class FilmPlugin {
             false,
             plugin_basename(dirname(__FILE__)) . '/i18n/languages'
         );
+    }
+
+    public function register_new_wc_order_statuses(){
+
+        // moras da imas prefiks wc-  jer woocommerce kad cita statuse izvlaci upravo statuse sa wc prefiksom
+        $order_statuses = [
+            'wc-new_status_1'=>[
+                'label'=>_x('New status 1','movieplugin'),
+                'public'=>true,
+                'exclude_from_search'=>false,
+                'show_in_admin_all_list'=>true,
+                'show_in_admin_status_list'=>true,
+                'label_count'               => _n_noop( 'New status 1 <span class="count">(%s)</span>',
+                    'New status 1 <span class="count">(%s)</span>' )
+            ],
+            'wc-new_status_2'=>[
+                'label'=>_x('New status 2','movieplugin'),
+                'public'=>true,
+                'exclude_from_search'=>false,
+                'show_in_admin_all_list'=>true,
+                'show_in_admin_status_list'=>true,
+                'label_count'               => _n_noop( 'New status 2 <span class="count">(%s)</span>',
+                    'New status 2<span class="count">(%s)</span>' )
+            ],
+        ];
+
+        foreach ($order_statuses as $order_status=>$values){
+            register_post_status($order_status,$values);
+        }
+
+    }
+
+    public function add_new_registered_wc_order_statuses($order_statuses){
+
+        $order_statuses['wc-new_status_1']=__('New status 1',',movieplugin');
+        $order_statuses['wc-new_status_2']=__('New status 2',',movieplugin');
+
+        return $order_statuses;
+
     }
 
     public function activate() {
