@@ -20,7 +20,7 @@ class MovieController implements ControllerInterface {
 
         switch ($action) {
             case 'save':
-                $id = $this->saveMovie();
+                $id = $this->save_movie();
                 $url = 'admin.php?page=movie';
 
                 if ($id) {
@@ -31,19 +31,24 @@ class MovieController implements ControllerInterface {
                 break;
 
             case 'delete':
-                $this->deleteMovie();
+                $this->delete_movie();
                 wp_redirect(admin_url('admin.php?page=movies'));
                 break;
 
             case 'print':
 
-                $this->printMovie();
+                $this->print_movie();
+                break;
+
+            case 'print-order':
+
+                $this->print_order();
                 break;
         }
 
     }
 
-    private function saveMovie() {
+    private function save_movie() {
 
         $id = '';
 
@@ -68,7 +73,7 @@ class MovieController implements ControllerInterface {
     }
 
 
-    private function deleteMovie() {
+    private function delete_movie() {
 
         $id = empty($_POST['movie_id']) ? '' : esc_html($_POST['movie_id']);
 
@@ -76,7 +81,7 @@ class MovieController implements ControllerInterface {
 
     }
 
-    private function printMovie() {
+    private function print_movie() {
 
         if (empty($_POST['printer']) ||
             empty($_POST['movie_id'])) {
@@ -183,6 +188,19 @@ class MovieController implements ControllerInterface {
             'movie_category_id' => $category_id,
         ];
 
+    }
+
+    private function print_order() {
+
+        if (empty($_POST['printer']) ||
+            empty($_POST['order_id'])) {
+
+            return;
+        }
+        $order_id=esc_html($_POST['order_id']);
+        $format = esc_html($_POST['printer']);
+
+        $order = get_post($order_id);
     }
 
 }

@@ -4,7 +4,7 @@
  * Plugin Name: Movies Plugin
  * Description:  Movies....
  * Version: 1.0.0
- * Text Domain: movieplugin
+ * Text Domain: movie-plugin
  * Domain Path: /i18n/languages
  * Author: Nemanja
  * Requires at least: 4.6

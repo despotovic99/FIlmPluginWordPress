@@ -36,6 +36,8 @@ class FilmPlugin {
 
         add_filter('wc_order_statuses',[$this,'add_new_registered_wc_order_statuses']);
 
+        add_action('woocommerce_admin_order_actions_start',[$this,'add_print_button_to_order_in_list_table']);
+
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
@@ -64,7 +66,7 @@ class FilmPlugin {
         $hook = add_submenu_page(
             'movie_plugin',
             'Movie',
-            __('All movies', 'movieplugin'),
+            __('All movies', 'movie-plugin'),
             'manage_options',
             'movies',
             [new FrontendController(), 'render']
@@ -102,7 +104,7 @@ class FilmPlugin {
         add_submenu_page(
             'movie_plugin',
             'Movie',
-            __('New movie', 'movieplugin'),
+            __('New movie', 'movie-plugin'),
             'manage_options',
             'movie',
             [new FrontendController(), 'render']
@@ -133,7 +135,7 @@ class FilmPlugin {
     public function load_plugin_text_domain() {
 
         load_plugin_textdomain(
-            'movieplugin',
+            'movie-plugin',
             false,
             plugin_basename(dirname(__FILE__)) . '/i18n/languages'
         );
@@ -144,7 +146,7 @@ class FilmPlugin {
         // moras da imas prefiks wc-  jer woocommerce kad cita statuse izvlaci upravo statuse sa wc prefiksom
         $order_statuses = [
             'wc-new_status_1'=>[
-                'label'=>_x('New status 1','movieplugin'),
+                'label'=>_x('New status 1','movie-plugin'),
                 'public'=>true,
                 'exclude_from_search'=>false,
                 'show_in_admin_all_list'=>true,
@@ -153,7 +155,7 @@ class FilmPlugin {
                     'New status 1 <span class="count">(%s)</span>' )
             ],
             'wc-new_status_2'=>[
-                'label'=>_x('New status 2','movieplugin'),
+                'label'=>_x('New status 2','movie-plugin'),
                 'public'=>true,
                 'exclude_from_search'=>false,
                 'show_in_admin_all_list'=>true,
@@ -171,18 +173,33 @@ class FilmPlugin {
 
     public function add_new_registered_wc_order_statuses($order_statuses){
 
-        $order_statuses['wc-new_status_1']=__('New status 1',',movieplugin');
-        $order_statuses['wc-new_status_2']=__('New status 2',',movieplugin');
+        $order_statuses['wc-new_status_1']=__('New status 1',',movie-plugin');
+        $order_statuses['wc-new_status_2']=__('New status 2',',movie-plugin');
 
         return $order_statuses;
 
     }
 
+    public function add_print_button_to_order_in_list_table($order){
+
+        $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
+
+
+        echo "
+        <form method='post'>
+                    <input type='hidden' name='controller_name' value='movie_controller'>
+                    <input type='hidden' name='action' value='print-order'>
+                    <input type='hidden' name='order_id' value='".$order_id."'>
+                     <button class='btn-delete' type='submit'>".__('Print','movie-plugin')."</button>
+       </form>
+        ";
+}
+
     public function activate() {
 
         if (!PluginService::is_woocommerce_active()) {
 
-            wp_die(esc_html(__('Please install and activate WooCommerce plugin', 'movieplugin')),
+            wp_die(esc_html(__('Please install and activate WooCommerce plugin', 'movie-plugin')),
                 'Plugin active check',
                 ['back_link' => true]);
         }
