@@ -25,7 +25,7 @@ class FilmPlugin {
         add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
-        add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
+        add_action('init', [$this, 'movie_plugin_controller_action_trigger']);
 
         add_action('admin_menu', [$this, 'create_movie_menu']);
         add_action('admin_menu', [$this, 'create_all_movies_page']);
@@ -184,9 +184,23 @@ class FilmPlugin {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
+        $url = add_query_arg([
+            'action'=>'print-order',
+            'controller_name'=>'movie_controller',
+            'printer'=>'word-order',
+            'order_id'=>$order_id
+        ],home_url());
+
+        wp_enqueue_script(
+            'movie-plugin-print-order-btn',
+            plugins_url('/resources/js/movie-plugin-print-order.js',__FILE__),
+            ['jquery'],
+            '1.0.0' ,
+            true
+        );
 
         echo "
-        <form method='post'>
+        <form method='get'>
                     <input type='hidden' name='controller_name' value='movie_controller'>
                     <input type='hidden' name='action' value='print-order'>
                     <input type='hidden' name='printer' value='word-order'>
@@ -194,6 +208,7 @@ class FilmPlugin {
                      <button class='btn-delete' type='submit'>".__('Print','movie-plugin')."</button>
        </form>
         ";
+
 }
 
     public function activate() {

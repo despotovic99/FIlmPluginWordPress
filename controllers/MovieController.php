@@ -98,7 +98,7 @@ class MovieController implements ControllerInterface {
 
         try {
 
-            $file = $this->moviePrintService->print_movie($format, $movie);
+            $file = $this->moviePrintService->print_document($format, $movie);
 
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
@@ -110,6 +110,44 @@ class MovieController implements ControllerInterface {
             return;
         }
 
+    }
+
+
+    private function print_order() {
+
+        if(!$this->can_user_print_order()){
+
+            return;
+        }
+
+        if (empty($_REQUEST['printer']) ||
+            empty($_REQUEST['order_id'])) {
+
+            return;
+        }
+        $order_id=esc_html($_REQUEST['order_id']);
+        $format = esc_html($_REQUEST['printer']);
+
+        $order = wc_get_order($order_id);
+
+        if (!$order) {
+
+            return;
+        }
+
+        try {
+
+            $file = $this->moviePrintService->print_document($format, $order);
+
+            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
+
+            $this->downloadFile($file_path);
+
+
+        } catch (Exception $e) {
+
+            return;
+        }
 
     }
 
@@ -190,37 +228,18 @@ class MovieController implements ControllerInterface {
 
     }
 
-    private function print_order() {
+    private function can_user_print_order() {
 
-        if (empty($_REQUEST['printer']) ||
-            empty($_REQUEST['order_id'])) {
+        $user = wp_get_current_user();
 
-            return;
+        foreach ($user->roles as $role){
+            if('administrator'===$role){
+                return true;
+            }
         }
-        $order_id=esc_html($_REQUEST['order_id']);
-        $format = esc_html($_REQUEST['printer']);
-
-        $order = get_post($order_id);
-
-        if (!$order) {
-
-            return;
-        }
-
-        try {
-
-            $file = $this->moviePrintService->print_order($format, $order);
-
-            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
-
-            $this->downloadFile($file_path);
-
-
-        } catch (Exception $e) {
-
-            return;
-        }
+        return false;
 
     }
+
 
 }

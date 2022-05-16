@@ -7,7 +7,7 @@ require_once 'PdfMoviePrinter.php';
 require_once 'WordOrderPrinter.php';
 
 
-class MoviePrinterService {
+class MoviePrinterService  {
 
     private $output_dir;
 
@@ -35,22 +35,14 @@ class MoviePrinterService {
         return $printer;
     }
 
-    public function print_movie($format, $movie) {
+    public function print_document($format, $document) {
 
         $printer = $this->get_printer($format);
 
-        $file = $printer->print_movie($movie, $this->output_dir);
+        $file = $printer->print_document($document, $this->output_dir);
         return $file;
     }
 
-    public function print_order($format, $order) {
-
-        $printer = $this->get_printer($format);
-
-        $file = $printer->print_order($order, $this->output_dir);
-
-        return $file;
-    }
 
 
 }

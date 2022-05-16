@@ -2,13 +2,15 @@
 
 namespace services\printers;
 use PhpOffice;
-class WordOrderPrinter {
+use services\printers\interfaces\PrinterInterface;
+require_once 'interface/PrinterInterface.php';
+class WordOrderPrinter implements PrinterInterface {
 
-    public function print_order($order, $outputdir) {
+    public function print_document($order, $outputdir) {
 
 //        $file = $order['movie_name'] . '-Film.doc';
 
-        $file_title = str_replace(' ', '-', $order->post_title);
+        $file_title = str_replace(' ', '-', $order->get_order_number());
         $file_title = preg_replace('/[^A-Za-z0-9\-]/', '', $file_title);
         $file= $file_title.'-Order.doc';
 
@@ -21,10 +23,13 @@ class WordOrderPrinter {
 
 
         $section->addTitle($file_title);
-        $section->addText('Opis: ' . $order->post_content);
-        $section->addText('Datum: ' . $order->post_date);
-        $section->addText('Status: ' . $order->post_status);
-        $section->addText('Name post-a: ' . $order->post_name);
+        $section->addText('Name ordera ' . $order->get_order_number());
+        $section->addText('Datum kreiranja ordera: ' . $order->get_date_created());
+        $section->addText('Status: ' . $order->get_status());
+        $section->addText('Customer: ' . $order->get_billing_first_name()." ".$order->get_billing_last_name());
+        $section->addText('Shiping to: ' . $order->get_shipping_address_1());
+        $section->addText('Total: ' . $order->get_total()." ".$order->get_currency());
+
 
 
         $objWriter = PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
