@@ -26,6 +26,9 @@ class FilmPlugin {
 
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
         add_action('init', [$this, 'movie_plugin_controller_action_trigger']);
+        // potreban ti je odgovasrajuci hook, jer kad budes dodao korisnika koji nije admin
+        // a treba da stampa fakture, nece se okinuti fja na admin_init hook
+        // init hook je ovde testiranja radi.
 
         add_action('admin_menu', [$this, 'create_movie_menu']);
         add_action('admin_menu', [$this, 'create_all_movies_page']);
