@@ -233,7 +233,7 @@ class MovieController implements ControllerInterface {
         $user = wp_get_current_user();
 
         foreach ($user->roles as $role){
-            if('administrator'===$role){
+            if('administrator'===$role || 'shop_manager'==$role){
                 return true;
             }
         }
