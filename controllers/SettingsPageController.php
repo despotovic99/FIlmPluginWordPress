@@ -4,7 +4,7 @@ require_once plugin_dir_path(__FILE__) . 'interface/ControllerInterface.php';
 class SettingsPageController implements ControllerInterface {
 
 
-    public function handleAction($action) {
+    public function handle_action($action) {
 
         switch ($action) {
 

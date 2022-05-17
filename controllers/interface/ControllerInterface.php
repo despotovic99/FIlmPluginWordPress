@@ -2,6 +2,6 @@
 
 interface ControllerInterface {
 
-    public function handleAction($action);
+    public function handle_action($action);
 
 }

@@ -6,7 +6,7 @@ use MovieVM;
 
 class MovieService {
 
-    public function findMovieByID($id) {
+    public function find_movie_by_id($id) {
 
         $result = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_by_id($id);
 
@@ -20,12 +20,12 @@ class MovieService {
         return $result;
     }
 
-    public function deleteMovie($id) {
+    public function delete_movie($id) {
 
         $result = BaseRepository::get_base_repository()->get_movie_repository()->delete_movie($id);
     }
 
-    public function updateMovie($id,$movie) {
+    public function update_movie($id, $movie) {
 
 
         if (!$movie) {
@@ -37,7 +37,7 @@ class MovieService {
         return $result;
     }
 
-    public function saveMovie($movie) {
+    public function save_movie($movie) {
 
 
         $result = BaseRepository::get_base_repository()->get_movie_repository()->save_new_movie($movie);

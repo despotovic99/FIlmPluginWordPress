@@ -21,7 +21,7 @@ class MovieVM {
         if (!empty($_GET['movie_id'])) {
             $movie_id = esc_html($_GET['movie_id']);
 
-            $movie = $this->movie_db_service->findMovieByID($movie_id);
+            $movie = $this->movie_db_service->find_movie_by_id($movie_id);
 
         }
 

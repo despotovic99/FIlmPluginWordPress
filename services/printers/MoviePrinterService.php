@@ -43,6 +43,19 @@ class MoviePrinterService  {
         return $file;
     }
 
+    public function can_user_print_order(){
+
+        $user = wp_get_current_user();
+
+        foreach ($user->roles as $role){
+            if('administrator'===$role || 'shop_manager'==$role){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 
 
 }

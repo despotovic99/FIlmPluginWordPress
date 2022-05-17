@@ -21,13 +21,12 @@ class FilmPlugin {
 
         register_activation_hook($this->plugin_file_path, [$this, 'activate']);
 
-        add_action('init',[$this,'register_new_wc_order_statuses']);
+        add_action('init', [$this, 'register_new_wc_order_statuses']);
         add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
         add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
-        // potreban ti je odgovasrajuci hook
-        // init hook je ovde testiranja radi.
+
 
         add_action('admin_menu', [$this, 'create_movie_menu']);
         add_action('admin_menu', [$this, 'create_all_movies_page']);
@@ -36,9 +35,9 @@ class FilmPlugin {
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
 
-        add_filter('wc_order_statuses',[$this,'add_new_registered_wc_order_statuses']);
+        add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
 
-        add_action('woocommerce_admin_order_actions_start',[$this,'add_print_button_to_order_in_list_table']);
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
@@ -126,7 +125,9 @@ class FilmPlugin {
     }
 
     public function movie_plugin_controller_action_trigger() {
-
+        // todo napravi kontroler bez switch-a
+        // base kontorler treba da nasledjuju svi moji kontroleri. znaci izbacices indeks, jer ces odmah odrediti koji kontroler se instancira
+        // zato odmah okidas akciju u kontroleru, tj handle action
         if (!empty($_REQUEST['controller_name'])) {
             $controller = new BaseController();
             $controller->index(esc_html($_REQUEST['controller_name']));
@@ -143,75 +144,70 @@ class FilmPlugin {
         );
     }
 
-    public function register_new_wc_order_statuses(){
+    public function register_new_wc_order_statuses() {
 
         // moras da imas prefiks wc-  jer woocommerce kad cita statuse izvlaci upravo statuse sa wc prefiksom
         $order_statuses = [
-            'wc-new_status_1'=>[
-                'label'=>_x('New status 1','movie-plugin'),
-                'public'=>true,
-                'exclude_from_search'=>false,
-                'show_in_admin_all_list'=>true,
-                'show_in_admin_status_list'=>true,
-                'label_count'               => _n_noop( 'New status 1 <span class="count">(%s)</span>',
-                    'New status 1 <span class="count">(%s)</span>' )
+            'wc-new_status_1' => [
+                'label' => _x('New status 1', 'movie-plugin'),
+                'public' => true,
+                'exclude_from_search' => false,
+                'show_in_admin_all_list' => true,
+                'show_in_admin_status_list' => true,
+                'label_count' => _n_noop('New status 1 <span class="count">(%s)</span>',
+                    'New status 1 <span class="count">(%s)</span>')
             ],
-            'wc-new_status_2'=>[
-                'label'=>_x('New status 2','movie-plugin'),
-                'public'=>true,
-                'exclude_from_search'=>false,
-                'show_in_admin_all_list'=>true,
-                'show_in_admin_status_list'=>true,
-                'label_count'               => _n_noop( 'New status 2 <span class="count">(%s)</span>',
-                    'New status 2<span class="count">(%s)</span>' )
+            'wc-new_status_2' => [
+                'label' => _x('New status 2', 'movie-plugin'),
+                'public' => true,
+                'exclude_from_search' => false,
+                'show_in_admin_all_list' => true,
+                'show_in_admin_status_list' => true,
+                'label_count' => _n_noop('New status 2 <span class="count">(%s)</span>',
+                    'New status 2<span class="count">(%s)</span>')
             ],
         ];
 
-        foreach ($order_statuses as $order_status=>$values){
-            register_post_status($order_status,$values);
+        foreach ($order_statuses as $order_status => $values) {
+            register_post_status($order_status, $values);
         }
 
     }
 
-    public function add_new_registered_wc_order_statuses($order_statuses){
+    public function add_new_registered_wc_order_statuses($order_statuses) {
 
-        $order_statuses['wc-new_status_1']=__('New status 1',',movie-plugin');
-        $order_statuses['wc-new_status_2']=__('New status 2',',movie-plugin');
+        $order_statuses['wc-new_status_1'] = __('New status 1', ',movie-plugin');
+        $order_statuses['wc-new_status_2'] = __('New status 2', ',movie-plugin');
 
         return $order_statuses;
 
     }
 
-    public function add_print_button_to_order_in_list_table($order){
+
+    public function add_print_button_to_order_in_list_table($order) {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
         $url = add_query_arg([
-            'action'=>'print-order',
-            'controller_name'=>'movie_controller',
-            'printer'=>'word-order',
-            'order_id'=>$order_id
-        ],home_url());
+            'action' => 'print-order',
+            'controller_name' => 'movie_controller',
+            'printer' => 'word-order',
+            'order_id' => $order_id
+        ], admin_url());
+
 
         wp_enqueue_script(
             'movie-plugin-print-order-btn',
-            plugins_url('/resources/js/movie-plugin-print-order.js',__FILE__),
+            plugins_url('/resources/js/movie-plugin-print-order.js', __FILE__),
             ['jquery'],
-            '1.0.0' ,
+            '1.0.0',
             true
         );
 
-        echo "
-        <form method='get'>
-                    <input type='hidden' name='controller_name' value='movie_controller'>
-                    <input type='hidden' name='action' value='print-order'>
-                    <input type='hidden' name='printer' value='word-order'>
-                    <input type='hidden' name='order_id' value='".$order_id."'>
-                     <button class='btn-delete' type='submit'>".__('Print','movie-plugin')."</button>
-       </form>
-        ";
+        echo "<button class='print-button button' data-url-print=' " . $url . " ' >" . __('Print', 'movie-plugin') . "</button>";
 
-}
+
+    }
 
     public function activate() {
 

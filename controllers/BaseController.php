@@ -4,10 +4,10 @@ require_once 'MovieController.php';
 
 class BaseController {
 
-    public function index($controllerName) {
+    public function index($controller_name) {
 
         $controller = null;
-        switch ($controllerName) {
+        switch ($controller_name) {
 
             case 'settings_controller':
                 $controller = new SettingsPageController();
@@ -23,7 +23,7 @@ class BaseController {
 
         if ($controller !== null) {
             $action = esc_html($_REQUEST['action']) ?: '';
-            $controller->handleAction($action);
+            $controller->handle_action($action);
         }
 
     }

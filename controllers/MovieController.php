@@ -12,11 +12,11 @@ class MovieController implements ControllerInterface {
 
     public function __construct() {
 
-        $this->movieDBService = new MovieService();
-        $this->moviePrintService = new MoviePrinterService();
+        $this->movie_db_service = new MovieService();
+        $this->movie_print_service = new MoviePrinterService();
     }
 
-    public function handleAction($action) {
+    public function handle_action($action) {
 
         switch ($action) {
             case 'save':
@@ -52,17 +52,17 @@ class MovieController implements ControllerInterface {
 
         $id = '';
 
-        $movie = $this->validateMovie();
+        $movie = $this->validate_movie();
 
         if (!empty($_POST['movie_id'])) {
 
             $id = esc_html($_POST['movie_id']);
 
-            $result = $this->movieDBService->updateMovie($id, $movie);
+            $result = $this->movie_db_service->update_movie($id, $movie);
 
         } else {
 
-            $result = $this->movieDBService->saveMovie($movie);
+            $result = $this->movie_db_service->save_movie($movie);
         }
 
         if ($result)
@@ -77,7 +77,7 @@ class MovieController implements ControllerInterface {
 
         $id = empty($_POST['movie_id']) ? '' : esc_html($_POST['movie_id']);
 
-        $this->movieDBService->deleteMovie($id);
+        $this->movie_db_service->delete_movie($id);
 
     }
 
@@ -90,7 +90,7 @@ class MovieController implements ControllerInterface {
         }
         $format = esc_html($_POST['printer']);
 
-        $movie = $this->movieDBService->findMovieByID(esc_html($_POST['movie_id']));
+        $movie = $this->movie_db_service->find_movie_by_id(esc_html($_POST['movie_id']));
         if (!$movie) {
 
             return;
@@ -98,11 +98,11 @@ class MovieController implements ControllerInterface {
 
         try {
 
-            $file = $this->moviePrintService->print_document($format, $movie);
+            $file = $this->movie_print_service->print_document($format, $movie);
 
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
-            $this->downloadFile($file_path);
+            $this->download_file($file_path);
 
 
         } catch (Exception $e) {
@@ -115,7 +115,7 @@ class MovieController implements ControllerInterface {
 
     private function print_order() {
 
-        if(!$this->can_user_print_order()){
+        if(!$this->movie_print_service->can_user_print_order()){
 
             return;
         }
@@ -137,11 +137,11 @@ class MovieController implements ControllerInterface {
 
         try {
 
-            $file = $this->moviePrintService->print_document($format, $order);
+            $file = $this->movie_print_service->print_document($format, $order);
 
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
-            $this->downloadFile($file_path);
+            $this->download_file($file_path);
 
 
         } catch (Exception $e) {
@@ -151,7 +151,7 @@ class MovieController implements ControllerInterface {
 
     }
 
-    private function downloadFile($file_path) {
+    private function download_file($file_path) {
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
@@ -169,7 +169,7 @@ class MovieController implements ControllerInterface {
         unlink($file_path);
     }
 
-    private function validateMovie() {
+    private function validate_movie() {
 
         if (empty($_POST['movie_name'])) {
 
@@ -228,18 +228,6 @@ class MovieController implements ControllerInterface {
 
     }
 
-    private function can_user_print_order() {
-
-        $user = wp_get_current_user();
-
-        foreach ($user->roles as $role){
-            if('administrator'===$role || 'shop_manager'==$role){
-                return true;
-            }
-        }
-        return false;
-
-    }
 
 
 }
