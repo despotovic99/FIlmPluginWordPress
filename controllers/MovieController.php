@@ -3,11 +3,11 @@
 use services\MovieService;
 use services\printers\MoviePrinterService;
 
-require_once 'interface/ControllerInterface.php';
+require_once 'BaseController.php';
 require_once plugin_dir_path(__FILE__) . '../services/MovieService.php';
 require_once plugin_dir_path(__FILE__) . '../services/printers/MoviePrinterService.php';
 
-class MovieController implements ControllerInterface {
+class MovieController extends BaseController {
 
 
     public function __construct() {
@@ -43,6 +43,11 @@ class MovieController implements ControllerInterface {
             case 'print-order':
 
                 $this->print_order();
+                break;
+
+            case 'order-information':
+
+                $this->get_order_information();
                 break;
         }
 
@@ -115,7 +120,7 @@ class MovieController implements ControllerInterface {
 
     private function print_order() {
 
-        if(!$this->movie_print_service->can_user_print_order()){
+        if (!$this->movie_print_service->can_user_print_order()) {
 
             return;
         }
@@ -125,7 +130,7 @@ class MovieController implements ControllerInterface {
 
             return;
         }
-        $order_id=esc_html($_REQUEST['order_id']);
+        $order_id = esc_html($_REQUEST['order_id']);
         $format = esc_html($_REQUEST['printer']);
 
         $order = wc_get_order($order_id);
@@ -228,6 +233,16 @@ class MovieController implements ControllerInterface {
 
     }
 
+    private function get_order_information() {
+        if (empty($_REQUEST['order_id']))
+            return;
+
+        $order_id = esc_html($_REQUEST['order_id']);
+        $order = wc_get_order($order_id);
+
+        echo json_encode($order);
+
+    }
 
 
 }

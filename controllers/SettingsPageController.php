@@ -1,7 +1,8 @@
 <?php
-require_once plugin_dir_path(__FILE__) . 'interface/ControllerInterface.php';
 
-class SettingsPageController implements ControllerInterface {
+require_once 'BaseController.php';
+
+class SettingsPageController extends BaseController {
 
 
     public function handle_action($action) {

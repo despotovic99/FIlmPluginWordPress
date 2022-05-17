@@ -9,7 +9,7 @@ $age = $movie_settings_vm->get_age();
     <h1><?= esc_html(get_admin_page_title()) ?></h1>
     <form action="" method="post">
 
-        <input type="hidden" name="controller_name" value="settings_controller">
+        <input type="hidden" name="controller_name" value="Settings">
         <input type="hidden" name="action" value="save_age_option">
 
         <p>Predvidjen uzrast za horor filmove</p>

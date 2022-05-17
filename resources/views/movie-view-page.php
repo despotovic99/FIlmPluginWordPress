@@ -38,7 +38,7 @@ $movie = $movie_vm->get_movie();
                     </li>
                     <li>
                         <form method="post">
-                            <input type="hidden" name="controller_name" value="movie_controller">
+                            <input type="hidden" name="controller_name" value="Movie">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
                             <button class="btn-delete" type="submit">Obrisi</button>
@@ -57,7 +57,7 @@ $movie = $movie_vm->get_movie();
         <div class="blog-footer ">
             <form method="post">
                 <div>Odaberi format stampanja:</div>
-                <input type="hidden" name="controller_name" value="movie_controller"">
+                <input type="hidden" name="controller_name" value="Movie"">
                 <input type="hidden" name="action" value="print">
                 <input type="hidden" name="movie_id" value="<?=$movie['movie_id']?>">
                 <div class="form-printers">

@@ -102,7 +102,7 @@ class WP_Movie_List_Table extends WP_List_Table {
             'print' => sprintf('
         <a>
         <form method="post">
-                <input type="hidden" name="controller_name" value="movie_controller"">
+                <input type="hidden" name="controller_name" value="Movie"">
                 <input type="hidden" name="action" value="print">
                 <input type="hidden" name="printer" value="word">
                 <input type="hidden" name="movie_id" value="%s">

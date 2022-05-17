@@ -8,6 +8,7 @@ require_once 'controllers/SettingsPageController.php';
 require_once 'controllers/FrontendController.php';
 require_once 'services/PluginService.php';
 require_once 'components/setup/Update.php';
+require_once 'components/util/MovieHelper.php';
 
 class FilmPlugin {
 
@@ -37,6 +38,7 @@ class FilmPlugin {
 
         add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
 
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
         add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
@@ -125,13 +127,23 @@ class FilmPlugin {
     }
 
     public function movie_plugin_controller_action_trigger() {
-        // todo napravi kontroler bez switch-a
-        // base kontorler treba da nasledjuju svi moji kontroleri. znaci izbacices indeks, jer ces odmah odrediti koji kontroler se instancira
-        // zato odmah okidas akciju u kontroleru, tj handle action
-        if (!empty($_REQUEST['controller_name'])) {
-            $controller = new BaseController();
-            $controller->index(esc_html($_REQUEST['controller_name']));
+
+        if (empty($_REQUEST['controller_name'])) {
+
+            return;
         }
+
+        $controller_name = esc_html($_REQUEST['controller_name']) . 'Controller';
+
+            if (!class_exists($controller_name))
+                return;
+
+            $controller = new $controller_name;
+
+            $action = esc_html($_REQUEST['action']) ?: '';
+
+            $controller->handle_action($action);
+
 
     }
 
@@ -188,13 +200,13 @@ class FilmPlugin {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
-        $url = add_query_arg([
-            'action' => 'print-order',
-            'controller_name' => 'movie_controller',
-            'printer' => 'word-order',
-            'order_id' => $order_id
-        ], admin_url());
-
+        $url = MovieHelper::get_controller(
+            'Movie',
+            'print-order',
+            [
+                'printer' => 'word-order',
+                'order_id' => $order_id
+            ]);
 
         wp_enqueue_script(
             'movie-plugin-print-order-btn',
@@ -204,8 +216,27 @@ class FilmPlugin {
             true
         );
 
-        echo "<button class='print-button button' data-url-print=' " . $url . " ' >" . __('Print', 'movie-plugin') . "</button>";
+        echo "<button class='print-button button' url-print=' " . $url . " ' >" . __('Print', 'movie-plugin') . "</button>";
 
+    }
+
+    public function add_get_order_information_button($order){
+
+        $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
+
+        $url = MovieHelper::get_controller('Movie','order-information',[
+            'order_id'=>$order_id
+        ]);
+
+        wp_enqueue_script(
+            'movie-plugin-print-order-btn',
+            plugins_url('/resources/js/movie-plugin-print-order.js', __FILE__),
+            ['jquery'],
+            '1.0.0',
+            true
+        );
+
+        echo "<button class='get-order-infromation-button button' url=' " . $url . " ' >" . __('Get info', 'movie-plugin') . "</button>";
 
     }
 

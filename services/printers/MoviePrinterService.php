@@ -2,6 +2,8 @@
 
 namespace services\printers;
 
+use Exception;
+
 require_once 'WordMoviePrinter.php';
 require_once 'PdfMoviePrinter.php';
 require_once 'WordOrderPrinter.php';
