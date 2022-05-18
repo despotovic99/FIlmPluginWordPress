@@ -4,7 +4,7 @@ require_once 'repositories/BaseRepository.php';
 require_once 'ViewModel/MovieList/WP_Movie_List_Table.php';
 require_once 'controllers/BaseController.php';
 require_once 'controllers/MovieController.php';
-require_once 'controllers/SettingsPageController.php';
+require_once 'controllers/SettingsController.php';
 require_once 'controllers/FrontendController.php';
 require_once 'services/PluginService.php';
 require_once 'components/setup/Update.php';

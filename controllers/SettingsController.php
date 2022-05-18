@@ -2,7 +2,7 @@
 
 require_once 'BaseController.php';
 
-class SettingsPageController extends BaseController {
+class SettingsController extends BaseController {
 
 
     public function handle_action($action) {
