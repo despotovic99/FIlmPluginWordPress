@@ -36,6 +36,10 @@ class FrontendController {
                 include_once plugin_dir_path(__FILE__) . '../resources/views/movie-view-page.php';
                 break;
 
+            case 'movie_settings_test':
+
+                include_once plugin_dir_path(__FILE__) . '../resources/views/movie-test-page.php';
+                break;
         }
 
     }

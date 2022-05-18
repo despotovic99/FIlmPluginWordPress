@@ -20,32 +20,11 @@ class FilmPlugin {
 
     public function initialize() {
 
-        register_activation_hook($this->plugin_file_path, [$this, 'activate']);
+        $this->load_init_hooks();
 
-        add_action('init', [$this, 'register_new_wc_order_statuses']);
-        add_action('init', [$this, 'load_plugin_text_domain']);
+        $this->load_menu_pages();
 
-        add_action('admin_init', [$this, 'movie_register_settings'], 9);
-
-        add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
-        add_action('template_redirect', [$this, 'movie_plugin_controller_action_trigger']);
-
-        add_action('admin_menu', [$this, 'create_movie_menu']);
-        add_action('admin_menu', [$this, 'create_all_movies_page']);
-
-        add_action('admin_menu', [$this, 'movie_page']);
-        add_action('admin_menu', [$this, 'movie_view_page']);
-        add_action('admin_menu', [$this, 'movie_settings_page']);
-
-
-        add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
-
-        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
-        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
-
-        add_filter('set-screen-option', function ($status, $option, $value) {
-            return $value;
-        }, 10, 3);
+        $this->load_buttons_to_woocommerce_order_page();
 
 
     }
@@ -72,7 +51,7 @@ class FilmPlugin {
             'movie_plugin',
             'Movie',
             __('All movies', 'movie-plugin'),
-            'manage_woocommerce',
+            'manage_categories',
             'movies',
             [new FrontendController(), 'render']
         );
@@ -94,14 +73,25 @@ class FilmPlugin {
 
     public function movie_settings_page() {
 
-        add_submenu_page(
-            'movie_plugin',
-            'Movie options',
-            'Settings',
-            'manage_woocommerce',
-            'moviesettings',
-            [new FrontendController(), 'render']
-        );
+        if(current_user_can('manage_woocommerce')){
+            add_submenu_page(
+                'movie_plugin',
+                'Movie options',
+                'Settings',
+                'manage_woocommerce',
+                'moviesettings',
+                [new FrontendController(), 'render']
+            );
+        }else{
+            add_submenu_page(
+                'movie_plugin',
+                'Movie options',
+                'Settings',
+                'manage_categories',
+                'movie_settings_test',
+                [new FrontendController(), 'render']
+            );
+        }
     }
 
     public function movie_page() {
@@ -137,14 +127,14 @@ class FilmPlugin {
 
         $controller_name = esc_html($_REQUEST['controller_name']) . 'Controller';
 
-            if (!class_exists($controller_name))
-                return;
+        if (!class_exists($controller_name))
+            return;
 
-            $controller = new $controller_name;
+        $controller = new $controller_name;
 
-            $action = esc_html($_REQUEST['action']) ?: '';
+        $action = esc_html($_REQUEST['action']) ?: '';
 
-            $controller->handle_action($action);
+        $controller->handle_action($action);
 
 
     }
@@ -222,12 +212,12 @@ class FilmPlugin {
 
     }
 
-    public function add_get_order_information_button($order){
+    public function add_get_order_information_button($order) {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
-        $url = MovieHelper::get_controller('Movie','get_order_information',[
-            'order_id'=>$order_id
+        $url = MovieHelper::get_controller('Movie', 'get_order_information', [
+            'order_id' => $order_id
         ]);
 
         wp_enqueue_script(
@@ -254,6 +244,41 @@ class FilmPlugin {
         $updater = new Update();
         $updater->init_or_update_plugin();
 
+    }
+
+    private function load_init_hooks() {
+        register_activation_hook($this->plugin_file_path, [$this, 'activate']);
+
+        add_action('init', [$this, 'register_new_wc_order_statuses']);
+        add_action('init', [$this, 'load_plugin_text_domain']);
+
+        add_action('admin_init', [$this, 'movie_register_settings'], 9);
+
+        add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
+        add_action('template_redirect', [$this, 'movie_plugin_controller_action_trigger']);
+
+        add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
+    }
+
+    private function load_menu_pages() {
+
+        add_action('admin_menu', [$this, 'create_movie_menu']);
+        add_action('admin_menu', [$this, 'create_all_movies_page']);
+
+        add_action('admin_menu', [$this, 'movie_page']);
+        add_action('admin_menu', [$this, 'movie_view_page']);
+
+        add_action('admin_menu', [$this, 'movie_settings_page']);
+
+        add_filter('set-screen-option', function ($status, $option, $value) {
+            return $value;
+        }, 10, 3);
+    }
+
+    private function load_buttons_to_woocommerce_order_page() {
+
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
     }
 
 }

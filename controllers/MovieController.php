@@ -62,6 +62,12 @@ class MovieController extends BaseController {
 
     public function print_movie() {
 
+        //todo testiranja radi
+        if (!$this->movie_print_service->can_user_print_order()) {
+
+            return;
+        }
+
         if (empty($_REQUEST['printer']) ||
             empty($_REQUEST['movie_id'])) {
 
