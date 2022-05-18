@@ -26,11 +26,13 @@ class FilmPlugin {
         add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
-        add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
 
+        add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
+        add_action('template_redirect', [$this, 'movie_plugin_controller_action_trigger']);
 
         add_action('admin_menu', [$this, 'create_movie_menu']);
         add_action('admin_menu', [$this, 'create_all_movies_page']);
+
         add_action('admin_menu', [$this, 'movie_page']);
         add_action('admin_menu', [$this, 'movie_view_page']);
         add_action('admin_menu', [$this, 'movie_settings_page']);
@@ -56,7 +58,7 @@ class FilmPlugin {
             'Movie plugin',
             null,
             'movie_plugin',
-            null,
+            [new FrontendController(), 'render'],
             plugin_dir_url(__FILE__) . '/resources/images/cinema.png',
             55.5
         );
@@ -70,7 +72,7 @@ class FilmPlugin {
             'movie_plugin',
             'Movie',
             __('All movies', 'movie-plugin'),
-            'manage_options',
+            'manage_woocommerce',
             'movies',
             [new FrontendController(), 'render']
         );
@@ -96,7 +98,7 @@ class FilmPlugin {
             'movie_plugin',
             'Movie options',
             'Settings',
-            'manage_options',
+            'manage_woocommerce',
             'moviesettings',
             [new FrontendController(), 'render']
         );
@@ -108,7 +110,7 @@ class FilmPlugin {
             'movie_plugin',
             'Movie',
             __('New movie', 'movie-plugin'),
-            'manage_options',
+            'manage_woocommerce',
             'movie',
             [new FrontendController(), 'render']
         );
@@ -120,7 +122,7 @@ class FilmPlugin {
             null,
             'Movie',
             'View movie',
-            'manage_options',
+            'manage_woocommerce',
             'movieview',
             [new FrontendController(), 'render']
         );
@@ -202,7 +204,7 @@ class FilmPlugin {
 
         $url = MovieHelper::get_controller(
             'Movie',
-            'print-order',
+            'print_order',
             [
                 'printer' => 'word-order',
                 'order_id' => $order_id
@@ -224,7 +226,7 @@ class FilmPlugin {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
-        $url = MovieHelper::get_controller('Movie','order-information',[
+        $url = MovieHelper::get_controller('Movie','get_order_information',[
             'order_id'=>$order_id
         ]);
 

@@ -98,28 +98,8 @@ class WP_Movie_List_Table extends WP_List_Table {
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movieview', 'movie_id', $item['movie_id'], __('View', 'movie-plugin')),
             'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Edit', 'movie-plugin')),
-            'print' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Print', 'movie-plugin')),
-            'print' => sprintf('
-        <a>
-        <form method="post">
-                <input type="hidden" name="controller_name" value="Movie"">
-                <input type="hidden" name="action" value="print">
-                <input type="hidden" name="printer" value="word">
-                <input type="hidden" name="movie_id" value="%s">
-                
-                    <button style="background: none; border: none;
-                            padding: 0!important;
-                            /*optional*/
-                             font-family: arial, sans-serif;
-                             /*input has OS specific font-family*/
-                             color: #069;
-                             text-decoration: underline;
-                            cursor: pointer;" 
-                    type="submit">%s
-                 </button>            
-            </form>
-        </a>
-        ',$item['movie_id'], __('Print', 'movie-plugin')),
+            'print' => sprintf('<a href="?controller_name=%s&action=%s&printer=%s&movie_id=%s">%s</a>', 'Movie', 'print_movie','word',$item['movie_id'], __('Print', 'movie-plugin')),
+
         );
 
         return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));

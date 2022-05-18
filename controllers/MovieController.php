@@ -5,6 +5,7 @@ use services\printers\MoviePrinterService;
 
 require_once 'BaseController.php';
 require_once plugin_dir_path(__FILE__) . '../services/MovieService.php';
+require_once plugin_dir_path(__FILE__) . '../services/OrderService.php';
 require_once plugin_dir_path(__FILE__) . '../services/printers/MoviePrinterService.php';
 
 class MovieController extends BaseController {
@@ -14,54 +15,19 @@ class MovieController extends BaseController {
 
         $this->movie_db_service = new MovieService();
         $this->movie_print_service = new MoviePrinterService();
+        $this->order_service = new OrderService();
     }
 
-    public function handle_action($action) {
 
-        switch ($action) {
-            case 'save':
-                $id = $this->save_movie();
-                $url = 'admin.php?page=movie';
-
-                if ($id) {
-                    $url = 'admin.php?page=movieview&movie_id=' . $id;
-                }
-
-                wp_redirect(admin_url($url));
-                break;
-
-            case 'delete':
-                $this->delete_movie();
-                wp_redirect(admin_url('admin.php?page=movies'));
-                break;
-
-            case 'print':
-
-                $this->print_movie();
-                break;
-
-            case 'print-order':
-
-                $this->print_order();
-                break;
-
-            case 'order-information':
-
-                $this->get_order_information();
-                break;
-        }
-
-    }
-
-    private function save_movie() {
+    public  function save_movie() {
 
         $id = '';
 
         $movie = $this->validate_movie();
 
-        if (!empty($_POST['movie_id'])) {
+        if (!empty($_REQUEST['movie_id'])) {
 
-            $id = esc_html($_POST['movie_id']);
+            $id = esc_html($_REQUEST['movie_id']);
 
             $result = $this->movie_db_service->update_movie($id, $movie);
 
@@ -73,29 +39,37 @@ class MovieController extends BaseController {
         if ($result)
             $id = $result;
 
-        return $id;
+        $url = 'admin.php?page=movie';
+
+        if ($id) {
+            $url = 'admin.php?page=movieview&movie_id=' . $id;
+        }
+
+        wp_redirect(admin_url($url));
 
     }
 
 
-    private function delete_movie() {
+    public function delete_movie() {
 
-        $id = empty($_POST['movie_id']) ? '' : esc_html($_POST['movie_id']);
+        $id = empty($_REQUEST['movie_id']) ? '' : esc_html($_REQUEST['movie_id']);
 
         $this->movie_db_service->delete_movie($id);
 
+        wp_redirect(admin_url('admin.php?page=movies'));
+
     }
 
-    private function print_movie() {
+    public function print_movie() {
 
-        if (empty($_POST['printer']) ||
-            empty($_POST['movie_id'])) {
+        if (empty($_REQUEST['printer']) ||
+            empty($_REQUEST['movie_id'])) {
 
             return;
         }
-        $format = esc_html($_POST['printer']);
+        $format = esc_html($_REQUEST['printer']);
 
-        $movie = $this->movie_db_service->find_movie_by_id(esc_html($_POST['movie_id']));
+        $movie = $this->movie_db_service->find_movie_by_id(esc_html($_REQUEST['movie_id']));
         if (!$movie) {
 
             return;
@@ -118,7 +92,7 @@ class MovieController extends BaseController {
     }
 
 
-    private function print_order() {
+    public function print_order() {
 
         if (!$this->movie_print_service->can_user_print_order()) {
 
@@ -133,7 +107,7 @@ class MovieController extends BaseController {
         $order_id = esc_html($_REQUEST['order_id']);
         $format = esc_html($_REQUEST['printer']);
 
-        $order = wc_get_order($order_id);
+        $order = $this->order_service->get_order_information($order_id);
 
         if (!$order) {
 
@@ -153,6 +127,20 @@ class MovieController extends BaseController {
 
             return;
         }
+
+    }
+
+    public function get_order_information() {
+
+
+        if (empty($_REQUEST['order_id']))
+            return;
+
+        $order_id = esc_html($_REQUEST['order_id']);
+
+        $order = $this->order_service->get_order_information($order_id);
+
+        wp_send_json_success('neki data');
 
     }
 
@@ -233,16 +221,7 @@ class MovieController extends BaseController {
 
     }
 
-    private function get_order_information() {
-        if (empty($_REQUEST['order_id']))
-            return;
 
-        $order_id = esc_html($_REQUEST['order_id']);
-        $order = wc_get_order($order_id);
-
-        echo json_encode($order);
-
-    }
 
 
 }

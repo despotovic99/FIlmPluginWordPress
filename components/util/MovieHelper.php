@@ -4,7 +4,7 @@ class MovieHelper {
 
     public static function get_controller($controller_name, $action = '', $parameters = []) {
 
-        $url = admin_url();
+        $url = site_url();
 
         $query = ['controller_name' => $controller_name];
         if ($action) {

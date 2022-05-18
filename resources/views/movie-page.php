@@ -22,7 +22,7 @@ $movie_categories = $movie_vm->get_movie_categories();
             <div>
                 <form method="post">
                     <input type="hidden" name="controller_name" value="Movie">
-                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="action" value="delete_movie">
                     <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
                     <button class="btn-delete" type="submit">Obrisi</button>
                 </form>
@@ -32,7 +32,7 @@ $movie_categories = $movie_vm->get_movie_categories();
 
         <form class="form" method="post">
             <input type="hidden" name="controller_name" value="Movie">
-            <input type="hidden" name="action" value="save">
+            <input type="hidden" name="action" value="save_movie">
 
             <input type="hidden" name='movie_id' value="<?= $movie['movie_id'] ?>">
             <div class="form-left-side">

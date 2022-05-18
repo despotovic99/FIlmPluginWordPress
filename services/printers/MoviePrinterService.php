@@ -49,6 +49,7 @@ class MoviePrinterService  {
 
         $user = wp_get_current_user();
 
+        //todo izmeni ovo, ne bi trebalo da bude zakucano jer mozes omogucavati  razlicitim ulogama da stampaju
         foreach ($user->roles as $role){
             if('administrator'===$role || 'shop_manager'==$role){
                 return true;
