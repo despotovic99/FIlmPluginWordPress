@@ -254,6 +254,28 @@ class FilmPlugin {
         });
     }
 
+    public function add_create_invoice_button($order) {
+
+        $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
+
+        $url = MovieHelper::get_controller(
+            'Invoice',
+            'create_invoice',
+            [
+                'order_id' => $order_id
+            ]);
+
+        wp_enqueue_script(
+            'movie-plugin-create-invoice-btn',
+            plugins_url('/resources/js/movie-plugin-create-invoice.js', __FILE__),
+            ['jquery'],
+            '1.0.0',
+            true
+        );
+
+        echo "<button class='create-invoice-button button' url=' " . $url . " ' >" . __('Create invoice', 'movie-plugin') . "</button>";
+    }
+
     public function activate() {
 
         if (!PluginService::is_woocommerce_active()) {
@@ -289,7 +311,6 @@ class FilmPlugin {
 
         add_action('admin_menu', [$this, 'movie_page']);
         add_action('admin_menu', [$this, 'movie_view_page']);
-
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
         add_filter('set-screen-option', function ($status, $option, $value) {
@@ -304,6 +325,7 @@ class FilmPlugin {
 
         add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
         add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_create_invoice_button']);
     }
 
 }

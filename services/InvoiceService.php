@@ -17,4 +17,14 @@ class InvoiceService {
         return $invoices;
     }
 
+    public function create_invoice($order_id){
+
+        //todo nastavi sa kreiranjem fakture
+
+        $order = get_post($order_id);
+        $user = get_currentuserinfo();
+
+
+    }
+
 }
