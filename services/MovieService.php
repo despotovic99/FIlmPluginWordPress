@@ -2,7 +2,6 @@
 
 namespace services;
 use BaseRepository;
-use MovieVM;
 
 class MovieService {
 

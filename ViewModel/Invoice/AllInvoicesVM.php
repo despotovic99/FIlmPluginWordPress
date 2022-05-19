@@ -4,14 +4,17 @@ require_once plugin_dir_path(__FILE__) . '../../services/InvoiceService.php';
 class AllInvoicesVM extends WP_List_Table {
 
     private $invoices;
+    private $invoice_service;
 
-    public function __construct($args=array()) {
+    public function __construct($args = array()) {
         parent::__construct($args);
 
         $this->invoice_service = new InvoiceService();
+
+        $this->invoices = $this->invoice_service->get_all_invoices();
     }
 
-    public function get_columns(){
+    public function get_columns() {
 
         return [
             'cb' => '<input type="checkbox"/>',
@@ -30,6 +33,7 @@ class AllInvoicesVM extends WP_List_Table {
         switch ($column_name) {
             case 'invoice_number':
             case 'invoice_date':
+            case 'order_name':
             case 'customer_full_name':
             case 'customer_email':
             case 'customer_address':
@@ -41,7 +45,7 @@ class AllInvoicesVM extends WP_List_Table {
 
     protected function column_cb($item) {
 
-        return sprintf('<input type="checkbox" name="invoice[]" value="%s"/>', $item['id']);
+        return sprintf('<input type="checkbox" name="invoice[]" value="%s"/>', $item['invoice_id']);
     }
 
     protected function get_sortable_columns() {
@@ -98,7 +102,27 @@ class AllInvoicesVM extends WP_List_Table {
     public function get_all_invoices() {
 
         //todo get invoices from database
-        return ['invoice' => 'invoice number 123'];
+        return [
+            [
+                'invoice_id' => '1',
+                'invoice_number' => 'invoice257',
+                'order_id' => '189',
+                'customer_id' => '3',
+                'invoice_date' => '2022-05-05',
+                'customer_full_name' => 'Zvonko',
+                'customer_address' => 'Zvonka Zvonkica 76',
+                'customer_email' => 'zvonko@email.com',
+            ]
+        ];
+    }
+
+    private function column_movie_name($item) {
+        $actions = array(
+            'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'invoice', 'invoice_id', $item['invoice_id'], __('View', 'movie-plugin')),
+
+        );
+
+        return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));
     }
 
 }

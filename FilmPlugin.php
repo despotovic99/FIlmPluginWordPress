@@ -2,6 +2,7 @@
 
 require_once 'repositories/BaseRepository.php';
 require_once 'ViewModel/MovieList/WP_Movie_List_Table.php';
+require_once 'ViewModel/Invoice/AllInvoicesVM.php';
 require_once 'controllers/BaseController.php';
 require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsController.php';
@@ -234,15 +235,23 @@ class FilmPlugin {
 
     public function invoices_page() {
 
-        add_submenu_page(
+        $hook = add_submenu_page(
             'woocommerce',
             __('Invoices', 'movie-plugin'),
             __('Invoices', 'movie-plugin'),
             'manage_woocommerce',
             'invoices',
-            [new FrontendController(),'render']
-
+            [new FrontendController(), 'render']
         );
+
+        add_action("load-$hook", function () {
+            add_screen_option('per_page', [
+                'label' => 'Invoices',
+                'default' => 2,
+                'option' => 'invoices_per_page'
+            ]);
+            $all_invoices_vm = new AllInvoicesVM();
+        });
     }
 
     public function activate() {

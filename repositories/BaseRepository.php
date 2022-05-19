@@ -16,7 +16,7 @@ class BaseRepository {
     private $movie_category_repository;
     private $movie_repository;
 
-    private $invoice_repository;
+    private  $invoice_repository;
 
     /**
      * @param string $tableFilm
@@ -66,6 +66,18 @@ class BaseRepository {
         }
         return new MovieRepository();
     }
+
+    /**
+     * @return InvoiceRepository
+     */
+    public function get_invoice_repository() {
+        if($this->invoice_repository){
+            return $this->invoice_repository;
+        }
+        return new InvoiceRepository();
+    }
+
+
 
     public function is_plugin_initialized() {
 

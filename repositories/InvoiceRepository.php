@@ -12,7 +12,7 @@ class InvoiceRepository {
     public function initialize_invoice_table() {
 
         $query = 'CREATE TABLE IF NOT EXISTS ' . $this->table_name . '(
-         id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+         invoice_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
          invoice_number VARCHAR(255) NOT NULL,
          order_id BIGINT UNSIGNED NOT NULL ,
          user_id BIGINT UNSIGNED NOT NULL,
@@ -26,6 +26,15 @@ class InvoiceRepository {
          FOREIGN KEY (customer_id) REFERENCES ' . $this->db->prefix . 'users(ID))';
 
         $result = $this->db->query($query);
+        return $result;
+    }
+
+    public function get_all_invoices() {
+
+        $query = 'SELECT * FROM ' . $this->table_name;
+
+        $result = $this->db->get_results($query, ARRAY_A);
+
         return $result;
     }
 
