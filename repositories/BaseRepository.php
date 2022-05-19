@@ -1,17 +1,22 @@
 <?php
 require_once 'MovieRepository.php';
 require_once 'MovieCategoryRepository.php';
+require_once 'InvoiceRepository.php';
 
 class BaseRepository {
 
     const MOVIE_TABLE_NAME = 'movieplugin_movies';
     const MOVIE_CATEGORIES_TABLE_NAME = 'movieplugin_movie_categories';
 
+    const INVOICE_TABLE_NAME = 'movieplugin_invoices';
+
     private $db;
 
     private static $base_repository;
     private $movie_category_repository;
     private $movie_repository;
+
+    private $invoice_repository;
 
     /**
      * @param string $tableFilm
@@ -36,6 +41,9 @@ class BaseRepository {
 
         $this->movie_repository = new MovieRepository();
         $this->movie_repository->check_movie_table();
+
+        $this->invoice_repository=new InvoiceRepository();
+        $this->invoice_repository->initialize_invoice_table();
 
     }
 
@@ -63,9 +71,11 @@ class BaseRepository {
 
         $table_name_movies = $this->db->prefix . self::MOVIE_TABLE_NAME;
         $table_name_movie_categories = $this->db->prefix . self::MOVIE_CATEGORIES_TABLE_NAME;
+        $table_name_invoices = $this->db->prefix . self::INVOICE_TABLE_NAME;
 
         return $this->db->get_var('SHOW TABLES LIKE ' . $table_name_movies) === $table_name_movies
-            && $this->db->get_var('SHOW TABLES LIKE ' . $table_name_movie_categories) === $table_name_movie_categories;
+            && $this->db->get_var('SHOW TABLES LIKE ' . $table_name_movie_categories) === $table_name_movie_categories
+            && $this->db->get_var('SHOW TABLES LIKE '.$table_name_invoices)===$table_name_invoices;
     }
 
 

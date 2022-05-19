@@ -73,7 +73,7 @@ class FilmPlugin {
 
     public function movie_settings_page() {
 
-        if(current_user_can('manage_woocommerce')){
+        if (current_user_can('manage_woocommerce')) {
             add_submenu_page(
                 'movie_plugin',
                 'Movie options',
@@ -82,7 +82,7 @@ class FilmPlugin {
                 'moviesettings',
                 [new FrontendController(), 'render']
             );
-        }else{
+        } else {
             add_submenu_page(
                 'movie_plugin',
                 'Movie options',
@@ -232,6 +232,19 @@ class FilmPlugin {
 
     }
 
+    public function invoices_page() {
+
+        add_submenu_page(
+            'woocommerce',
+            __('Invoices', 'movie-plugin'),
+            __('Invoices', 'movie-plugin'),
+            'manage_woocommerce',
+            'invoices',
+            [new FrontendController(),'render']
+
+        );
+    }
+
     public function activate() {
 
         if (!PluginService::is_woocommerce_active()) {
@@ -273,6 +286,9 @@ class FilmPlugin {
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
+
+        add_action('admin_menu', [$this, 'invoices_page']);
+
     }
 
     private function load_buttons_to_woocommerce_order_page() {
