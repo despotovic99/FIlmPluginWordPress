@@ -11,7 +11,7 @@ class InvoiceService {
                 $order = get_post($invoices[$i]['order_id']);
                 $invoices[$i]['order_name']=$order->post_name;
             }catch (Exception $e){
-                echo $e;
+
             }
         }
         return $invoices;
@@ -20,7 +20,7 @@ class InvoiceService {
     public function create_invoice($order_id){
 
         //todo nastavi sa kreiranjem fakture
-
+        // servis treba da spremi podatke za cuvanje u bazi
         $order = get_post($order_id);
         $user = get_currentuserinfo();
 
