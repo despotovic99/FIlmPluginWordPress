@@ -11,7 +11,7 @@ class AllInvoicesVM extends WP_List_Table {
 
         $this->invoice_service = new InvoiceService();
 
-        $this->invoices = $this->invoice_service->get_all_invoices();
+        $this->invoices = $this->invoice_service->get_all_invoices_for_list_table();
     }
 
     public function get_columns() {
