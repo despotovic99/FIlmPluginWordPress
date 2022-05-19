@@ -9,6 +9,7 @@ class BaseRepository {
     const MOVIE_CATEGORIES_TABLE_NAME = 'movieplugin_movie_categories';
 
     const INVOICE_TABLE_NAME = 'movieplugin_invoices';
+    const INVOICE_ITEMS_TABLE_NAME = 'movieplugin_invoice_items';
 
     private $db;
 
