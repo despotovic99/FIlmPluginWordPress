@@ -34,6 +34,7 @@ class InvoiceVM {
             'invoice_number'=>'',
             'order_name'=>'',
             'user'=>'',
+            'invoice_items'=>[],
         ];
 
     }

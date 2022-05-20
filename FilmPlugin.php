@@ -23,9 +23,7 @@ class FilmPlugin {
     public function initialize() {
 
         $this->load_init_hooks();
-
         $this->load_menu_pages();
-
         $this->load_buttons_to_woocommerce_order_page();
 
 

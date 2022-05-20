@@ -10,7 +10,7 @@ class InvoiceRepository {
     }
 
 
-    public function initialize_invoice_table() {
+    public function initialize_invoice_tables() {
 
         $query = 'CREATE TABLE IF NOT EXISTS ' . $this->invoice_table_name . '(
          invoice_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

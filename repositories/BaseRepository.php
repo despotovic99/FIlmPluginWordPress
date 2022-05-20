@@ -44,7 +44,7 @@ class BaseRepository {
         $this->movie_repository->check_movie_table();
 
         $this->invoice_repository=new InvoiceRepository();
-        $this->invoice_repository->initialize_invoice_table();
+        $this->invoice_repository->initialize_invoice_tables();
 
     }
 
