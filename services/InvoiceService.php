@@ -6,12 +6,16 @@ class InvoiceService {
     public function get_invoice($invoice_id){
 
         $result = BaseRepository::get_base_repository()->get_invoice_repository()->get_invoice_by_id($invoice_id);
+
         if(!$result)
             return $result;
+
         $order=get_post($result['order_id']);
         $user =get_user_by('id',$result['user_id']);
+
         $result['order_name']=$order->post_name;
         $result['user']=$user->first_name." ".$user->last_name;
+
         return $result;
 
     }
