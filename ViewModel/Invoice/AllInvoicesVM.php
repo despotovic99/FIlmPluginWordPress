@@ -109,7 +109,7 @@ class AllInvoicesVM extends WP_List_Table {
         ]);
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'invoice', 'invoice_id', $item['invoice_id'], __('View', 'movie-plugin')),
-            'delete' => "<a class='delete-invoice-btn'>".__('Delete', 'movie-plugin')."</a>",
+            'delete' => "<a style='cursor: pointer' class='delete-invoice-btn' url='$url_delete'>".__('Delete', 'movie-plugin')."</a>",
         );
 
         return sprintf('%1$s %2$s', $item['invoice_number'], $this->row_actions($actions));

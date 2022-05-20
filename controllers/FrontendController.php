@@ -43,6 +43,14 @@ class FrontendController {
 
             case 'invoices':
 
+                wp_enqueue_script(
+                    'movie-plugin-delete-invoice-btn',
+                    plugins_url('../resources/js/all-invoices-page.js', __FILE__),
+                    ['jquery'],
+                    '1.0.0',
+                    true
+                );
+
                 include_once plugin_dir_path(__FILE__) . '../resources/views/all-invoices-page.php';
                 break;
             case 'invoice':

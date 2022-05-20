@@ -7,5 +7,39 @@ $invoice = $invoice_vm->get_invoice();
 
 <div class="wrap">
 
+    <div class="blog-container">
 
-</div>
+        <div class="blog-body">
+            <div class="blog-title">
+                <h1><?= $invoice['invoice_number'] ?></h1>
+            </div>
+            <div class="blog-summary">
+                <p>Order: <?= $invoice['order_name'] ?></p>
+            </div>
+            <div class="blog-summary">
+                <p>Invoice date: <?= $invoice['invoice_date'] ?></p>
+            </div>
+            <div class="blog-summary">
+                <p>Customer name: <?= $invoice['customer_full_name'] ?></p>
+                <p>  address: <?= $invoice['customer_address'] ?></p>
+                <p>  email: <?= $invoice['customer_email'] ?> </p>
+            </div>
+
+            <div class="blog-summary">
+                <?php foreach ($invoice['invoice_items'] as $item) { ?>
+
+                    <p><?= $item['product_name'] . '  ' . $item['product_quantity'] . ' x ' . $item['product_price'] . ' = ' . $item['product_quantity'] * $item['product_price'] . " " . $invoice['invoice_currency'] ?></p>
+
+                <?php } ?>
+            </div>
+
+            <div class="blog-summary">
+                <h3>Total: <?=$invoice['invoice_total']." ".$invoice['invoice_currency']?> </h3>
+            </div>
+
+            <div class="blog-summary">
+                <a class="button" href="?page=invoices">Back</a>
+            </div>
+
+
+        </div>

@@ -40,7 +40,7 @@ class InvoiceRepository {
          product_name VARCHAR(255) NOT NULL,
          product_quantity INT NOT NULL,
          product_price FLOAT NOT NULL,
-         FOREIGN KEY (invoice_id) REFERENCES ' . $this->invoice_table_name . '(invoice_id))';
+         FOREIGN KEY (invoice_id) REFERENCES ' . $this->invoice_table_name . '(invoice_id) ON DELETE CASCADE )';
 
         $result = $this->db->query($query);
 
@@ -68,20 +68,37 @@ class InvoiceRepository {
         $last_id = $this->db->insert_id;
 
         foreach ($invoice_items as $invoice_item) {
-            $invoice_item['invoice_id']=$last_id;
+            $invoice_item['invoice_id'] = $last_id;
             $this->db->insert($this->invoice_items_table_name, $invoice_item);
         }
 
         return true;
     }
 
-    public function delete_invoice_by_id($invoice_id){
+    public function delete_invoice_by_id($invoice_id) {
 
-        $result =$this->db->delete($this->invoice_items_table_name,['invoice_id'=>$invoice_id]);
-        if(!$result)
+        $result = $this->db->delete($this->invoice_table_name, ['invoice_id' => $invoice_id]);
+
+        return $result;
+    }
+
+    public function get_invoice_by_id($invoice_id) {
+
+        //todo sql injection proveri fje wordpressove
+        // get_results ne preventuje sql injection
+        $query = 'SELECT * FROM ' . $this->invoice_table_name . ' WHERE invoice_id=' . $invoice_id;
+
+        $result = $this->db->get_row($query, ARRAY_A);
+        if (!$result)
             return $result;
+        $result['invoice_items']=[];
 
-        $result = $this->db->delete($this->invoice_table_name,['id'=>$invoice_id]);
+        $query = 'SELECT * FROM ' . $this->invoice_items_table_name . ' WHERE invoice_id=' . $invoice_id;
+        $invoice_items = $this->db->get_results($query, ARRAY_A);
+
+        if($invoice_items){
+            $result['invoice_items']=$invoice_items;
+        }
 
         return $result;
     }
