@@ -75,6 +75,17 @@ class InvoiceRepository {
         return true;
     }
 
+    public function delete_invoice_by_id($invoice_id){
+
+        $result =$this->db->delete($this->invoice_items_table_name,['invoice_id'=>$invoice_id]);
+        if(!$result)
+            return $result;
+
+        $result = $this->db->delete($this->invoice_table_name,['id'=>$invoice_id]);
+
+        return $result;
+    }
+
 }
 
 

@@ -45,6 +45,10 @@ class FrontendController {
 
                 include_once plugin_dir_path(__FILE__) . '../resources/views/all-invoices-page.php';
                 break;
+            case 'invoice':
+
+                include_once plugin_dir_path(__FILE__) . '../resources/views/invoice-view-page.php';
+                break;
         }
 
     }

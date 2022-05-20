@@ -253,6 +253,16 @@ class FilmPlugin {
             ]);
             $all_invoices_vm = new AllInvoicesVM();
         });
+
+        add_submenu_page(
+            'invoices',
+            __('Invoice', 'movie-plugin'),
+            __('Invoice', 'movie-plugin'),
+            'manage_woocommerce',
+            'invoice',
+            [new FrontendController(), 'render']
+        );
+
     }
 
     public function add_create_invoice_button($order) {

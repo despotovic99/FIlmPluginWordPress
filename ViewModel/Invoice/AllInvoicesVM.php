@@ -1,5 +1,6 @@
 <?php
 require_once plugin_dir_path(__FILE__) . '../../services/InvoiceService.php';
+require_once plugin_dir_path(__FILE__) . '../../components/util/MovieHelper.php';
 
 class AllInvoicesVM extends WP_List_Table {
 
@@ -103,8 +104,12 @@ class AllInvoicesVM extends WP_List_Table {
 
 
     public function column_invoice_number($item) {
+        $url_delete = MovieHelper::get_controller('Invoice', 'delete_invoice', [
+            'invoice_id' => $item['invoice_id']
+        ]);
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'invoice', 'invoice_id', $item['invoice_id'], __('View', 'movie-plugin')),
+            'delete' => "<a class='delete-invoice-btn'>".__('Delete', 'movie-plugin')."</a>",
         );
 
         return sprintf('%1$s %2$s', $item['invoice_number'], $this->row_actions($actions));
