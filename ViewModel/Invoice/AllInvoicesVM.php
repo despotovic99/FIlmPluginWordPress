@@ -24,12 +24,13 @@ class AllInvoicesVM extends WP_List_Table {
             'customer_full_name' => __('Customer', 'movie-plugin'),
             'customer_email' => __('Email', 'movie-plugin'),
             'customer_address' => __('Address', 'movie-plugin'),
+            'invoice_total' => __('Total', 'movie-plugin'),
         ];
 
     }
 
     protected function column_default($item, $column_name) {
-//todo dodaj order name
+
         switch ($column_name) {
             case 'invoice_number':
             case 'invoice_date':
@@ -37,6 +38,7 @@ class AllInvoicesVM extends WP_List_Table {
             case 'customer_full_name':
             case 'customer_email':
             case 'customer_address':
+            case 'invoice_total':
                 return $item[$column_name];
             default :
 
@@ -53,6 +55,7 @@ class AllInvoicesVM extends WP_List_Table {
         $sortableColumns = [
             'invoice_number' => ['invoice_number', true],
             'invoice_date' => ['invoice_date', false],
+            'invoice_total' => ['invoice_total', false],
         ];
 
         return $sortableColumns;
@@ -76,7 +79,7 @@ class AllInvoicesVM extends WP_List_Table {
         $this->_column_headers = [$columns, $hidden, $sortable];
 
 
-        $per_page = $this->get_items_per_page('invoices-per-page', 2);
+        $per_page = $this->get_items_per_page('invoices_per_page', 2);
 
         $current_page = $this->get_pagenum();
         $total_items = count($this->invoices);
@@ -99,30 +102,12 @@ class AllInvoicesVM extends WP_List_Table {
     }
 
 
-    public function get_all_invoices() {
-
-        //todo get invoices from database
-        return [
-            [
-                'invoice_id' => '1',
-                'invoice_number' => 'invoice257',
-                'order_id' => '189',
-                'customer_id' => '3',
-                'invoice_date' => '2022-05-05',
-                'customer_full_name' => 'Zvonko',
-                'customer_address' => 'Zvonka Zvonkica 76',
-                'customer_email' => 'zvonko@email.com',
-            ]
-        ];
-    }
-
-    private function column_movie_name($item) {
+    public function column_invoice_number($item) {
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'invoice', 'invoice_id', $item['invoice_id'], __('View', 'movie-plugin')),
-
         );
 
-        return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));
+        return sprintf('%1$s %2$s', $item['invoice_number'], $this->row_actions($actions));
     }
 
 }

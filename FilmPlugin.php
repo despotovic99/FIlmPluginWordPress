@@ -7,6 +7,7 @@ require_once 'controllers/BaseController.php';
 require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsController.php';
 require_once 'controllers/FrontendController.php';
+require_once 'controllers/InvoiceController.php';
 require_once 'services/PluginService.php';
 require_once 'components/setup/Update.php';
 require_once 'components/util/MovieHelper.php';
@@ -203,7 +204,7 @@ class FilmPlugin {
 
         wp_enqueue_script(
             'movie-plugin-print-order-btn',
-            plugins_url('/resources/js/movie-plugin-print-order.js', __FILE__),
+            plugins_url('/resources/js/movie-plugin-orders-page.js', __FILE__),
             ['jquery'],
             '1.0.0',
             true
@@ -223,7 +224,7 @@ class FilmPlugin {
 
         wp_enqueue_script(
             'movie-plugin-print-order-btn',
-            plugins_url('/resources/js/movie-plugin-print-order.js', __FILE__),
+            plugins_url('/resources/js/movie-plugin-orders-page.js', __FILE__),
             ['jquery'],
             '1.0.0',
             true
@@ -267,7 +268,7 @@ class FilmPlugin {
 
         wp_enqueue_script(
             'movie-plugin-create-invoice-btn',
-            plugins_url('/resources/js/movie-plugin-create-invoice.js', __FILE__),
+            plugins_url('/resources/js/movie-plugin-orders-page.js', __FILE__),
             ['jquery'],
             '1.0.0',
             true

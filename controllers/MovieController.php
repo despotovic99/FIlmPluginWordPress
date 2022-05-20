@@ -19,7 +19,7 @@ class MovieController extends BaseController {
     }
 
 
-    public  function save_movie() {
+    public function save_movie() {
 
         $id = '';
 
@@ -208,7 +208,7 @@ class MovieController extends BaseController {
 
             return false;
         }
-
+// todo ovaj deo za proveru godina za horor filmove treba da bude u servisu
         $age = esc_html($_POST['movie_age']);
         $recommended_age = get_option('horror_movie_min_age_option');
 
@@ -226,8 +226,6 @@ class MovieController extends BaseController {
         ];
 
     }
-
-
 
 
 }

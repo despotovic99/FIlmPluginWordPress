@@ -2,7 +2,6 @@
 require_once plugin_dir_path(__FILE__) . '../../ViewModel/Invoice/AllInvoicesVM.php';
 
 $all_invoices_vm = new AllInvoicesVM();
-$all_invoices = $all_invoices_vm->get_all_invoices();
 
 ?>
 
@@ -13,5 +12,6 @@ $all_invoices = $all_invoices_vm->get_all_invoices();
             <?php $all_invoices_vm->search_box(esc_html(__('Find invoice', 'movie-plugin')), 'search_invoice'); ?>
         </p>
     </form>
+    <h2>Invoices</h2>
     <?php $all_invoices_vm->display(); ?>
 </div>

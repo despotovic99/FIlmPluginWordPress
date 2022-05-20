@@ -14,9 +14,14 @@ class InvoiceController extends BaseController {
             return;
         }
 
-        //todo  unfinished
-        $this->invoice_service->create_invoice(esc_html($_REQUEST['order_id']));
+        //todo  ovde vrati neki boolean da bi client znao sta se desava
+        $result = $this->invoice_service->create_invoice(esc_html($_REQUEST['order_id']));
 
+        if($result){
+            wp_send_json('Invoice created successfully');
+        }else{
+            wp_send_json('ERROR: Invoice not created');
+        }
 
     }
 

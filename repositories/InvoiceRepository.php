@@ -17,11 +17,13 @@ class InvoiceRepository {
          invoice_number VARCHAR(255) NOT NULL,
          order_id BIGINT UNSIGNED NOT NULL ,
          user_id BIGINT UNSIGNED NOT NULL,
-         customer_id BIGINT UNSIGNED NOT NULL,
+         customer_id BIGINT UNSIGNED,
          invoice_date DATE NOT NULL,
          customer_full_name VARCHAR(255) NOT NULL,
          customer_address VARCHAR(255) NOT NULL,
          customer_email VARCHAR(255) NOT NULL,
+         invoice_currency VARCHAR(10) NOT NULL,
+         invoice_total FLOAT NOT NULL,
          FOREIGN KEY (order_id) REFERENCES ' . $this->db->prefix . 'posts(ID),
          FOREIGN KEY (user_id) REFERENCES ' . $this->db->prefix . 'users(ID),
          FOREIGN KEY (customer_id) REFERENCES ' . $this->db->prefix . 'users(ID))';
@@ -32,12 +34,13 @@ class InvoiceRepository {
             return $result;
         }
 
-        $query = 'CREATE TABLE IF NOT EXISTS ' . $this->invoice_items_table_name. '(
+        $query = 'CREATE TABLE IF NOT EXISTS ' . $this->invoice_items_table_name . '(
          invoice_item_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
          invoice_id INT UNSIGNED NOT NULL,
          product_name VARCHAR(255) NOT NULL,
          product_quantity INT NOT NULL,
-         FOREIGN KEY (invoice_id) REFERENCES ' .  $this->invoice_table_name. '(invoice_id))';
+         product_price FLOAT NOT NULL,
+         FOREIGN KEY (invoice_id) REFERENCES ' . $this->invoice_table_name . '(invoice_id))';
 
         $result = $this->db->query($query);
 
@@ -51,6 +54,25 @@ class InvoiceRepository {
         $result = $this->db->get_results($query, ARRAY_A);
 
         return $result;
+    }
+
+    public function save_invoice($invoice, $invoice_items) {
+
+        $result = $this->db->insert($this->invoice_table_name, $invoice);
+
+        if (!$result) {
+
+            return $result;
+        }
+
+        $last_id = $this->db->insert_id;
+
+        foreach ($invoice_items as $invoice_item) {
+            $invoice_item['invoice_id']=$last_id;
+            $this->db->insert($this->invoice_items_table_name, $invoice_item);
+        }
+
+        return true;
     }
 
 }
