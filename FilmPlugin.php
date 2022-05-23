@@ -187,6 +187,12 @@ class FilmPlugin {
 
     }
 
+    public function add_new_capability_to_shop_manager() {
+
+        $role = get_role('shop_manager');
+        $role->add_cap('can_print', true);
+    }
+
 
     public function add_print_button_to_order_in_list_table($order) {
 
@@ -303,6 +309,7 @@ class FilmPlugin {
         register_activation_hook($this->plugin_file_path, [$this, 'activate']);
 
         add_action('init', [$this, 'register_new_wc_order_statuses']);
+        add_action('init', [$this, 'add_new_capability_to_shop_manager'], 11); // mora posle inicijalizacije uloga
         add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_action('admin_init', [$this, 'movie_register_settings'], 9);

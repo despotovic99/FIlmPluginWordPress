@@ -23,7 +23,7 @@ class MovieController extends BaseController {
 
         $id = '';
 
-        $movie = $this->validate_movie();
+        $movie = $this->validate_save_movie_request();
 
         if (!empty($_REQUEST['movie_id'])) {
 
@@ -54,7 +54,8 @@ class MovieController extends BaseController {
 
         $id = empty($_REQUEST['movie_id']) ? '' : esc_html($_REQUEST['movie_id']);
 
-        $this->movie_db_service->delete_movie($id);
+        $result = $this->movie_db_service->delete_movie($id);
+
 
         wp_redirect(admin_url('admin.php?page=movies'));
 
@@ -62,29 +63,24 @@ class MovieController extends BaseController {
 
     public function print_movie() {
 
-        //todo testiranja radi
-        if (!$this->movie_print_service->can_user_print_order()) {
-
-            return;
-        }
 
         if (empty($_REQUEST['printer']) ||
             empty($_REQUEST['movie_id'])) {
 
             return;
         }
+
         $format = esc_html($_REQUEST['printer']);
-
-        $movie = $this->movie_db_service->find_movie_by_id(esc_html($_REQUEST['movie_id']));
-        if (!$movie) {
-
-            return;
-        }
+        $movie_id = esc_html($_REQUEST['movie_id']);
 
         try {
 
-            $file = $this->movie_print_service->print_document($format, $movie);
+            $file = $this->movie_print_service->print_document($format, $movie_id);
 
+            if (!$file) {
+
+                return;
+            }
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
             $this->download_file($file_path);
@@ -100,10 +96,6 @@ class MovieController extends BaseController {
 
     public function print_order() {
 
-        if (!$this->movie_print_service->can_user_print_order()) {
-
-            return;
-        }
 
         if (empty($_REQUEST['printer']) ||
             empty($_REQUEST['order_id'])) {
@@ -113,17 +105,14 @@ class MovieController extends BaseController {
         $order_id = esc_html($_REQUEST['order_id']);
         $format = esc_html($_REQUEST['printer']);
 
-        $order = $this->order_service->get_order_information($order_id);
-
-        if (!$order) {
-
-            return;
-        }
-
         try {
 
-            $file = $this->movie_print_service->print_document($format, $order);
+            $file = $this->movie_print_service->print_document($format, $order_id);
 
+            if (!$file) {
+
+                return;
+            }
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
             $this->download_file($file_path);
@@ -146,7 +135,7 @@ class MovieController extends BaseController {
 
         $order = $this->order_service->get_order_information($order_id);
 
-        wp_send_json_success('neki data');
+        wp_send_json([strval($order)]);
 
     }
 
@@ -168,7 +157,7 @@ class MovieController extends BaseController {
         unlink($file_path);
     }
 
-    private function validate_movie() {
+    private function validate_save_movie_request() {
 
         if (empty($_POST['movie_name'])) {
 
@@ -200,20 +189,10 @@ class MovieController extends BaseController {
             return false;
         }
 
-        $category_id = esc_html($_POST['movie_category_id']);
 
-        $category = BaseRepository::get_base_repository()->get_movie_category_repository()->get_movie_category_by_id($category_id);
-
-        if (!$category) {
+        if (empty($_POST['movie_category_id'])) {
 
             return false;
-        }
-// todo ovaj deo za proveru godina za horor filmove treba da bude u servisu
-        $age = esc_html($_POST['movie_age']);
-        $recommended_age = get_option('horror_movie_min_age_option');
-
-        if ($category['movie_category_slug'] === 'horor' && $age < $recommended_age) {
-            $age = $recommended_age;
         }
 
         return [
@@ -221,8 +200,8 @@ class MovieController extends BaseController {
             'movie_description' => esc_html($_POST['movie_description']),
             'movie_date' => esc_html($_POST['movie_date']),
             'movie_length' => esc_html($_POST['movie_length']),
-            'movie_age' => $age,
-            'movie_category_id' => $category_id,
+            'movie_age' => esc_html($_POST['movie_age']),
+            'movie_category_id' => esc_html($_POST['movie_category_id']),
         ];
 
     }
