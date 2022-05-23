@@ -13,7 +13,7 @@ class BaseController {
         }
 
         if ($action) {
-            if (method_exists($this, $action) && is_callable([$this,$action])) {
+            if (method_exists($this, $action) && is_callable([$this, $action])) {
                 $this->$action();
             } else {
                 $this->json_response(['error' => 'Method ' . $action . ' not exsist!'], 404);
@@ -29,14 +29,14 @@ class BaseController {
 
         if (!$user->ID) {
 
-            exit('Odjebi');
+            exit('You have not any permission to do this operation.');
         }
 
     }
 
     protected function json_response($data, $status_code) {
 
-        wp_send_json($data,$status_code);
+        wp_send_json($data, $status_code);
     }
 
 }

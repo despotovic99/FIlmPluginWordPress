@@ -55,6 +55,10 @@ class FrontendController {
                 break;
             case 'invoice':
 
+                wp_enqueue_style(
+                    'invoice-view-page',
+                    plugin_dir_url(__FILE__) . '../resources/css/invoice-view-page.css');
+
                 include_once plugin_dir_path(__FILE__) . '../resources/views/invoice-view-page.php';
                 break;
         }

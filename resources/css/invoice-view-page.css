@@ -1,0 +1,11 @@
+.blog-container{
+    width: fit-content;
+}
+
+.blog-body{
+    background-color: white;
+    padding: 35px;
+}
+.blog-summary{
+    border-bottom: dashed black 1px
+}
