@@ -306,9 +306,10 @@ class FilmPlugin {
     }
 
     private function load_init_hooks() {
+
         register_activation_hook($this->plugin_file_path, [$this, 'activate']);
 
-        add_action('init', [$this, 'register_new_wc_order_statuses']);
+        add_action('init', [$this, 'register_new_wc_order_statuses']);  //  registracija novih order-statusa
         add_action('init', [$this, 'add_new_capability_to_shop_manager'], 11); // mora posle inicijalizacije uloga
         add_action('init', [$this, 'load_plugin_text_domain']);
 
@@ -317,24 +318,26 @@ class FilmPlugin {
         add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
         add_action('template_redirect', [$this, 'movie_plugin_controller_action_trigger']);
 
-        add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
+        add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']); // prikaz  novih statusa u listi svih statusa
     }
 
     private function load_menu_pages() {
 
+        // movies
         add_action('admin_menu', [$this, 'create_movie_menu']);
         add_action('admin_menu', [$this, 'create_all_movies_page']);
-
         add_action('admin_menu', [$this, 'movie_page']);
         add_action('admin_menu', [$this, 'movie_view_page']);
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
+        // Filters a screen option value before it is set.
+        // bez ovog filtera ne bi mogao da korstis screen options na ekranima all movies, all invoices, ....
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
 
+        // invoices
         add_action('admin_menu', [$this, 'invoices_page']);
-
     }
 
     private function load_buttons_to_woocommerce_order_page() {

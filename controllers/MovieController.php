@@ -190,10 +190,6 @@ class MovieController extends BaseController {
         }
 
 
-        if (empty($_POST['movie_category_id'])) {
-
-            return false;
-        }
 
         return [
             'movie_name' => esc_html($_POST['movie_name']),

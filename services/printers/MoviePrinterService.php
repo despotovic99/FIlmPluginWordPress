@@ -54,7 +54,7 @@ class MoviePrinterService {
             $document = $this->order_service->get_order_information($document_id);
         } else {
 
-            $document = $this->movie_service->find_movie_by_id(esc_html($_REQUEST['movie_id']));
+            $document = $this->movie_service->find_movie_by_id($document_id);
         }
 
 
@@ -70,7 +70,13 @@ class MoviePrinterService {
 
         $user = wp_get_current_user();
 
-        return $user->has_cap('can_print');
+        foreach ($user->roles as $role) {
+            if ('administrator' === $role || 'shop_manager' == $role) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
