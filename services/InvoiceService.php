@@ -59,7 +59,7 @@ class InvoiceService {
         $invoice['order_id'] = $order_id;
         $invoice['user_id'] = $user->ID;
         $invoice['customer_id'] = $order->get_customer_id();
-        //todo customer se nije registorvao
+        // customer se nije registorvao
         if ($invoice['customer_id'] < 1) {
             $invoice['customer_id'] = null;
         }
