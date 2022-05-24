@@ -8,6 +8,7 @@ require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsController.php';
 require_once 'controllers/FrontendController.php';
 require_once 'controllers/InvoiceController.php';
+require_once 'controllers/UserProfileController.php';
 require_once 'services/PluginService.php';
 require_once 'components/setup/Update.php';
 require_once 'components/util/MovieHelper.php';
@@ -25,7 +26,7 @@ class FilmPlugin {
         $this->load_init_hooks();
         $this->load_menu_pages();
         $this->load_buttons_to_woocommerce_order_page();
-
+        $this->load_user_settings_page_custom_field();
 
     }
 
@@ -194,6 +195,15 @@ class FilmPlugin {
     }
 
 
+    public function register_user_meta_print() {
+
+        register_meta('user','user_can_print',[
+            'type'=>'boolean',
+            'show_in_rest'=>false
+        ]);
+    }
+
+
     public function add_print_button_to_order_in_list_table($order) {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
@@ -314,6 +324,7 @@ class FilmPlugin {
         add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_action('admin_init', [$this, 'movie_register_settings'], 9);
+        add_action('admin_init', [$this, 'register_user_meta_print'],9);
 
         add_action('admin_init', [$this, 'movie_plugin_controller_action_trigger']);
         add_action('template_redirect', [$this, 'movie_plugin_controller_action_trigger']);
@@ -346,5 +357,19 @@ class FilmPlugin {
         add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
         add_action('woocommerce_admin_order_actions_start', [$this, 'add_create_invoice_button']);
     }
+
+    private function load_user_settings_page_custom_field() {
+
+        add_action('show_user_profile',[$this,'add_can_user_print_checkbox']);
+        add_action('edit_user_profile',[$this,'add_can_user_print_checkbox']);
+
+        add_action('personal_options_update',[new UserProfileController(),'update_user_meta_data']);
+        add_action('edit_user_profile_update',[new UserProfileController(),'update_user_meta_data']);
+    }
+
+    public function add_can_user_print_checkbox(){
+        include_once plugin_dir_path(__FILE__).'resources/views/partials/can-user-print-checkbox-profile.php';
+    }
+
 
 }

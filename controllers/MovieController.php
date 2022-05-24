@@ -79,7 +79,7 @@ class MovieController extends BaseController {
 
             if (!$file) {
 
-                return;
+                return wp_send_json(['You cant print document.']);
             }
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 

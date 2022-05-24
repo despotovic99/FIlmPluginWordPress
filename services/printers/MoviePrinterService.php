@@ -59,7 +59,7 @@ class MoviePrinterService {
 
 
         if (!$document || !$this->can_user_print_order())
-            return;
+            return false;
 
 
         $file = $printer->print_document($document, $this->output_dir);
@@ -70,11 +70,9 @@ class MoviePrinterService {
 
         $user = wp_get_current_user();
 
-        foreach ($user->roles as $role) {
-            if ('administrator' === $role || 'shop_manager' == $role) {
-                return true;
-            }
-        }
+        $result = get_user_meta($user->ID, 'user_can_print');
+        if($result)
+            return $result[0];
 
         return false;
     }
