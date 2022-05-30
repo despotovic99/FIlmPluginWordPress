@@ -15,8 +15,9 @@ $movie_list_table = $movie_list_vm->get_list_table();
     </form>
 
     <?php $movie_list_table->prepare_items(); ?>
-    <form method="post">
+    <form method="get" >
         <p class="search-box">
+            <input type="hidden" name="page" value="movies" />
             <?php $movie_list_table->search_box(esc_html(__('Find movie','movie-plugin')), 'search_movie'); ?>
         </p>
     </form>

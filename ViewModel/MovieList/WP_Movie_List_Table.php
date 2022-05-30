@@ -5,10 +5,12 @@ require_once plugin_dir_path(__FILE__) . '../Movie/MovieVM.php';
 class WP_Movie_List_Table extends WP_List_Table {
 
     private $movieData;
+    private $total_items;
 
     public function __construct($args = array(), $movieData) {
         parent::__construct($args);
-        $this->movieData = $movieData;
+        $this->movieData = $movieData[0];
+        $this->total_items = $movieData[1]['total_items'];
     }
 
 
@@ -76,18 +78,17 @@ class WP_Movie_List_Table extends WP_List_Table {
 
         $perPage = $this->get_items_per_page('movies_per_page', 2);
 
-        $currentPage = $this->get_pagenum();
-        $totalItems = count($this->movieData);
+        $totalItems = $this->total_items;
 
         if ($this->movieData) {
             usort($this->movieData, [&$this, 'usort_reorder']);
-            $this->movieData = array_slice($this->movieData, (($currentPage - 1) * $perPage), $perPage);
         }
 
         $this->set_pagination_args([
             'total_items' => $totalItems,
             'per_page' => $perPage,
-            'total_pages' => ceil($totalItems / $perPage)
+            'total_pages' => ceil($totalItems / $perPage),
+            's' => !empty($_REQUEST['s']) ? $_REQUEST['s'] : ''
         ]);
 
 
@@ -98,7 +99,7 @@ class WP_Movie_List_Table extends WP_List_Table {
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movieview', 'movie_id', $item['movie_id'], __('View', 'movie-plugin')),
             'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Edit', 'movie-plugin')),
-            'print' => sprintf('<a href="?controller_name=%s&action=%s&printer=%s&movie_id=%s">%s</a>', 'Movie', 'print_movie','word',$item['movie_id'], __('Print', 'movie-plugin')),
+            'print' => sprintf('<a href="?controller_name=%s&action=%s&printer=%s&movie_id=%s">%s</a>', 'Movie', 'print_movie', 'word', $item['movie_id'], __('Print', 'movie-plugin')),
 
         );
 

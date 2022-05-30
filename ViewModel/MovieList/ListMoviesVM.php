@@ -16,19 +16,26 @@ class ListMoviesVM {
     public function get_list_table() {
 
         $movie_data = null;
-        if (isset($_REQUEST['page']) && isset($_REQUEST['s'])) {
+        $limit = get_user_meta(get_current_user_id(), 'movies_per_page')[0];
+        $page = isset($_REQUEST['paged']) && esc_html($_REQUEST['paged'])>0 ?esc_html($_REQUEST['paged']) : 1;
+        $offset = $limit * ($page-1);
+        if (isset($_REQUEST['s'])) {
             $name = esc_html($_REQUEST['s']);
 
-            $movie_data = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_by_name($name);
+            $movie_data = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_by_name($name, $limit,$offset);
         } else {
 
-            $movie_data = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_data_for_list_table();
+            $movie_data = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_data_for_list_table($limit,$offset);
         }
 
 
         return new WP_Movie_List_Table(null, $movie_data);
 
     }
+
+//    function get_search_action(){
+//        $this->get
+//    }
 
 
 }

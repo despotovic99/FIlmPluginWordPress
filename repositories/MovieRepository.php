@@ -51,28 +51,41 @@ class MovieRepository {
         return $result;
     }
 
-    public function get_movie_by_name($name) {
+    public function get_movie_by_name($name,$limit,$offset) {
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
                             ON m . movie_category_id = c . id
-                            WHERE movie_name LIKE '%" . $name . "%' ";
+                            WHERE movie_name LIKE '%" . $name . "%' 
+                            LIMIT " . $limit . " OFFSET " . $offset;
+
+        $query_total_items = "SELECT count(*) as total_items
+                                                      FROM " . $this->table_name.
+                                                    " WHERE movie_name LIKE '%" . $name . "%' ";
 
         $result = $this->db->get_results($query, ARRAY_A);
 
-        return $result;
+        $total_items = $this->db->get_row($query_total_items, ARRAY_A);
+
+        return [$result,$total_items];
     }
 
-    public function get_movie_data_for_list_table() {
+    public function get_movie_data_for_list_table($limit, $offset) {
 
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
-                            ON m. movie_category_id = c . id";
+                            ON m. movie_category_id = c . id
+                            LIMIT " . $limit . " OFFSET " . $offset;
+
+        $query_total_items = "SELECT count(*) as total_items
+                                                      FROM " . $this->table_name;
 
         $result = $this->db->get_results($query, ARRAY_A);
 
-        return $result;
+        $total_items = $this->db->get_row($query_total_items, ARRAY_A);
+
+        return [$result,$total_items];
     }
 
     public function save_new_movie($movie) {
@@ -98,7 +111,7 @@ class MovieRepository {
 
         $result = $this->db->update($this->table_name, $movie, ['id' => $id]);
 
-        if($result){
+        if ($result) {
             return $id;
         }
 
