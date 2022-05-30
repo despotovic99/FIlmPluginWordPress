@@ -20,8 +20,8 @@ class ListMoviesVM {
         $page = isset($_REQUEST['paged']) && esc_html($_REQUEST['paged'])>0 ?esc_html($_REQUEST['paged']) : 1;
         $offset = $limit * ($page-1);
 
-        $orderby=isset($_REQUEST['orderby'])?$_REQUEST['orderby']:null;
-        $order=isset($_REQUEST['order'])?$_REQUEST['order']:null;
+        $orderby=!empty($_REQUEST['orderby'])?esc_html($_REQUEST['orderby']):null;
+        $order=!empty($_REQUEST['order'])?esc_html($_REQUEST['order']):null;
 
         if (isset($_REQUEST['s'])) {
             $name = esc_html($_REQUEST['s']);

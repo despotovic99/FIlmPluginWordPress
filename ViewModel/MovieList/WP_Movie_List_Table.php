@@ -52,6 +52,7 @@ class WP_Movie_List_Table extends WP_List_Table {
             'movie_name' => ['movie_name', true],
             'movie_category_name' => ['movie_category_name', false],
             'movie_date' => ['movie_date', false],
+            'movie_age' => ['movie_age', false],
 //            'uzrast' => ['uzrast', false],
         ];
 

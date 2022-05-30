@@ -52,6 +52,7 @@ class MovieRepository {
     }
 
     public function get_movie_by_name($name,$limit,$offset,$column_name='movie_name',$order='ASC') {
+        $column_name=$column_name===null?'movie_name':$column_name;
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
@@ -73,6 +74,7 @@ class MovieRepository {
 
     public function get_movie_data_for_list_table($limit, $offset,$column_name='movie_name',$order='ASC') {
 
+        $column_name=$column_name===null?'movie_name':$column_name;
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
