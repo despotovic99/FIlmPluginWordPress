@@ -51,12 +51,13 @@ class MovieRepository {
         return $result;
     }
 
-    public function get_movie_by_name($name,$limit,$offset) {
+    public function get_movie_by_name($name,$limit,$offset,$column_name='movie_name',$order='ASC') {
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
                             ON m . movie_category_id = c . id
                             WHERE movie_name LIKE '%" . $name . "%' 
+                            ORDER BY ".$column_name."   ". $order ."
                             LIMIT " . $limit . " OFFSET " . $offset;
 
         $query_total_items = "SELECT count(*) as total_items
@@ -70,12 +71,13 @@ class MovieRepository {
         return [$result,$total_items];
     }
 
-    public function get_movie_data_for_list_table($limit, $offset) {
+    public function get_movie_data_for_list_table($limit, $offset,$column_name='movie_name',$order='ASC') {
 
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
                             ON m. movie_category_id = c . id
+                            ORDER BY ".$column_name."   ". $order ."
                             LIMIT " . $limit . " OFFSET " . $offset;
 
         $query_total_items = "SELECT count(*) as total_items

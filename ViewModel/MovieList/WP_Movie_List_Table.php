@@ -80,9 +80,9 @@ class WP_Movie_List_Table extends WP_List_Table {
 
         $totalItems = $this->total_items;
 
-        if ($this->movieData) {
-            usort($this->movieData, [&$this, 'usort_reorder']);
-        }
+//        if ($this->movieData) {
+//            usort($this->movieData, [&$this, 'usort_reorder']);
+//        }
 
         $this->set_pagination_args([
             'total_items' => $totalItems,
