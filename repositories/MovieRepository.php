@@ -94,10 +94,6 @@ class MovieRepository {
 
     public function save_new_movie($movie) {
 
-        if (!BaseRepository::get_base_repository()
-            ->get_movie_category_repository()->get_movie_category_by_id($movie['movie_category_id'])) {
-            return;
-        }
 
         $result = $this->db->insert($this->table_name, $movie);
 

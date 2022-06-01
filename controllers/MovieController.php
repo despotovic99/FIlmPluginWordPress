@@ -25,6 +25,11 @@ class MovieController extends BaseController {
 
         $movie = $this->validate_save_movie_request();
 
+        if(!$movie){
+
+            return ;
+        }
+
         if (!empty($_REQUEST['movie_id'])) {
 
             $id = esc_html($_REQUEST['movie_id']);
@@ -76,13 +81,12 @@ class MovieController extends BaseController {
 
         try {
 
-            $file = $this->movie_print_service->print_document($format, $movie_id);
+            $file_path = $this->movie_print_service->print_document($format, $movie_id);
 
-            if (!$file) {
+            if (!$file_path) {
 
                 return wp_send_json(['You cant print document.']);
             }
-            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
             $this->download_file($file_path);
 
@@ -108,13 +112,12 @@ class MovieController extends BaseController {
 
         try {
 
-            $file = $this->movie_print_service->print_document($format, $order_id);
+            $file_path = $this->movie_print_service->print_document($format, $order_id);
 
-            if (!$file) {
+            if (!$file_path) {
 
                 return wp_send_json(['You cant print document.']);
             }
-            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
             $this->download_file($file_path);
 

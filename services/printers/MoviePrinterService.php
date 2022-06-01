@@ -63,7 +63,13 @@ class MoviePrinterService {
 
 
         $file = $printer->print_document($document, $this->output_dir);
-        return $file;
+
+        if (!$file) {
+
+            return $file;
+        }
+
+        return  $this->output_dir.'/'. $file;
     }
 
     public function can_user_print_order() {
@@ -71,7 +77,7 @@ class MoviePrinterService {
         $user = wp_get_current_user();
 
         $result = get_user_meta($user->ID, 'user_can_print');
-        if($result)
+        if ($result)
             return $result[0];
 
         return false;

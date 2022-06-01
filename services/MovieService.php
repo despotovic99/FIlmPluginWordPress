@@ -6,6 +6,15 @@ use BaseRepository;
 
 class MovieService {
 
+    public  function find_all_movies($limit,$offset,$orderby,$order){
+
+        $result =  BaseRepository::get_base_repository()
+            ->get_movie_repository()
+            ->get_movie_data_for_list_table($limit,$offset,$orderby,$order);
+
+        return $result;
+    }
+
     public function find_movie_by_id($id) {
 
         $result = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_by_id($id);
@@ -13,9 +22,11 @@ class MovieService {
         return $result;
     }
 
-    public function findFilmByName($name) {
+    public function find_movie_by_name($name, $limit, $offset, $orderby, $order) {
 
-        $result = BaseRepository::get_base_repository()->get_movie_repository()->get_movie_by_name($name);
+        $result = BaseRepository::get_base_repository()
+            ->get_movie_repository()
+            ->get_movie_by_name($name, $limit,$offset,$orderby,$order);
 
         return $result;
     }
@@ -31,7 +42,7 @@ class MovieService {
 
         $movie = $this->check_recommended_age_for_movie($movie);
 
-        if(!$movie){
+        if(!$movie || !$this->check_movie_category($movie['movie_category_id'])){
             return false;
         }
 
@@ -44,7 +55,7 @@ class MovieService {
 
         $movie = $this->check_recommended_age_for_movie($movie);
 
-        if(!$movie){
+        if(!$movie || !$this->check_movie_category($movie['movie_category_id'])){
             return false;
         }
 
@@ -71,6 +82,12 @@ class MovieService {
 
         return $movie;
 
+
+    }
+    private function check_movie_category($id){
+
+        return BaseRepository::get_base_repository()
+            ->get_movie_category_repository()->get_movie_category_by_id($id);
 
     }
 
