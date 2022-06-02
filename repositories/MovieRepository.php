@@ -12,8 +12,8 @@ class MovieRepository {
 
     public function check_movie_tables() {
         $this->create_movie_category_table();
-
         $this->fill_category_table();
+
         $this->create_movie_table();
     }
 
@@ -97,9 +97,7 @@ class MovieRepository {
 
     public function save_new_movie($movie) {
 
-
         $result = $this->db->insert($this->movie_table_name, $movie);
-
         if ($result) {
             $last_id = $this->db->insert_id;
 
@@ -120,9 +118,7 @@ class MovieRepository {
     }
 
     public function delete_movie($id) {
-
         $result = $this->db->delete($this->movie_table_name, ['id' => $id]);
-
         return $result;
     }
 
@@ -146,15 +142,13 @@ class MovieRepository {
         $query = "SELECT `movie_category_name`, `movie_category_slug`  FROM `" . $this->movie_category_table_name . "`";
 
         $result = $this->db->get_results($query);
-
         if ($result) {
             return;
         }
 
         foreach ($this->categories() as $category) {
-            $this->db->insert($this->movie_table_name, ['movie_category_name' => $category[0], 'movie_category_slug' => $category[1]]);
+            $this->db->insert($this->movie_category_table_name, ['movie_category_name' => $category[0], 'movie_category_slug' => $category[1]]);
         }
-
     }
 
     private function categories() {
@@ -176,9 +170,7 @@ class MovieRepository {
     public function get_movie_category_by_slug($zanrSlug) {
 
         $query = "SELECT `movie_category_name`, `movie_category_slug` FROM  $this->movie_category_table_name  WHERE `movie_category_slug`=%s ";
-
         $sql = $this->db->prepare($query, [$zanrSlug]);
-
         $result = $this->db->get_row($sql, ARRAY_A);
 
         return $result;
@@ -187,9 +179,7 @@ class MovieRepository {
     public function get_movie_category_by_id($id) {
 
         $query = "SELECT `movie_category_name`, `movie_category_slug` FROM  $this->movie_category_table_name  WHERE `id`=%d ";
-
         $sql = $this->db->prepare($query, [$id]);
-
         $result = $this->db->get_row($sql, ARRAY_A);
 
         return $result;

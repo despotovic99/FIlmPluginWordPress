@@ -1,14 +1,16 @@
 <?php
 
 use services\MovieService;
-use services\MovieCategoryDatabaseService;
 
 require_once plugin_dir_path(__FILE__) . '../../services/MovieService.php';
-require_once plugin_dir_path(__FILE__) . '../../services/MovieCategoryDatabaseService.php';
 
 class MovieVM {
 
-    const ID_INPUT_NAME = 'movie_id';
+
+    /**
+     * @var MovieService
+     */
+    private $movie_service;
 
     public function __construct() {
 

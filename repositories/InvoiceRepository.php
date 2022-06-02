@@ -86,14 +86,16 @@ class InvoiceRepository {
 
         //todo sql injection proveri fje wordpressove
         // get_results ne preventuje sql injection
-        $query = 'SELECT * FROM ' . $this->invoice_table_name . ' WHERE invoice_id=' . $invoice_id;
+        $query = 'SELECT * FROM ' . $this->invoice_table_name . ' WHERE invoice_id=%d';
+        $query = $this->db->prepare($query,[$invoice_id]);
 
         $result = $this->db->get_row($query, ARRAY_A);
         if (!$result)
             return $result;
         $result['invoice_items']=[];
 
-        $query = 'SELECT * FROM ' . $this->invoice_items_table_name . ' WHERE invoice_id=' . $invoice_id;
+        $query = 'SELECT * FROM ' . $this->invoice_items_table_name . ' WHERE invoice_id=%d';
+        $query = $this->db->prepare($query,[$invoice_id]);
         $invoice_items = $this->db->get_results($query, ARRAY_A);
 
         if($invoice_items){

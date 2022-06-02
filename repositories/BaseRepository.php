@@ -14,7 +14,6 @@ class BaseRepository {
 
     private static $base_repository;
     private $movie_repository;
-
     private  $invoice_repository;
 
     /**

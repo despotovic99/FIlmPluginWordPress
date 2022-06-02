@@ -1,20 +1,29 @@
 <?php
-require_once plugin_dir_path(__FILE__) . '../repositories/BaseRepository.php';
+require_once plugin_dir_path(__FILE__) . '../repositories/InvoiceRepository.php';
 
 class InvoiceService {
 
-    public function get_invoice($invoice_id){
+    /**
+     * @var InvoiceRepository
+     */
+    public $invoice_repository;
 
-        $result = BaseRepository::get_base_repository()->get_invoice_repository()->get_invoice_by_id($invoice_id);
+    public function __construct() {
+        $this->invoice_repository = new InvoiceRepository();
+    }
 
-        if(!$result)
+    public function get_invoice($invoice_id) {
+
+        $result = $this->invoice_repository -> get_invoice_by_id($invoice_id);
+
+        if (!$result)
             return $result;
 
-        $order=get_post($result['order_id']);
-        $user =get_user_by('id',$result['user_id']);
+        $order = get_post($result['order_id']);
+        $user = get_user_by('id', $result['user_id']);
 
-        $result['order_name']=$order->post_name;
-        $result['user']=$user->first_name." ".$user->last_name;
+        $result['order_name'] = $order->post_name;
+        $result['user'] = $user->first_name . " " . $user->last_name;
 
         return $result;
 
@@ -22,7 +31,7 @@ class InvoiceService {
 
     public function get_all_invoices_for_list_table() {
 
-        $invoices = BaseRepository::get_base_repository()->get_invoice_repository()->get_all_invoices();
+        $invoices = $this->invoice_repository->get_all_invoices();
         for ($i = 0; $i < count($invoices); $i++) {
             try {
                 $order = get_post($invoices[$i]['order_id']);
@@ -70,15 +79,15 @@ class InvoiceService {
         $invoice['invoice_currency'] = $order->get_currency();
         $invoice['invoice_total'] = $order->get_total();
 
-        $result = BaseRepository::get_base_repository()->get_invoice_repository()->save_invoice($invoice, $invoice_items);
+        $result = $this->invoice_repository->save_invoice($invoice, $invoice_items);
 
         return $result;
     }
 
 
-    public function delete_invoice($invoice_id){
+    public function delete_invoice($invoice_id) {
 
-        $result = BaseRepository::get_base_repository()->get_invoice_repository()->delete_invoice_by_id($invoice_id);
+        $result = $this->invoice_repository->delete_invoice_by_id($invoice_id);
 
         return $result;
     }
