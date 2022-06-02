@@ -2,14 +2,22 @@
 
 
 namespace services\printers;
+
 use PhpOffice;
+use services\MovieService;
 use services\printers\interfaces\PrinterInterface;
+
 require_once 'interface/PrinterInterface.php';
+
 class WordMoviePrinter implements PrinterInterface {
+
+    public function __construct() {
+        $this->movie_service = new MovieService();
+    }
 
     public function print_document($movie, $outputdir) {
 
-        $file = $movie['movie_name'] . '-Film.doc';
+        $file = $outputdir . '/' . $movie['movie_name'] . '-Film.doc';
 
         $document = new PhpOffice\PhpWord\PhpWord();
 
@@ -23,7 +31,7 @@ class WordMoviePrinter implements PrinterInterface {
         $section->addText('Zanr: ' . $movie['movie_category_name']);
 
         $objWriter = PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
-        $objWriter->save($outputdir . '/' . $file);
+        $objWriter->save($file);
 
         return $file;
     }

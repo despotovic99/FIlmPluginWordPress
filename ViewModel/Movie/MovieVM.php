@@ -12,8 +12,7 @@ class MovieVM {
 
     public function __construct() {
 
-        $this->movie_db_service = new MovieService();
-        $this->movie_category_db_service = new MovieCategoryDatabaseService();
+        $this->movie_service = new MovieService();
     }
 
     public function get_movie() {
@@ -21,7 +20,7 @@ class MovieVM {
         if (!empty($_GET['movie_id'])) {
             $movie_id = esc_html($_GET['movie_id']);
 
-            $movie = $this->movie_db_service->find_movie_by_id($movie_id);
+            $movie = $this->movie_service->find_movie_by_id($movie_id);
 
         }
 
@@ -42,7 +41,7 @@ class MovieVM {
     }
 
     public function get_movie_categories() {
-        $categories = $this->movie_category_db_service->find_all();
+        $categories = $this->movie_service->find_all_categories();
 
         return $categories;
     }

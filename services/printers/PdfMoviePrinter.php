@@ -24,7 +24,7 @@ class PdfMoviePrinter implements PrinterInterface {
 
         $file_name = $outputdir . '/' . $movie['movie_name'];
         $pdf->Output($file_name, 'F');
-        return $movie['movie_name'];
+        return $file_name;
     }
 
 

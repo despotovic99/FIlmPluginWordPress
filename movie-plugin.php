@@ -16,6 +16,8 @@ if (!defined('ABSPATH')) {
 require_once plugin_dir_path(__FILE__) . '/vendor/autoload.php';
 require_once plugin_dir_path(__FILE__) . 'FilmPlugin.php';
 
+define('FILES_DIR', plugin_dir_path(__FILE__) . '/temp-files');
+
 global $wpdb;
 
 $plugin = new FilmPlugin(__FILE__);

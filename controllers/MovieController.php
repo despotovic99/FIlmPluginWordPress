@@ -1,74 +1,58 @@
 <?php
 
 use services\MovieService;
-use services\printers\MoviePrinterService;
 
 require_once 'BaseController.php';
 require_once plugin_dir_path(__FILE__) . '../services/MovieService.php';
 require_once plugin_dir_path(__FILE__) . '../services/OrderService.php';
-require_once plugin_dir_path(__FILE__) . '../services/printers/MoviePrinterService.php';
 
 class MovieController extends BaseController {
 
 
+    /**
+     * @var MovieService
+     */
+    private $movie_service;
+
     public function __construct() {
-
-        $this->movie_db_service = new MovieService();
-        $this->movie_print_service = new MoviePrinterService();
-        $this->order_service = new OrderService();
+        $this->movie_service = new MovieService();
     }
-
 
     public function save_movie() {
 
-        $id = '';
-
         $movie = $this->validate_save_movie_request();
+        if (!$movie) {
 
-        if(!$movie){
-
-            return ;
+            return;
         }
 
         if (!empty($_REQUEST['movie_id'])) {
 
             $id = esc_html($_REQUEST['movie_id']);
-
-            $result = $this->movie_db_service->update_movie($id, $movie);
-
+            $result = $this->movie_service->update_movie($id, $movie);
         } else {
 
-            $result = $this->movie_db_service->save_movie($movie);
+            $result = $this->movie_service->save_movie($movie);
         }
-
-        if ($result)
-            $id = $result;
 
         $url = 'admin.php?page=movie';
 
-        if ($id) {
-            $url = 'admin.php?page=movieview&movie_id=' . $id;
-        }
+        if ($result)
+            $url = 'admin.php?page=movieview&movie_id=' . $result;
 
         wp_redirect(admin_url($url));
-
     }
 
 
     public function delete_movie() {
 
         $id = empty($_REQUEST['movie_id']) ? '' : esc_html($_REQUEST['movie_id']);
-
-        $result = $this->movie_db_service->delete_movie($id);
-
+        $result = $this->movie_service->delete_movie($id);
 
         wp_redirect(admin_url('admin.php?page=movies'));
-
     }
 
     public function print_movie() {
-
-        // todo ovo treba da spojis sa print order
 
         if (empty($_REQUEST['printer']) ||
             empty($_REQUEST['movie_id'])) {
@@ -81,119 +65,42 @@ class MovieController extends BaseController {
 
         try {
 
-            $file_path = $this->movie_print_service->print_document($format, $movie_id);
+            $result = $this->movie_service->print_document($format, $movie_id);
+            if (!$result) {
 
-            if (!$file_path) {
-
-                return wp_send_json(['You cant print document.']);
+                wp_send_json(['You can\'t print document.']);
             }
-
-            $this->download_file($file_path);
-
-
         } catch (Exception $e) {
 
-            return;
         }
-
     }
 
-
-    public function print_order() {
-
-
-        if (empty($_REQUEST['printer']) ||
-            empty($_REQUEST['order_id'])) {
-
-            return;
-        }
-        $order_id = esc_html($_REQUEST['order_id']);
-        $format = esc_html($_REQUEST['printer']);
-
-        try {
-
-            $file_path = $this->movie_print_service->print_document($format, $order_id);
-
-            if (!$file_path) {
-
-                return wp_send_json(['You cant print document.']);
-            }
-
-            $this->download_file($file_path);
-
-
-        } catch (Exception $e) {
-
-            return;
-        }
-
-    }
-
-    public function get_order_information() {
-
-
-        if (empty($_REQUEST['order_id']))
-            return;
-
-        $order_id = esc_html($_REQUEST['order_id']);
-
-        $order = $this->order_service->get_order_information($order_id);
-
-        wp_send_json([strval($order)]);
-
-    }
-
-    private function download_file($file_path) {
-
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Expires: 0");
-        header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
-        header('Content-Length: ' . filesize($file_path));
-        header('Pragma: public');
-
-        //Clear system output buffer
-        flush();
-
-        readfile($file_path);
-
-        unlink($file_path);
-    }
 
     private function validate_save_movie_request() {
 
         if (empty($_POST['movie_name'])) {
-
             return false;
         }
 
         if (empty($_POST['movie_description'])) {
-
             return false;
         }
 
         if (empty($_POST['movie_date'])) {
-
             return false;
         }
 
         if (empty($_POST['movie_length'])) {
-
             return false;
         }
 
         if (empty($_POST['movie_age'])) {
-
             return false;
         }
 
         if (empty($_POST['movie_category_id'])) {
-
             return false;
         }
-
-
 
         return [
             'movie_name' => esc_html($_POST['movie_name']),
@@ -203,8 +110,6 @@ class MovieController extends BaseController {
             'movie_age' => esc_html($_POST['movie_age']),
             'movie_category_id' => esc_html($_POST['movie_category_id']),
         ];
-
     }
-
 
 }

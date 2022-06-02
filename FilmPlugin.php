@@ -8,6 +8,7 @@ require_once 'controllers/MovieController.php';
 require_once 'controllers/SettingsController.php';
 require_once 'controllers/FrontendController.php';
 require_once 'controllers/InvoiceController.php';
+require_once 'controllers/OrderController.php';
 require_once 'controllers/UserProfileController.php';
 require_once 'services/PluginService.php';
 require_once 'components/setup/Update.php';
@@ -209,10 +210,10 @@ class FilmPlugin {
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
         $url = MovieHelper::get_controller(
-            'Movie',
+            'Order',
             'print_order',
             [
-                'printer' => 'word-order',
+                'printer' => 'word',
                 'order_id' => $order_id
             ]);
 
@@ -232,7 +233,7 @@ class FilmPlugin {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
-        $url = MovieHelper::get_controller('Movie', 'get_order_information', [
+        $url = MovieHelper::get_controller('Order', 'get_order_information', [
             'order_id' => $order_id
         ]);
 
@@ -363,6 +364,8 @@ class FilmPlugin {
         add_action('show_user_profile',[$this,'add_can_user_print_checkbox']);
         add_action('edit_user_profile',[$this,'add_can_user_print_checkbox']);
 
+        // ovde su dva hook-a, jedan hook je kad admin setuje mogucnost stampanja drugim korisnicima,
+        // drugi hook je kad korisnik sam sebi update profil, a samim tim i setuje print capability, nema smisla to je testa radi.
         add_action('personal_options_update',[new UserProfileController(),'update_user_meta_data']);
         add_action('edit_user_profile_update',[new UserProfileController(),'update_user_meta_data']);
     }

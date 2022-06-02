@@ -1,6 +1,5 @@
 <?php
 require_once 'MovieRepository.php';
-require_once 'MovieCategoryRepository.php';
 require_once 'InvoiceRepository.php';
 
 class BaseRepository {
@@ -14,7 +13,6 @@ class BaseRepository {
     private $db;
 
     private static $base_repository;
-    private $movie_category_repository;
     private $movie_repository;
 
     private  $invoice_repository;
@@ -37,47 +35,13 @@ class BaseRepository {
 
     public function initialize_movie_plugin_tables() {
 
-        $this->movie_category_repository = new MovieCategoryRepository();
-        $this->movie_category_repository->check_database_and_fill_table();
-
         $this->movie_repository = new MovieRepository();
-        $this->movie_repository->check_movie_table();
+        $this->movie_repository->check_movie_tables();
 
         $this->invoice_repository=new InvoiceRepository();
         $this->invoice_repository->initialize_invoice_tables();
 
     }
-
-    /**
-     * @return mixed
-     */
-    public function get_movie_category_repository() {
-        if ($this->movie_category_repository) {
-            return $this->movie_category_repository;
-        }
-        return new MovieCategoryRepository();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function get_movie_repository() {
-        if ($this->movie_repository) {
-            return $this->movie_repository;
-        }
-        return new MovieRepository();
-    }
-
-    /**
-     * @return InvoiceRepository
-     */
-    public function get_invoice_repository() {
-        if($this->invoice_repository){
-            return $this->invoice_repository;
-        }
-        return new InvoiceRepository();
-    }
-
 
 
     public function is_plugin_initialized() {
