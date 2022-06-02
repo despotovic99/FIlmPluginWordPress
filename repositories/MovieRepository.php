@@ -47,14 +47,16 @@ class MovieRepository {
                             FROM " . $this->movie_table_name . " m
                             INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
                             ON m.movie_category_id=c.id
-                            WHERE m.id=' " . $id . " ' ";
+                            WHERE m.id=%d ";
 
+        $query = $this->db->prepare($query,[$id ]);
         $result = $this->db->get_row($query, ARRAY_A);
 
         return $result;
     }
 
     public function get_movie_by_name($name, $limit, $offset, $column_name = 'movie_name', $order = 'ASC') {
+        // todo ovde mozes da popijes sql injection
         $column_name = $column_name === null ? 'movie_name' : $column_name;
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->movie_table_name . " m
@@ -76,7 +78,7 @@ class MovieRepository {
     }
 
     public function get_movie_data_for_list_table($limit, $offset, $column_name = 'movie_name', $order = 'ASC') {
-
+        // todo ovde mozes da popijes sql injection takodje
         $column_name = $column_name === null ? 'movie_name' : $column_name;
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->movie_table_name . " m
