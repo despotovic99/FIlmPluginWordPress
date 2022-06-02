@@ -26,7 +26,6 @@ class BaseController {
     protected function validate_method_call() {
 
         $user = wp_get_current_user();
-
         if (!$user->ID) {
 
             exit('You have not any permission to do this operation.');

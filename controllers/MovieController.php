@@ -68,7 +68,7 @@ class MovieController extends BaseController {
             $result = $this->movie_service->print_document($format, $movie_id);
             if (!$result) {
 
-                wp_send_json(['You can\'t print document.']);
+                $this->json_response('You cant print document.',403);
             }
         } catch (Exception $e) {
 

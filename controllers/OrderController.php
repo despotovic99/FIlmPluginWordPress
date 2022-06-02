@@ -26,7 +26,7 @@ class OrderController extends BaseController {
             $result = $this->order_service->print_order($format, $order_id);
             if (!$result) {
 
-                wp_send_json(['You cant print document.']);
+                $this->json_response('You cant print document.',403);
             }
         } catch (Exception $e) {
 
@@ -41,10 +41,7 @@ class OrderController extends BaseController {
         $order_id = esc_html($_REQUEST['order_id']);
         $order = $this->order_service->get_order_information($order_id);
 
-        wp_send_json([strval($order)]);
+        $this->json_response([strval($order)],200);
     }
-
-
-
 
 }

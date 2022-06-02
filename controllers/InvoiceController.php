@@ -17,9 +17,11 @@ class InvoiceController extends BaseController {
         $result = $this->invoice_service->create_invoice(esc_html($_REQUEST['order_id']));
 
         if($result){
-            wp_send_json('Invoice created successfully');
+            $this->json_response('Invoice created successfully',200);
+
         }else{
-            wp_send_json('ERROR: Invoice not created');
+
+            $this->json_response('ERROR: Invoice not created',500);
         }
 
     }
@@ -32,9 +34,9 @@ class InvoiceController extends BaseController {
 
         $result = $this->invoice_service->delete_invoice(esc_html($_REQUEST['invoice_id']));
         if($result){
-            wp_send_json('Invoice deleted successfully');
+            $this->json_response('Invoice deleted successfully',200);
         }else{
-            wp_send_json('ERROR: Invoice not deleted');
+            $this->json_response('ERROR: Invoice not deleted',500);
         }
 
     }
