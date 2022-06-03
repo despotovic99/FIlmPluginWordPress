@@ -22,6 +22,7 @@ class FileService {
 
         $download_path = $this->printer->print_document($document, $output_dir);
         $this->download($download_path);
+         $this->delete_file($download_path);
     }
 
     public function download($file_path) {
@@ -38,7 +39,13 @@ class FileService {
         flush();
 
         readfile($file_path);
-
-        unlink($file_path);
     }
+
+    private function delete_file($file_path) {
+
+        if (file_exists($file_path))
+            unlink($file_path);
+
+    }
+
 }

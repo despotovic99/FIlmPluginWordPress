@@ -130,8 +130,8 @@ class MovieService {
 
         try {
 
-            $fs->print_document($movie, $this->movie_folder);
-            return true;
+             $fs->print_document($movie, $this->movie_folder);
+             return true;
         } catch (Exception $e) {
 
             return false;
