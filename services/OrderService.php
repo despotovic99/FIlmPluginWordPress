@@ -2,8 +2,9 @@
 
 use services\FileService;
 use services\printers\WordOrderPrinter;
+
 require_once 'printers/WordOrderPrinter.php';
-require_once '../components/util/MovieHelper.php';
+require_once plugin_dir_path(__FILE__) . '../components/util/MovieHelper.php';
 
 class OrderService {
 
@@ -45,7 +46,7 @@ class OrderService {
     }
 
     private function can_user_print_order() {
-            // todo ovo izmesti u movie helper
+        // todo ovo izmesti u movie helper
         $user = wp_get_current_user();
 
         return get_user_meta($user->ID, 'user_can_print', true) == 1;

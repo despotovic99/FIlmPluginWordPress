@@ -97,10 +97,16 @@ class WP_Movie_List_Table extends WP_List_Table {
     }
 
     function column_movie_name($item) {
+
+        $print_url = MovieHelper::get_controller('Movie', 'print_movie', ['movie_id' => $item['movie_id'], 'printer' => 'word']);
+        $delete_url = MovieHelper::get_controller('Movie', 'delete_movie', ['movie_id' => $item['movie_id']]);
+
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movieview', 'movie_id', $item['movie_id'], __('View', 'movie-plugin')),
             'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Edit', 'movie-plugin')),
-            'print' => sprintf('<a href="?controller_name=%s&action=%s&printer=%s&movie_id=%s">%s</a>', 'Movie', 'print_movie', 'word', $item['movie_id'], __('Print', 'movie-plugin')),
+            'delete' => sprintf('<a href="' . $delete_url . '">%s</a>', __('Delete', 'movie-plugin')),
+            'print' => sprintf('<a href="' . $print_url . '">%s</a>', __('Print', 'movie-plugin')),
+
 
         );
 

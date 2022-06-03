@@ -12,7 +12,7 @@ use services\printers\WordMoviePrinter;
 require_once 'FileService.php';
 require_once 'printers/WordMoviePrinter.php';
 require_once 'printers/PdfMoviePrinter.php';
-require_once '../components/util/MovieHelper.php';
+require_once plugin_dir_path(__FILE__).'../components/util/MovieHelper.php';
 require_once plugin_dir_path(__FILE__).'../repositories/MovieRepository.php';
 
 class MovieService {

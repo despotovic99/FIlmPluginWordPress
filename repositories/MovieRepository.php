@@ -2,37 +2,27 @@
 
 class MovieRepository {
 
+    /**
+     * @var string
+     */
+    private $movie_table_name;
+    /**
+     * @var string
+     */
+    private $movie_category_table_name;
+    /**
+     * @var wpdb
+     */
+    private $db;
+
     public function __construct() {
         global $wpdb;
         $this->db = $wpdb;
-        $this->movie_table_name = $this->db->prefix . BaseRepository::MOVIE_TABLE_NAME;
-        $this->movie_category_table_name = $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME;
+        $this->movie_table_name = $this->db->prefix . Database::MOVIE_TABLE_NAME;
+        $this->movie_category_table_name = $this->db->prefix . Database::MOVIE_CATEGORIES_TABLE_NAME;
     }
 
 
-    public function check_movie_tables() {
-        $this->create_movie_category_table();
-        $this->fill_category_table();
-
-        $this->create_movie_table();
-    }
-
-    private function create_movie_table() {
-
-        $query = 'CREATE TABLE IF NOT EXISTS ' . $this->movie_table_name
-            . '  (
-        id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        movie_name VARCHAR(255) NOT NULL,
-        movie_description VARCHAR(255) NOT NULL,
-        movie_date DATE NOT NULL,
-        movie_length VARCHAR(50) NOT NULL,
-        movie_age INT(3) NOT NULL,
-        movie_category_id INT NOT NULL,
-        FOREIGN KEY (movie_category_id) REFERENCES  ' . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . ' (id) )';
-
-        $result = $this->db->query($query);
-        return $result;
-    }
 
     public function get_movie_by_id($id) {
         $query = "SELECT  m.`id` AS movie_id , 
@@ -45,7 +35,7 @@ class MovieRepository {
                             c.movie_category_name AS movie_category_name, 
                             movie_category_slug
                             FROM " . $this->movie_table_name . " m
-                            INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
+                            INNER JOIN " . $this->movie_category_table_name. " c 
                             ON m.movie_category_id=c.id
                             WHERE m.id=%d ";
 
@@ -60,7 +50,7 @@ class MovieRepository {
         $column_name = $column_name === null ? 'movie_name' : $column_name;
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->movie_table_name . " m
-                            INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
+                            INNER JOIN " . $this->movie_category_table_name. " c 
                             ON m . movie_category_id = c . id
                             WHERE movie_name LIKE '%" . $name . "%' 
                             ORDER BY " . $column_name . "   " . $order . "
@@ -82,7 +72,7 @@ class MovieRepository {
         $column_name = $column_name === null ? 'movie_name' : $column_name;
         $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
                             FROM " . $this->movie_table_name . " m
-                            INNER JOIN " . $this->db->prefix . BaseRepository::MOVIE_CATEGORIES_TABLE_NAME . " c 
+                            INNER JOIN " . $this->movie_category_table_name . " c 
                             ON m. movie_category_id = c . id
                             ORDER BY " . $column_name . "   " . $order . "
                             LIMIT " . $limit . " OFFSET " . $offset;
@@ -125,41 +115,6 @@ class MovieRepository {
     }
 
 //
-
-    private function create_movie_category_table() {
-
-        $query = 'CREATE TABLE IF NOT EXISTS `'
-            . $this->movie_category_table_name . '` (
-            `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `movie_category_name` VARCHAR(50) NOT NULL,
-            `movie_category_slug` VARCHAR(50) NOT NULL,
-            UNIQUE (`movie_category_slug`)
-        ) DEFAULT CHARACTER SET utf8';
-
-        $this->db->query($query);
-    }
-
-    private function fill_category_table() {
-
-        $query = "SELECT `movie_category_name`, `movie_category_slug`  FROM `" . $this->movie_category_table_name . "`";
-
-        $result = $this->db->get_results($query);
-        if ($result) {
-            return;
-        }
-
-        foreach ($this->categories() as $category) {
-            $this->db->insert($this->movie_category_table_name, ['movie_category_name' => $category[0], 'movie_category_slug' => $category[1]]);
-        }
-    }
-
-    private function categories() {
-        return [
-            ['Komedija', 'komedija'],
-            ['Horor', 'horor'],
-            ['Drama', 'drama'],
-        ];
-    }
 
     public function get_movie_categories() {
 

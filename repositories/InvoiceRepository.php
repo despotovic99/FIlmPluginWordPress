@@ -2,50 +2,26 @@
 
 class InvoiceRepository {
 
+    /**
+     * @var string
+     */
+    private $invoice_table_name;
+    /**
+     * @var string
+     */
+    private $invoice_items_table_name;
+    /**
+     * @var wpdb
+     */
+    private $db;
+
     public function __construct() {
         global $wpdb;
         $this->db = $wpdb;
-        $this->invoice_table_name = $this->db->prefix . BaseRepository::INVOICE_TABLE_NAME;
-        $this->invoice_items_table_name = $this->db->prefix . BaseRepository::INVOICE_ITEMS_TABLE_NAME;
+        $this->invoice_table_name = $this->db->prefix . Database::INVOICE_TABLE_NAME;
+        $this->invoice_items_table_name = $this->db->prefix . Database::INVOICE_ITEMS_TABLE_NAME;
     }
 
-
-    public function initialize_invoice_tables() {
-
-        $query = 'CREATE TABLE IF NOT EXISTS ' . $this->invoice_table_name . '(
-         invoice_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-         invoice_number VARCHAR(255) NOT NULL,
-         order_id BIGINT UNSIGNED NOT NULL ,
-         user_id BIGINT UNSIGNED NOT NULL,
-         customer_id BIGINT UNSIGNED,
-         invoice_date DATE NOT NULL,
-         customer_full_name VARCHAR(255) NOT NULL,
-         customer_address VARCHAR(255) NOT NULL,
-         customer_email VARCHAR(255) NOT NULL,
-         invoice_currency VARCHAR(10) NOT NULL,
-         invoice_total FLOAT NOT NULL,
-         FOREIGN KEY (order_id) REFERENCES ' . $this->db->prefix . 'posts(ID),
-         FOREIGN KEY (user_id) REFERENCES ' . $this->db->prefix . 'users(ID),
-         FOREIGN KEY (customer_id) REFERENCES ' . $this->db->prefix . 'users(ID))';
-
-        $result = $this->db->query($query);
-        if (!$result) {
-
-            return $result;
-        }
-
-        $query = 'CREATE TABLE IF NOT EXISTS ' . $this->invoice_items_table_name . '(
-         invoice_item_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-         invoice_id INT UNSIGNED NOT NULL,
-         product_name VARCHAR(255) NOT NULL,
-         product_quantity INT NOT NULL,
-         product_price FLOAT NOT NULL,
-         FOREIGN KEY (invoice_id) REFERENCES ' . $this->invoice_table_name . '(invoice_id) ON DELETE CASCADE )';
-
-        $result = $this->db->query($query);
-
-        return $result;
-    }
 
     public function get_all_invoices() {
 
@@ -87,19 +63,19 @@ class InvoiceRepository {
         //todo sql injection proveri fje wordpressove
         // get_results ne preventuje sql injection
         $query = 'SELECT * FROM ' . $this->invoice_table_name . ' WHERE invoice_id=%d';
-        $query = $this->db->prepare($query,[$invoice_id]);
+        $query = $this->db->prepare($query, [$invoice_id]);
 
         $result = $this->db->get_row($query, ARRAY_A);
         if (!$result)
             return $result;
-        $result['invoice_items']=[];
+        $result['invoice_items'] = [];
 
         $query = 'SELECT * FROM ' . $this->invoice_items_table_name . ' WHERE invoice_id=%d';
-        $query = $this->db->prepare($query,[$invoice_id]);
+        $query = $this->db->prepare($query, [$invoice_id]);
         $invoice_items = $this->db->get_results($query, ARRAY_A);
 
-        if($invoice_items){
-            $result['invoice_items']=$invoice_items;
+        if ($invoice_items) {
+            $result['invoice_items'] = $invoice_items;
         }
 
         return $result;

@@ -1,16 +1,18 @@
 <?php
+require_once plugin_dir_path(__FILE__) . '../util/Database.php';
 
 class Update {
 
     private function is_plugin_initialized() {
 
-        return BaseRepository::get_base_repository()->is_plugin_initialized();
-
+        $installer = new Database();
+        return $installer->is_plugin_initialized();
     }
 
     private function initialize_plugin() {
 
-        BaseRepository::get_base_repository()->initialize_movie_plugin_tables();
+        $installer = new Database();
+        $installer->install();
         $this->create_dirs();
     }
 
