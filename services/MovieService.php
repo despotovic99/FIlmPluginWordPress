@@ -3,6 +3,7 @@
 namespace services;
 
 use Exception;
+use MovieHelper;
 use MovieRepository;
 use services\FileService;
 use services\printers\PdfMoviePrinter;
@@ -11,6 +12,7 @@ use services\printers\WordMoviePrinter;
 require_once 'FileService.php';
 require_once 'printers/WordMoviePrinter.php';
 require_once 'printers/PdfMoviePrinter.php';
+require_once '../components/util/MovieHelper.php';
 require_once plugin_dir_path(__FILE__).'../repositories/MovieRepository.php';
 
 class MovieService {
@@ -106,8 +108,8 @@ class MovieService {
     }
 
     public function print_document($document_type, $movie_id) {
-        // ovde ime metode mozda ne treba, da bude print_document jer ova metoda
-        // proverava dokumetn proverava folder, stampa dokument i download ga
+        // todo ovde ime metode mozda ne treba, da bude print_document jer ova metoda
+        //  proverava dokument, proverava folder, stampa dokument i download ga
         $printer = null;
         switch ($document_type) {
             case 'word':
@@ -125,18 +127,12 @@ class MovieService {
             return false;
 
         try {
-            $this->check_movie_folder($this->movie_folder);
+            MovieHelper::check_folder_exists_and_create($this->movie_folder);
             $file_path = $fs->print_document($movie, $this->movie_folder);
             $fs->download($file_path);
             return true;
         } catch (Exception $e) {
             return false;
-        }
-    }
-
-    private function check_movie_folder($folder) {
-        if (!file_exists($folder)) {
-            mkdir($folder, 0777, true);
         }
     }
 

@@ -17,5 +17,11 @@ class MovieHelper {
         return $url . "/?" . http_build_query($query);
     }
 
+    public  static  function check_folder_exists_and_create($folder) {
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+        }
+    }
+
 
 }
