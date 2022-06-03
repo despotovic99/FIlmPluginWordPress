@@ -22,22 +22,22 @@ class OrderService {
     }
 
     public function print_order($document_type, $order_id) {
+
+        $order = $this->get_order_information($order_id);
+        if (!$order || !$this->can_user_print_order())
+            return false;
+
         $printer = null;
         switch ($document_type) {
             case 'word':
                 $printer = new WordOrderPrinter();
                 break;
         }
-
         $fs = new FileService($printer);
 
-        $order = $this->get_order_information($order_id);
-        if (!$order || !$this->can_user_print_order())
-            return false;
-
         try {
-            $file_path = $fs->print_document($order, $this->order_folder);
-            $fs->download($file_path);
+
+            $fs->print_document($order, $this->order_folder);
             return true;
         } catch (Exception $e) {
             return false;
