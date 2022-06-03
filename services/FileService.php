@@ -10,17 +10,17 @@ require_once plugin_dir_path(__FILE__) . '../components/util/MovieHelper.php';
 class FileService {
 
     /** @var PrinterInterface */
-    private $pi;
+    private $printer;
 
     public function __construct(PrinterInterface $pi) {
-        $this->pi = $pi;
+        $this->printer = $pi;
     }
 
     public function print_document($document, $output_dir) {
         $output_dir = FILES_DIR . '/' . $output_dir;
         MovieHelper::check_folder_exists_and_create($output_dir);
 
-        $download_path = $this->pi->print_document($document, $output_dir);
+        $download_path = $this->printer->print_document($document, $output_dir);
         $this->download($download_path);
     }
 

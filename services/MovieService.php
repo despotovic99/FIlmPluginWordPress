@@ -123,6 +123,8 @@ class MovieService {
             case 'pdf':
                 $printer = new PdfMoviePrinter();
                 break;
+            default:
+                return false;
         }
         $fs = new FileService($printer);
 

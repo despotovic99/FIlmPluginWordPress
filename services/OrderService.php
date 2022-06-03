@@ -32,6 +32,8 @@ class OrderService {
             case 'word':
                 $printer = new WordOrderPrinter();
                 break;
+            default:
+                return false;
         }
         $fs = new FileService($printer);
 
