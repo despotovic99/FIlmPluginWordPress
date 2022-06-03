@@ -33,7 +33,7 @@ class InvoiceRepository {
     }
 
     public function save_invoice($invoice, $invoice_items) {
-
+        // todo implementiraj transakcije
         $result = $this->db->insert($this->invoice_table_name, $invoice);
 
         if (!$result) {

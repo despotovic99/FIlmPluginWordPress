@@ -12,8 +12,8 @@ use services\printers\WordMoviePrinter;
 require_once 'FileService.php';
 require_once 'printers/WordMoviePrinter.php';
 require_once 'printers/PdfMoviePrinter.php';
-require_once plugin_dir_path(__FILE__).'../components/util/MovieHelper.php';
-require_once plugin_dir_path(__FILE__).'../repositories/MovieRepository.php';
+require_once plugin_dir_path(__FILE__) . '../components/util/MovieHelper.php';
+require_once plugin_dir_path(__FILE__) . '../repositories/MovieRepository.php';
 
 class MovieService {
 
@@ -24,7 +24,7 @@ class MovieService {
     private $movie_repository;
 
     public function __construct() {
-        $this->movie_folder = FILES_DIR . '/movies/';
+        $this->movie_folder = 'movies';
         $this->movie_repository = new MovieRepository();
     }
 
@@ -110,6 +110,11 @@ class MovieService {
     public function print_document($document_type, $movie_id) {
         // todo ovde ime metode mozda ne treba, da bude print_document jer ova metoda
         //  proverava dokument, proverava folder, stampa dokument i download ga
+
+        $movie = $this->find_movie_by_id($movie_id);
+        if (!$movie || !$this->can_user_print())
+            return false;
+
         $printer = null;
         switch ($document_type) {
             case 'word':
@@ -119,19 +124,14 @@ class MovieService {
                 $printer = new PdfMoviePrinter();
                 break;
         }
-
         $fs = new FileService($printer);
 
-        $movie = $this->find_movie_by_id($movie_id);
-        if (!$movie || !$this->can_user_print())
-            return false;
-
         try {
-            MovieHelper::check_folder_exists_and_create($this->movie_folder);
-            $file_path = $fs->print_document($movie, $this->movie_folder);
-            $fs->download($file_path);
+
+            $fs->print_document($movie, $this->movie_folder);
             return true;
         } catch (Exception $e) {
+
             return false;
         }
     }

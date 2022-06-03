@@ -11,7 +11,7 @@ class OrderService {
     private $order_folder;
 
     public function __construct() {
-        $this->order_folder = FILES_DIR . '/orders/';
+        $this->order_folder = 'orders';
     }
 
     public function get_order_information($order_id) {
@@ -36,7 +36,6 @@ class OrderService {
             return false;
 
         try {
-            MovieHelper::check_folder_exists_and_create($this->order_folder);
             $file_path = $fs->print_document($order, $this->order_folder);
             $fs->download($file_path);
             return true;

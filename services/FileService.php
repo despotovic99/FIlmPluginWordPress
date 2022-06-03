@@ -2,7 +2,10 @@
 
 namespace services;
 
+use MovieHelper;
 use services\printers\interfaces\PrinterInterface;
+
+require_once plugin_dir_path(__FILE__) . '../components/util/MovieHelper.php';
 
 class FileService {
 
@@ -14,7 +17,11 @@ class FileService {
     }
 
     public function print_document($document, $output_dir) {
-        return $this->pi->print_document($document, $output_dir);
+        $output_dir = FILES_DIR . '/' . $output_dir;
+        MovieHelper::check_folder_exists_and_create($output_dir);
+
+        $download_path = $this->pi->print_document($document, $output_dir);
+        $this->download($download_path);
     }
 
     public function download($file_path) {
