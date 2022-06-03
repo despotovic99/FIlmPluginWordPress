@@ -22,7 +22,7 @@ class FileService {
 
         $download_path = $this->printer->print_document($document, $output_dir);
         $this->download($download_path);
-         $this->delete_file($download_path);
+        $this->delete_file($download_path);
     }
 
     public function download($file_path) {
