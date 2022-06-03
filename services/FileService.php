@@ -12,8 +12,8 @@ class FileService {
     /** @var PrinterInterface */
     private $printer;
 
-    public function __construct(PrinterInterface $pi) {
-        $this->printer = $pi;
+    public function __construct(PrinterInterface $printer) {
+        $this->printer = $printer;
     }
 
     public function print_document($document, $output_dir) {

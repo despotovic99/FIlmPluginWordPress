@@ -8,6 +8,11 @@ require_once plugin_dir_path(__FILE__) . '/WP_Movie_List_Table.php';
 class ListMoviesVM {
 
 
+    /**
+     * @var MovieService
+     */
+    private $movie_service;
+
     public function __construct() {
 
         $this->movie_service = new MovieService();
@@ -15,7 +20,6 @@ class ListMoviesVM {
 
     public function get_list_table() {
 
-        $movie_data = null;
         $limit = get_user_meta(get_current_user_id(), 'movies_per_page')[0];
         $page = isset($_REQUEST['paged']) && esc_html($_REQUEST['paged']) > 0 ? esc_html($_REQUEST['paged']) : 1;
         $offset = $limit * ($page - 1);
