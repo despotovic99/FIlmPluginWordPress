@@ -53,20 +53,10 @@ class WP_Movie_List_Table extends WP_List_Table {
             'movie_category_name' => ['movie_category_name', false],
             'movie_date' => ['movie_date', false],
             'movie_age' => ['movie_age', false],
-//            'uzrast' => ['uzrast', false],
         ];
 
         return $sortableColumns;
 
-    }
-
-    private function usort_reorder($a, $b) {
-
-        $orderby = (!empty($_GET['orderby'])) ? $_GET['orderby'] : 'movie_name'; // po kojoj koloni
-        $order = (!empty($_GET['order'])) ? $_GET['order'] : 'asc'; //rastuci ili opadajuci redosled
-        $result = strcmp($a[$orderby], $b[$orderby]);
-
-        return ($order == 'asc') ? $result : -$result;
     }
 
     public function prepare_items() {
@@ -81,17 +71,11 @@ class WP_Movie_List_Table extends WP_List_Table {
 
         $totalItems = $this->total_items;
 
-//        if ($this->movieData) {
-//            usort($this->movieData, [&$this, 'usort_reorder']);
-//        }
-
         $this->set_pagination_args([
             'total_items' => $totalItems,
             'per_page' => $perPage,
             'total_pages' => ceil($totalItems / $perPage),
-            's' => !empty($_REQUEST['s']) ? $_REQUEST['s'] : ''
         ]);
-
 
         $this->items = $this->movieData;
     }
@@ -106,8 +90,6 @@ class WP_Movie_List_Table extends WP_List_Table {
             'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'movie', 'movie_id', $item['movie_id'], __('Edit', 'movie-plugin')),
             'delete' => sprintf('<a href="' . $delete_url . '">%s</a>', __('Delete', 'movie-plugin')),
             'print' => sprintf('<a href="' . $print_url . '">%s</a>', __('Print', 'movie-plugin')),
-
-
         );
 
         return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));

@@ -65,8 +65,8 @@ class AllInvoicesVM extends WP_List_Table {
 
     private function usort_reorder($a, $b) {
 
-        $orderby = (!empty($_GET['orderby'])) ? $_GET['orderby'] : 'invoice_number';
-        $order = (!empty($_GET['order'])) ? $_GET['order'] : 'asc';
+        $orderby = (!empty($_GET['orderby'])) ? esc_html($_GET['orderby']) : 'invoice_number';
+        $order = (!empty($_GET['order'])) ? esc_html($_GET['order']) : 'asc';
         $result = strcmp($a[$orderby], $b[$orderby]);
 
         return ($order == 'asc') ? $result : -$result;
