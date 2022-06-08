@@ -7,7 +7,8 @@ $all_invoices_vm = new AllInvoicesVM();
 
 <div class="wrap">
     <?php $all_invoices_vm->prepare_items(); ?>
-    <form method="post">
+    <form method="get">
+        <input type="hidden" name="page" value="invoices" />
         <p class="search-box">
             <?php $all_invoices_vm->search_box(esc_html(__('Find invoice', 'movie-plugin')), 'search_invoice'); ?>
         </p>

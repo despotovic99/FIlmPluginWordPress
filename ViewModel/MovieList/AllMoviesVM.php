@@ -1,16 +1,20 @@
 <?php
+
+use services\MovieService;
+
 require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 require_once plugin_dir_path(__FILE__) . '../Movie/MovieVM.php';
+require_once plugin_dir_path(__FILE__) . '../../services/MovieService.php';
+require_once plugin_dir_path(__FILE__) . '../../components/util/HTTP_Helper.php';
 
-class WP_Movie_List_Table extends WP_List_Table {
+class AllMoviesVM extends WP_List_Table {
 
-    private $movieData;
-    private $total_items;
+    private $movie_service = null;
 
-    public function __construct($args = array(), $movieData) {
+    public function __construct($args = array()) {
         parent::__construct($args);
-        $this->movieData = $movieData[0];
-        $this->total_items = $movieData[1]['total_items'];
+
+        $this->movie_service = new MovieService();
     }
 
 
@@ -67,17 +71,21 @@ class WP_Movie_List_Table extends WP_List_Table {
         $this->_column_headers = [$columns, $hidden, $sortable];
 
 
-        $perPage = $this->get_items_per_page('movies_per_page', 2);
+        $per_page = $this->get_items_per_page('movies_per_page', 2);
+        $current_page = $this->get_pagenum();
 
-        $totalItems = $this->total_items;
+
+        $this->items = $this->get_movies($per_page, $current_page);
+
+//        $total_items = $this->total_items;
+        $total_items = 0;
 
         $this->set_pagination_args([
-            'total_items' => $totalItems,
-            'per_page' => $perPage,
-            'total_pages' => ceil($totalItems / $perPage),
+            'total_items' => $total_items,
+            'per_page' => $per_page,
+            'total_pages' => ceil($total_items / $per_page),
         ]);
 
-        $this->items = $this->movieData;
     }
 
     function column_movie_name($item) {
@@ -95,5 +103,35 @@ class WP_Movie_List_Table extends WP_List_Table {
         return sprintf('%1$s %2$s', $item['movie_name'], $this->row_actions($actions));
     }
 
+    private function get_movies($per_page = 5, $current_page = 0) {
+
+        $order_by = HTTP_Helper::get_param('orderby');
+        $order = HTTP_Helper::get_param('order');
+
+        return $this->movie_service->get_movies(
+            $this->get_guery_filters(),
+            $per_page,
+            $current_page,
+            $order_by,
+            $order);
+
+    }
+
+    private function get_guery_filters() {
+
+        $filters = [];
+
+        $movie_name = HTTP_Helper::get_param('s');
+        if (!empty($movie_name)) {
+            $filters['movie_name'] = $movie_name;
+        }
+
+        $movie_category = HTTP_Helper::get_param('movie_category');
+        if (!empty($movie_category)) {
+            $filters['movie_category'] = $movie_category;
+        }
+
+        return $filters;
+    }
 
 }

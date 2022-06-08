@@ -14,7 +14,7 @@ class InvoiceService {
 
     public function get_invoice($invoice_id) {
 
-        $result = $this->invoice_repository -> get_invoice_by_id($invoice_id);
+        $result = $this->invoice_repository->get_invoice_by_id($invoice_id);
 
         if (!$result)
             return $result;
@@ -29,9 +29,34 @@ class InvoiceService {
 
     }
 
-    public function get_all_invoices_for_list_table() {
+    public function get_all_invoices_for_list_table($limit, $offset, $orderby, $order) {
 
-        $invoices = $this->invoice_repository->get_all_invoices();
+        $invoices = $this->invoice_repository->get_all_invoices($limit, $offset, $orderby, $order);
+        for ($i = 0; $i < count($invoices); $i++) {
+            try {
+                $order = get_post($invoices[$i]['order_id']);
+                $invoices[$i]['order_name'] = $order->post_name;
+                $invoices[$i]['invoice_total'] .= $invoices[$i]['invoice_currency'];
+            } catch (Exception $e) {
+
+            }
+        }
+        return $invoices;
+    }
+
+    public function get_all_total_items() {
+
+        return $this->invoice_repository->get_total_items();
+    }
+
+    public function get_total_items($name) {
+        return $this->invoice_repository->get_total_items($name);
+    }
+
+    public function find_invoices_by_name($name, $limit, $offset, $orderby, $order) {
+
+        $invoices = $this->invoice_repository->get_invoices_by_name($name, $limit, $offset, $orderby, $order);
+
         for ($i = 0; $i < count($invoices); $i++) {
             try {
                 $order = get_post($invoices[$i]['order_id']);
@@ -91,5 +116,6 @@ class InvoiceService {
 
         return $result;
     }
+
 
 }

@@ -5,14 +5,36 @@ require_once plugin_dir_path(__FILE__) . '../../components/util/MovieHelper.php'
 class AllInvoicesVM extends WP_List_Table {
 
     private $invoices;
+    private $total_items;
     private $invoice_service;
 
     public function __construct($args = array()) {
         parent::__construct($args);
 
         $this->invoice_service = new InvoiceService();
+        $p = $this->get_all_invoice_data_for_list_table();
+        $this->invoices=$p['invoices'];
+        $this->total_items=$p['total_items'];
+    }
 
-        $this->invoices = $this->invoice_service->get_all_invoices_for_list_table();
+    private function get_all_invoice_data_for_list_table() {
+        $limit = get_user_meta(get_current_user_id(), 'invoices_per_page')[0];
+        $page = isset($_REQUEST['paged']) && esc_html($_REQUEST['paged']) > 0 ? esc_html($_REQUEST['paged']) : 1;
+        $offset = $limit * ($page - 1);
+
+        $orderby = !empty($_REQUEST['orderby']) ? esc_html($_REQUEST['orderby']) : null;
+        $order = !empty($_REQUEST['order']) ? esc_html($_REQUEST['order']) : null;
+
+        if (isset($_REQUEST['s'])) {
+            $invoice_number = esc_html($_REQUEST['s']);
+            $invoice_data = $this->invoice_service->find_invoices_by_name($invoice_number, $limit, $offset, $orderby, $order);
+            $total_items = $this->invoice_service->get_total_items($invoice_number);
+        } else {
+
+            $invoice_data = $this->invoice_service->get_all_invoices_for_list_table($limit, $offset, $orderby, $order);
+            $total_items = $this->invoice_service->get_all_total_items();
+        }
+        return ['invoices'=>$invoice_data,'total_items'=> $total_items];
     }
 
     public function get_columns() {
@@ -63,14 +85,6 @@ class AllInvoicesVM extends WP_List_Table {
 
     }
 
-    private function usort_reorder($a, $b) {
-
-        $orderby = (!empty($_GET['orderby'])) ? esc_html($_GET['orderby']) : 'invoice_number';
-        $order = (!empty($_GET['order'])) ? esc_html($_GET['order']) : 'asc';
-        $result = strcmp($a[$orderby], $b[$orderby]);
-
-        return ($order == 'asc') ? $result : -$result;
-    }
 
     public function prepare_items() {
 
@@ -82,13 +96,8 @@ class AllInvoicesVM extends WP_List_Table {
 
         $per_page = $this->get_items_per_page('invoices_per_page', 2);
 
-        $current_page = $this->get_pagenum();
-        $total_items = count($this->invoices);
+        $total_items = $this->total_items;
 
-        if ($this->invoices) {
-            usort($this->invoices, [&$this, 'usort_reorder']);
-            $this->invoices = array_slice($this->invoices, (($current_page - 1) * $per_page), $per_page);
-        }
 
         $this->set_pagination_args([
             'total_items' => $total_items,
@@ -99,7 +108,6 @@ class AllInvoicesVM extends WP_List_Table {
 
         $this->items = $this->invoices;
 
-
     }
 
 
@@ -109,7 +117,7 @@ class AllInvoicesVM extends WP_List_Table {
         ]);
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'invoice', 'invoice_id', $item['invoice_id'], __('View', 'movie-plugin')),
-            'delete' => "<a style='cursor: pointer' class='delete-invoice-btn' url='$url_delete'>".__('Delete', 'movie-plugin')."</a>",
+            'delete' => "<a style='cursor: pointer' class='delete-invoice-btn' url='$url_delete'>" . __('Delete', 'movie-plugin') . "</a>",
         );
 
         return sprintf('%1$s %2$s', $item['invoice_number'], $this->row_actions($actions));

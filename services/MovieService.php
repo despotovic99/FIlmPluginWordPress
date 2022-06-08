@@ -28,12 +28,26 @@ class MovieService {
         $this->movie_repository = new MovieRepository();
     }
 
-    public function find_all_movies($limit, $offset, $orderby, $order) {
+    public function get_all_movie_data_for_table($limit, $offset, $orderby, $order, $filter = null) {
 
-        $result = $this->movie_repository
-            ->get_movie_data_for_list_table($limit, $offset, $orderby, $order);
+        $movies = $this->movie_repository
+            ->get_movies($limit, $offset, $orderby, $order, $filter);
+        $total_items = $this->movie_repository->get_total_of_all_movies();
 
-        return $result;
+        return ['movies' => $movies,
+            'total_items' => $total_items];
+
+    }
+
+    public function get_movies($filters = array(), $per_page = 0, $current_page = 0, $order_by = '', $order = 'ASC') {
+
+
+        $offset = $per_page * ($current_page - 1);
+        if ($offset < 0)
+            $offset = 0;
+        $movies = $this->movie_repository->get_movies($per_page, $offset, $order_by, $order, $filters);
+
+        return $movies;
     }
 
     public function find_all_categories() {
@@ -50,10 +64,10 @@ class MovieService {
         return $result;
     }
 
-    public function find_movie_by_name($name, $limit, $offset, $orderby, $order) {
+    public function find_movies_by_name($name, $limit, $offset, $orderby, $order) {
 
         $result = $this->movie_repository
-            ->get_movie_by_name($name, $limit, $offset, $orderby, $order);
+            ->get_movies_by_name($name, $limit, $offset, $orderby, $order);
 
         return $result;
     }
@@ -130,8 +144,8 @@ class MovieService {
 
         try {
 
-             $fs->print_document($movie, $this->movie_folder);
-             return true;
+            $fs->print_document($movie, $this->movie_folder);
+            return true;
         } catch (Exception $e) {
 
             return false;

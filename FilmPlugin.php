@@ -1,7 +1,7 @@
 <?php
 
 require_once 'repositories/BaseRepository.php';
-require_once 'ViewModel/MovieList/WP_Movie_List_Table.php';
+require_once 'ViewModel/MovieList/AllMoviesVM.php';
 require_once 'ViewModel/Invoice/AllInvoicesVM.php';
 require_once 'controllers/BaseController.php';
 require_once 'controllers/MovieController.php';
@@ -64,7 +64,7 @@ class FilmPlugin {
                 'default' => 2,
                 'option' => 'movies_per_page'
             ]);
-            $filmList = new WP_Movie_List_Table(null, null);
+            $filmList = new AllMoviesVM(null, null);
         });
     }
 
@@ -342,14 +342,15 @@ class FilmPlugin {
         add_action('admin_menu', [$this, 'movie_view_page']);
         add_action('admin_menu', [$this, 'movie_settings_page']);
 
+        // invoices
+        add_action('admin_menu', [$this, 'invoices_page']);
+
+
         // Filters a screen option value before it is set.
         // bez ovog filtera ne bi mogao da korstis screen options na ekranima all movies, all invoices, ....
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
-
-        // invoices
-        add_action('admin_menu', [$this, 'invoices_page']);
     }
 
     private function load_buttons_to_woocommerce_order_page() {

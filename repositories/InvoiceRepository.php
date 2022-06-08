@@ -23,14 +23,44 @@ class InvoiceRepository {
     }
 
 
-    public function get_all_invoices() {
+    public function get_all_invoices($limit = 10, $offset = 1, $orderby = '', $order = 'ASC') {
+        $orderby = $orderby === null ? 'invoice_id' : $orderby;
+        $query = 'SELECT * FROM ' . $this->invoice_table_name
+            . '  ORDER BY  ' . $orderby . ' ' . $order
+            . '  LIMIT  ' . $limit . ' OFFSET ' . $offset;
 
-        $query = 'SELECT * FROM ' . $this->invoice_table_name;
 
         $result = $this->db->get_results($query, ARRAY_A);
 
         return $result;
     }
+
+    public function get_invoices_by_name($name, $limit = 10, $offset = 1, $orderby = '', $order = 'ASC') {
+        $orderby = $orderby === null ? 'invoice_id' : $orderby;
+        $query = 'SELECT * FROM ' . $this->invoice_table_name
+            . ' WHERE invoice_number LIKE  "%'.$name.'%"'
+            . '  ORDER BY  ' . $orderby . ' ' . $order
+            . '  LIMIT  ' . $limit . ' OFFSET ' . $offset;
+
+
+        $result = $this->db->get_results($query, ARRAY_A);
+
+        return $result;
+    }
+
+    public function get_total_items($invoice_number=''){
+
+        $query_total_items = "SELECT count(*) as total_items
+                                                      FROM " . $this->invoice_table_name;
+             if($invoice_number!=='')
+                 $query_total_items.=" WHERE invoice_number LIKE '%" . $invoice_number . "%' ";
+
+//        $total_items = $this->db->get_row($query_total_items, ARRAY_A);
+        $total_items = $this->db->get_var($query_total_items);
+
+        return $total_items;
+    }
+
 
     public function save_invoice($invoice, $invoice_items) {
         // todo implementiraj transakcije
@@ -80,6 +110,7 @@ class InvoiceRepository {
 
         return $result;
     }
+
 
 }
 
