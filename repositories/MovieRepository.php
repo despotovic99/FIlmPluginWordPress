@@ -44,32 +44,6 @@ class MovieRepository {
         return $result;
     }
 
-    public function get_movies_by_name($name, $limit, $offset, $column_name = 'movie_name', $order = 'ASC') {
-        // todo ovde mozes da popijes sql injection
-        $column_name = $column_name === null ? 'movie_name' : $column_name;
-        $query = "SELECT  m . `id` as movie_id , movie_name , movie_age,  c. movie_category_name as movie_category_name, movie_date, movie_length
-                            FROM " . $this->movie_table_name . " m
-                            INNER JOIN " . $this->movie_category_table_name . " c 
-                            ON m . movie_category_id = c . id
-                            WHERE movie_name LIKE '%" . $name . "%' 
-                            ORDER BY " . $column_name . "   " . $order . "
-                            LIMIT " . $limit . " OFFSET " . $offset;
-
-
-        $result = $this->db->get_results($query, ARRAY_A);
-
-
-        return $result;
-    }
-
-    public function get_total_movies_by_name($name) {
-        $query_total_items = "SELECT count(*) as total_items
-                                                      FROM " . $this->movie_table_name .
-            " WHERE movie_name LIKE '%" . $name . "%' ";
-
-        $total_items = $this->db->get_var($query_total_items);
-        return $total_items;
-    }
 
     /**
      * @param $limit
@@ -110,12 +84,24 @@ class MovieRepository {
         return $result;
     }
 
-    public function get_total_of_all_movies() {
+    public function get_total_movies($filter) {
+
+        $where = [];
+        if (!empty($filter)) {
+            foreach ($filter as $key => $value) {
+                if ($key === 'movie_name') {
+                    $where[] = "(movie_name like '%$value%')";
+                } else {
+                    $where[] = "$key = '$value'";
+                }
+            }
+        }
+        $where = empty($where) ? '' : '  WHERE ' . implode(' AND ', $where);
+
         $query_total_items = "SELECT count(*) as total_items
-                                                      FROM " . $this->movie_table_name;
+                                                      FROM " . $this->movie_table_name . $where;
 
         $total_items = $this->db->get_var($query_total_items);
-
         return $total_items;
     }
 

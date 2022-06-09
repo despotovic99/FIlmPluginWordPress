@@ -28,16 +28,16 @@ class MovieService {
         $this->movie_repository = new MovieRepository();
     }
 
-    public function get_all_movie_data_for_table($limit, $offset, $orderby, $order, $filter = null) {
-
-        $movies = $this->movie_repository
-            ->get_movies($limit, $offset, $orderby, $order, $filter);
-        $total_items = $this->movie_repository->get_total_of_all_movies();
-
-        return ['movies' => $movies,
-            'total_items' => $total_items];
-
-    }
+//    public function get_all_movie_data_for_table($limit, $offset, $orderby, $order, $filter = null) {
+//
+//        $movies = $this->movie_repository
+//            ->get_movies($limit, $offset, $orderby, $order, $filter);
+//        $total_items = $this->movie_repository->get_total_movies();
+//
+//        return ['movies' => $movies,
+//            'total_items' => $total_items];
+//
+//    }
 
     public function get_movies($filters = array(), $per_page = 0, $current_page = 0, $order_by = '', $order = 'ASC') {
 
@@ -48,6 +48,12 @@ class MovieService {
         $movies = $this->movie_repository->get_movies($per_page, $offset, $order_by, $order, $filters);
 
         return $movies;
+    }
+
+
+    public function get_total_movies($filters) {
+
+        return $this->movie_repository->get_total_movies($filters);
     }
 
     public function find_all_categories() {
@@ -64,13 +70,6 @@ class MovieService {
         return $result;
     }
 
-    public function find_movies_by_name($name, $limit, $offset, $orderby, $order) {
-
-        $result = $this->movie_repository
-            ->get_movies_by_name($name, $limit, $offset, $orderby, $order);
-
-        return $result;
-    }
 
     public function delete_movie($id) {
 
@@ -158,5 +157,6 @@ class MovieService {
 
         return get_user_meta($user->ID, 'user_can_print', true) == 1;
     }
+
 
 }

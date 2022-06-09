@@ -20,7 +20,7 @@ class MovieVM {
     public function get_movie() {
 
         if (!empty($_GET['movie_id'])) {
-            $movie_id = esc_html($_GET['movie_id']);
+            $movie_id = sanitize_text_field(wp_unslash($_GET['movie_id']));
 
             $movie = $this->movie_service->find_movie_by_id($movie_id);
 

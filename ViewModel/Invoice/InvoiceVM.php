@@ -12,7 +12,7 @@ class InvoiceVM {
     public function get_invoice() {
 
         if (!empty($_GET['invoice_id'])) {
-            $invoice_id = esc_html($_GET['invoice_id']);
+            $invoice_id = sanitize_text_field(wp_unslash($_GET['invoice_id']));
 
             $invoice = $this->invoice_service->get_invoice($invoice_id);
 

@@ -8,7 +8,7 @@ class SettingsController extends BaseController {
 
         if (isset($_POST['horror_movie_min_age_option'])) {
 
-            $age = esc_html($_POST['horror_movie_min_age_option']);
+            $age = sanitize_text_field(wp_unslash($_POST['horror_movie_min_age_option']));
             update_option('horror_movie_min_age_option', $age);
         }
 

@@ -28,7 +28,7 @@ class MovieController extends BaseController {
 
         if (!empty($_REQUEST['movie_id'])) {
 
-            $id = esc_html($_REQUEST['movie_id']);
+            $id = sanitize_text_field(wp_unslash($_REQUEST['movie_id']));
             $result = $this->movie_service->update_movie($id, $movie);
         } else {
 
@@ -46,7 +46,7 @@ class MovieController extends BaseController {
 
     public function delete_movie() {
 
-        $id = empty($_REQUEST['movie_id']) ? '' : esc_html($_REQUEST['movie_id']);
+        $id = empty($_REQUEST['movie_id']) ? '' : sanitize_text_field(wp_unslash($_REQUEST['movie_id']));
         $result = $this->movie_service->delete_movie($id);
 
         wp_redirect(admin_url('admin.php?page=movies'));
@@ -60,8 +60,8 @@ class MovieController extends BaseController {
             return;
         }
 
-        $format = esc_html($_REQUEST['printer']);
-        $movie_id = esc_html($_REQUEST['movie_id']);
+        $format = sanitize_text_field(wp_unslash($_REQUEST['printer']));
+        $movie_id = sanitize_text_field(wp_unslash($_REQUEST['movie_id']));
 
         try {
 
@@ -103,12 +103,12 @@ class MovieController extends BaseController {
         }
 
         return [
-            'movie_name' => esc_html($_POST['movie_name']),
-            'movie_description' => esc_html($_POST['movie_description']),
-            'movie_date' => esc_html($_POST['movie_date']),
-            'movie_length' => esc_html($_POST['movie_length']),
-            'movie_age' => esc_html($_POST['movie_age']),
-            'movie_category_id' => esc_html($_POST['movie_category_id']),
+            'movie_name' => sanitize_text_field(wp_unslash($_POST['movie_name'])),
+            'movie_description' => sanitize_text_field(wp_unslash($_POST['movie_description'])),
+            'movie_date' => sanitize_text_field(wp_unslash($_POST['movie_date'])),
+            'movie_length' => sanitize_text_field(wp_unslash($_POST['movie_length'])),
+            'movie_age' =>sanitize_text_field(wp_unslash($_POST['movie_age'])),
+            'movie_category_id' => sanitize_text_field(wp_unslash($_POST['movie_category_id'])),
         ];
     }
 

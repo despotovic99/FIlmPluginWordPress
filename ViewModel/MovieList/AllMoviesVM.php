@@ -76,9 +76,8 @@ class AllMoviesVM extends WP_List_Table {
 
 
         $this->items = $this->get_movies($per_page, $current_page);
+        $total_items = $this->get_total_movies();
 
-//        $total_items = $this->total_items;
-        $total_items = 0;
 
         $this->set_pagination_args([
             'total_items' => $total_items,
@@ -132,6 +131,12 @@ class AllMoviesVM extends WP_List_Table {
         }
 
         return $filters;
+    }
+
+    private function get_total_movies($filters = null) {
+        $filters = $filters == null ?$this->get_guery_filters() : $filters;
+
+        return $this->movie_service->get_total_movies($filters);
     }
 
 }

@@ -13,7 +13,7 @@ class UserProfileController {
         $value = 0;
         if (!empty($_REQUEST['can_user_print_input'])) {
 
-            $value = esc_html($_REQUEST['can_user_print_input']);
+            $value = sanitize_text_field(wp_unslash($_REQUEST['can_user_print_input']));
         }
 
 

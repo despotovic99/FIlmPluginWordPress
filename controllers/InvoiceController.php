@@ -14,7 +14,7 @@ class InvoiceController extends BaseController {
             return;
         }
 
-        $result = $this->invoice_service->create_invoice(esc_html($_REQUEST['order_id']));
+        $result = $this->invoice_service->create_invoice(sanitize_text_field(wp_unslash($_REQUEST['order_id'])));
 
         if($result){
             $this->json_response('Invoice created successfully',200);
@@ -32,7 +32,7 @@ class InvoiceController extends BaseController {
             return;
         }
 
-        $result = $this->invoice_service->delete_invoice(esc_html($_REQUEST['invoice_id']));
+        $result = $this->invoice_service->delete_invoice(sanitize_text_field(wp_unslash($_REQUEST['invoice_id'])));
         if($result){
             $this->json_response('Invoice deleted successfully',200);
         }else{

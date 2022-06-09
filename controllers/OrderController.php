@@ -19,8 +19,8 @@ class OrderController extends BaseController {
             return;
         }
 
-        $order_id = esc_html($_REQUEST['order_id']);
-        $format = esc_html($_REQUEST['printer']);
+        $order_id = sanitize_text_field(wp_unslash($_REQUEST['order_id']));
+        $format = sanitize_text_field(wp_unslash($_REQUEST['printer']));
         try {
 
             $result = $this->order_service->print_order($format, $order_id);
@@ -38,7 +38,7 @@ class OrderController extends BaseController {
         if (empty($_REQUEST['order_id']))
             return;
 
-        $order_id = esc_html($_REQUEST['order_id']);
+        $order_id = sanitize_text_field(wp_unslash($_REQUEST['order_id']));
         $order = $this->order_service->get_order_information($order_id);
 
         $this->json_response([strval($order)],200);

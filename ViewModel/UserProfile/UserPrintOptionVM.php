@@ -6,7 +6,7 @@ class UserPrintOptionVM {
 
         if (!empty($_REQUEST['user_id'])) {
 
-            $user_id = esc_html($_REQUEST['user_id']);
+            $user_id = sanitize_text_field(wp_unslash($_REQUEST['user_id']));
         } else {
 
             $user_id = wp_get_current_user()->ID;
